@@ -11,7 +11,8 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "dev": "nodemon --exec 'kill-port --port 8000 && gatsby develop' --watch gatsby-node.js --watch package.json --watch gatsby-config.js"
   },
   "dependencies": {
     "antd": "^4.2.0",
@@ -30,6 +31,8 @@
     "styled-components": "^5.1.0"
   },
   "devDependencies": {
+    "kill-port": "^1.6.0",
+    "nodemon": "^2.0.3",
     "prettier": "2.0.5"
   },
   "repository": {

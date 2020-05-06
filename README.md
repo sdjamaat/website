@@ -14,15 +14,15 @@ git clone https://github.com/sdjamaat/website.git sdjwebsite
 cd sdjwebsite
 ```
 
-Step 2: Download npm modules ([NodeJS](https://nodejs.org/en/) installation required)
+Step 2: Download npm modules ([NodeJS](https://nodejs.org/en/) and [Yarn](https://classic.yarnpkg.com/en/docs/install/)installation required)
 
 ```shell
-npm install
+yarn install
 ```
 
 Step 3: Run locally on live server
 
 ```shell
-gatsby develop
+npm run dev
 # then navigate to localhost:8000
 ```

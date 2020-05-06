@@ -36,12 +36,12 @@ const Navigation = () => {
 
 const NavbarWrapper = styled.div`
   img {
-    width: 6.2rem;
+    width: 5.8rem;
     height: auto;
   }
 
   .navlink {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
   margin-bottom: 1rem;
 `

@@ -6,7 +6,7 @@ import { Button } from "antd"
 export default () => (
   <Layout>
     <div>
-      <h1>This is the home page</h1>
+      <h1>This is the home page 2</h1>
       <Button type="primary">Button</Button>
     </div>
   </Layout>
