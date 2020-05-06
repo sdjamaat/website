@@ -1,11 +1,11 @@
 ## SD Jamaat Website
 
-#### Current tooling:
+### Current tooling:
 
 - GatsbyJS & React
 - Ant Design UI and Bootstrap
 
-#### Local Development
+### Local Development
 
 Step 1: Clone the repository with Git
 
