@@ -14,7 +14,7 @@ git clone https://github.com/sdjamaat/website.git sdjwebsite
 cd sdjwebsite
 ```
 
-Step 2: Download npm modules ( [NodeJS](https://nodejs.org/en/) installation required)
+Step 2: Download npm modules ([NodeJS](https://nodejs.org/en/) installation required)
 
 ```shell
 npm install
