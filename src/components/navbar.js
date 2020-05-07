@@ -1,19 +1,15 @@
 import React from "react"
-import styled from "styled-components"
-import logo from "../../static/sdj_logo.png"
 import { Link } from "gatsby"
 import { Nav, Navbar } from "react-bootstrap"
+import styled from "styled-components"
+import logo from "../../static/sdj_logo.png"
 
 const Navigation = () => {
   return (
     <NavbarWrapper>
       <Navbar collapseOnSelect sticky="top" bg="light" expand="lg">
         <Navbar.Brand as={Link} to="/">
-          <img
-            src={logo}
-            // className="d-inline-block align-top"
-            alt="San Digo Jamaat Logo"
-          />
+          <img src={logo} alt="San Digo Jamaat Logo" />
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -39,11 +35,9 @@ const NavbarWrapper = styled.div`
     width: 5.8rem;
     height: auto;
   }
-
   .navlink {
     font-size: 1.3rem;
   }
-  margin-bottom: 1rem;
 `
 
 export default Navigation

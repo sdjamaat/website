@@ -1,13 +1,15 @@
 import React from "react"
 import Layout from "../components/layout"
+import Contact from "../components/home/contact"
 
-import { Button } from "antd"
+import { Card } from "antd"
 
 export default () => (
   <Layout>
     <div>
-      <h1>This is the home page 2</h1>
-      <Button type="primary">Button</Button>
+      <Card title="Contact Us">
+        <Contact />
+      </Card>
     </div>
   </Layout>
 )

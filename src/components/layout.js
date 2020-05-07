@@ -8,12 +8,20 @@ const Layout = ({ children }) => {
     <div>
       <LayoutWrapper>
         <Navigation />
-        {children}
+        <main>{children}</main>
         <Footer />
       </LayoutWrapper>
     </div>
   )
 }
 
-const LayoutWrapper = styled.div``
+const LayoutWrapper = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  main {
+    padding: 2rem;
+  }
+`
 export default Layout
