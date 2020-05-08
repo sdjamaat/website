@@ -39,12 +39,7 @@ export default ({ data }) => (
           </Col>
 
           <Col lg={6}>
-            <Card
-              title="About Us"
-              bordered={false}
-              hoverable={true}
-              className="about-us"
-            >
+            <Card title="About Us" bordered={false} className="about-us">
               <h6>
                 We are the members of Dawoodi Bohra Community - Fatimid Shia
                 followers of His Holiness Syedna Aali Qadr Muffaddal Saifuddin
@@ -66,6 +61,11 @@ export default ({ data }) => (
 )
 
 const HomeWrapper = styled.div`
+  .about-us {
+    border-radius: 5px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
+  }
+
   .contact-us {
     margin-top: 0.5rem;
   }
