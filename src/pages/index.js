@@ -16,7 +16,7 @@ export default ({ data }) => (
         className="moula-img"
       />
       <Container fluid className="box">
-        <Row>
+        <Row className="welcome-and-about-us">
           <Col lg={6} className="logo-and-welcome-col">
             <div className="welcome-card">
               <Row>
@@ -26,7 +26,7 @@ export default ({ data }) => (
                     className="logo-img"
                   />
                 </Col>
-                <Col xs={9}>
+                <Col xs={9} className="welcome-text-col">
                   <div className="welcome-text">
                     <h4 className="welcome-to-text">Welcome to</h4>
                     <h1>
@@ -41,11 +41,11 @@ export default ({ data }) => (
           <Col lg={6}>
             <Card title="About Us" bordered={false} className="about-us">
               <h6>
-                We are the members of Dawoodi Bohra Community - Fatimid Shia
-                followers of His Holiness Syedna Aali Qadr Muffaddal Saifuddin
-                (TUS) residing in Southern California. We are a non-profit
-                organization administering and managing the affairs of the
-                Dawoodi Bohra community in San Diego, CA.
+                We are members of Dawoodi Bohra community and adhere to the Shia
+                Fatimi tradition of Islam, headed by the 53rd Dai Al-Mutlaq,
+                Syedna Aali Qadr Mufaddal Saifuddin (TUS). Anjuman-e-Mohammedi
+                is a non-profit organization administering and managing the
+                affairs of the local Dawoodi Bohra community in San Diego, CA.
               </h6>
             </Card>
           </Col>
@@ -61,6 +61,15 @@ export default ({ data }) => (
 )
 
 const HomeWrapper = styled.div`
+  /* .welcome-text-col {
+    padding: 2%;
+  } */
+  .welcome-and-about-us {
+    @media only screen and (min-width: 1020px) {
+      max-width: 1400px;
+      margin: auto;
+    }
+  }
   .about-us {
     border-radius: 5px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
@@ -79,10 +88,17 @@ const HomeWrapper = styled.div`
     margin-bottom: 0.5rem;
   }
 
+  .logo-and-welcome-col {
+    @media only screen and (max-width: 990px) {
+      margin-bottom: 3%;
+    }
+  }
+
   .welcome-card {
     height: 100%;
-    padding-top: 4%;
-    padding-left: 4%;
+    @media only screen and (min-width: 990px) {
+      padding-top: 2.3rem;
+    }
   }
 
   .box {
@@ -90,7 +106,7 @@ const HomeWrapper = styled.div`
   }
 
   .welcome-text {
-    @media only screen and (max-width: 1187px) {
+    @media only screen and (max-width: 1218px) {
       h1 {
         font-size: 2.2rem;
       }
@@ -108,7 +124,7 @@ const HomeWrapper = styled.div`
       }
     }
 
-    @media only screen and (max-width: 1063px) {
+    @media only screen and (max-width: 1088px) {
       h1 {
         font-size: 2rem;
       }
@@ -201,12 +217,6 @@ const HomeWrapper = styled.div`
     }
     margin: auto;
     display: block;
-  }
-
-  .logo-and-welcome-col {
-    @media only screen and (max-width: 990px) {
-      margin-bottom: 3%;
-    }
   }
 `
 
