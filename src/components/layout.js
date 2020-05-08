@@ -21,7 +21,7 @@ const LayoutWrapper = styled.div`
   flex-direction: column;
 
   main {
-    padding: 2rem;
+    padding: 1rem;
   }
 `
 export default Layout

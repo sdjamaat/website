@@ -4,6 +4,8 @@
 
 - GatsbyJS & React
 - Ant Design UI and Bootstrap
+- Firebase Cloudstore as DB
+- Firebase Cloud Functions
 
 ### Local Development
 
