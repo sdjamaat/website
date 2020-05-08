@@ -97,7 +97,11 @@ const HomeWrapper = styled.div`
   .welcome-card {
     height: 100%;
     @media only screen and (min-width: 990px) {
-      padding-top: 2.3rem;
+      padding-top: 10%;
+    }
+
+    @media only screen and (min-width: 1089px) {
+      padding-top: 4%;
     }
   }
 
@@ -210,6 +214,9 @@ const HomeWrapper = styled.div`
   }
 
   .logo-img {
+    @media only screen and (min-width: 990px) {
+      max-width: 123px;
+    }
     max-width: 150px;
     min-width: 70px;
     @media only screen and (max-width: 380px) {
