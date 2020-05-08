@@ -21,8 +21,6 @@ const LayoutWrapper = styled.div`
   flex-direction: column;
 
   main {
-    margin: auto;
-    max-width: 1300px;
     padding: 1rem;
   }
 `
