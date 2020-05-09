@@ -1,15 +1,31 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link, graphql, useStaticQuery } from "gatsby"
 import { Nav, Navbar } from "react-bootstrap"
 import styled from "styled-components"
-import logo from "../../static/sdj_logo.png"
+//import logo from "../../static/sdj_logo.png"
+import Img from "gatsby-image"
 
 const Navigation = () => {
+  const data = useStaticQuery(graphql`
+    query {
+      file(relativePath: { eq: "logo_small_black.png" }) {
+        childImageSharp {
+          fixed(width: 92) {
+            ...GatsbyImageSharpFixed
+          }
+        }
+      }
+    }
+  `)
   return (
     <NavbarWrapper>
       <Navbar collapseOnSelect sticky="top" bg="light" expand="lg">
         <Navbar.Brand as={Link} to="/">
-          <img src={logo} alt="San Digo Jamaat Logo" />
+          <Img
+            fixed={data.file.childImageSharp.fixed}
+            alt="Small logo"
+            className="logo"
+          />
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -30,10 +46,21 @@ const Navigation = () => {
   )
 }
 
+// export const query = graphql`
+//   query {
+//     logo_small: file(relativePath: { eq: "logo_small_black.png" }) {
+//       childImageSharp {
+//         fluid(maxWidth: 92) {
+//           ...GatsbyImageSharpFluid
+//         }
+//       }
+//     }
+//   }
+// `
+
 const NavbarWrapper = styled.div`
-  img {
-    width: 5.8rem;
-    height: auto;
+  .logo {
+    margin-bottom: -0.6rem;
   }
   .navlink {
     font-size: 1.3rem;
