@@ -2,11 +2,10 @@ import React from "react"
 import { Link, graphql, useStaticQuery } from "gatsby"
 import { Nav, Navbar } from "react-bootstrap"
 import styled from "styled-components"
-//import logo from "../../static/sdj_logo.png"
 import Img from "gatsby-image"
 
 const Navigation = () => {
-  const data = useStaticQuery(graphql`
+  const logo = useStaticQuery(graphql`
     query {
       file(relativePath: { eq: "logo_small_black.png" }) {
         childImageSharp {
@@ -17,12 +16,13 @@ const Navigation = () => {
       }
     }
   `)
+
   return (
     <NavbarWrapper>
       <Navbar collapseOnSelect sticky="top" bg="light" expand="lg">
         <Navbar.Brand as={Link} to="/">
           <Img
-            fixed={data.file.childImageSharp.fixed}
+            fixed={logo.file.childImageSharp.fixed}
             alt="Small logo"
             className="logo"
           />
@@ -45,18 +45,6 @@ const Navigation = () => {
     </NavbarWrapper>
   )
 }
-
-// export const query = graphql`
-//   query {
-//     logo_small: file(relativePath: { eq: "logo_small_black.png" }) {
-//       childImageSharp {
-//         fluid(maxWidth: 92) {
-//           ...GatsbyImageSharpFluid
-//         }
-//       }
-//     }
-//   }
-// `
 
 const NavbarWrapper = styled.div`
   .logo {
