@@ -25,7 +25,7 @@ const MarkazMap = ({ width, height }) => {
     } else if (window.innerWidth <= 1328) {
       return 140 + width * 0.07
     } else {
-      return 140
+      return 166
     }
   }
   const [viewport, setViewport] = useState({

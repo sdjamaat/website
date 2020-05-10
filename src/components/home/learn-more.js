@@ -18,7 +18,7 @@ const data = [
   {
     title: "Bohra.net",
     description:
-      "Chronicle of Syedna Aali Qadr Mufaddal Saifuddin's historic visits to the North America",
+      "A chronicle of Syedna Aali Qadr Mufaddal Saifuddin's historic visits to North America",
     link: "http://www.bohra.net/",
   },
   {
