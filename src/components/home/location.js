@@ -38,7 +38,7 @@ const Location = () => {
 }
 
 const LocationWrapper = styled.div`
-  padding-bottom: 10px;
+  padding-bottom: 15px;
   .location-card {
     padding: -4rem;
   }

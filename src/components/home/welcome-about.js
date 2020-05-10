@@ -59,7 +59,11 @@ const WelcomeAbout = () => {
               title="About"
               bordered={false}
               className="about-us"
-              headStyle={{ fontSize: "1.4rem", textAlign: "center" }}
+              headStyle={{
+                fontSize: "1.4rem",
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
             >
               <h6>
                 We are members of Dawoodi Bohra community and adhere to the Shia
@@ -77,6 +81,9 @@ const WelcomeAbout = () => {
 }
 
 const WelcomeAboutWrapper = styled.div`
+  .moula-img {
+    border-radius: 8px;
+  }
   .welcome-and-about-us {
     @media only screen and (min-width: 1020px) {
       max-width: 1400px;

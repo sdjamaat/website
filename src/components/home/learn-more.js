@@ -27,6 +27,12 @@ const data = [
       "The Saifee Burhani Medical Association of Dawoodi Bohra physicians in America and Canada",
     link: "https://sbmedical.org/",
   },
+  {
+    title: "Misbah",
+    description:
+      "Misbah features the akhbār of Syedna Ali Qadar Mufaddal Saifuddin (TUS)",
+    link: "https://www.misbah.info/",
+  },
 ]
 
 const LearnMore = () => {
@@ -39,11 +45,9 @@ const LearnMore = () => {
           fontSize: "1.4rem",
           textAlign: "center",
         }}
-        bodyStyle={{
-          padding: "1rem",
-        }}
       >
         <List
+          className="list-body"
           size="small"
           itemLayout="horizontal"
           dataSource={data}
@@ -68,9 +72,13 @@ const LearnMore = () => {
 }
 
 const LearnMoreWrapper = styled.div`
-  padding-bottom: 10px;
+  padding-bottom: 15px;
   .description {
     font-size: 90%;
+  }
+
+  .list-body {
+    padding: -1rem;
   }
 
   .title {

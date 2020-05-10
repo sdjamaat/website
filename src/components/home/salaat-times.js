@@ -7,6 +7,7 @@ const TimesTable = ({ times }) => {
     {
       title: "Salaat",
       dataIndex: "name",
+      render: text => <strong>{text}</strong>,
     },
     {
       title: "Time",
@@ -27,8 +28,8 @@ const TimesTable = ({ times }) => {
   const data = [
     {
       key: "1",
-      name: "Fajar",
-      time: convertTime(times.Fajr),
+      name: "Fajr End | Sunrise",
+      time: convertTime(times.Sunrise),
     },
     {
       key: "2",
@@ -44,6 +45,7 @@ const TimesTable = ({ times }) => {
 
   return (
     <Table
+      size="small"
       columns={columns}
       dataSource={data}
       bordered
@@ -71,7 +73,7 @@ const SalaatTimes = () => {
     <SalaatWrapper>
       <Card
         hoverable={true}
-        title="Local Salaat Times"
+        title="San Diego Salaat Times"
         headStyle={{ fontSize: "1.4rem", textAlign: "center" }}
       >
         {times && <TimesTable times={times} />}
@@ -81,7 +83,7 @@ const SalaatTimes = () => {
 }
 
 const SalaatWrapper = styled.div`
-  padding-bottom: 10px;
+  padding-bottom: 15px;
 `
 
 export default SalaatTimes

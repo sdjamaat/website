@@ -14,10 +14,10 @@ export default () => (
     <HomeWrapper>
       <WelcomeAbout />
       <Divider />
-      <Row>
+      <Row className="below-welcome-comp">
         <Col lg={4}>
           <Row>
-            <Col>
+            <Col className="location-comp">
               <Location />
             </Col>
           </Row>
@@ -28,7 +28,7 @@ export default () => (
           </Row>
         </Col>
 
-        <Col lg={4}>
+        <Col lg={4} className="location-comp">
           <LearnMore />
         </Col>
 
@@ -40,4 +40,13 @@ export default () => (
   </Layout>
 )
 
-const HomeWrapper = styled.div``
+const HomeWrapper = styled.div`
+  .below-welcome-comp {
+    max-width: 1290px;
+    margin: auto;
+  }
+
+  /* .location-comp {
+    height: 100%;
+  } */
+`

@@ -1,5 +1,5 @@
 import React from "react"
-import { Form, Input, InputNumber, Button, Card } from "antd"
+import { Form, Input, InputNumber, Button, Card, message } from "antd"
 import firebase from "gatsby-plugin-firebase"
 import styled from "styled-components"
 
@@ -14,8 +14,24 @@ const validateMessages = {
   },
 }
 
+const SuccessSubmit = () => {
+  return <h5>Successfully submitted information!"</h5>
+}
+
 const Contact = () => {
   const [form] = Form.useForm()
+
+  const onFinishFailed = () => {
+    setTimeout(() => {
+      let badFields = form.getFieldsError()
+      console.log(badFields)
+      let badFieldNames = []
+      for (let field of badFields) {
+        if (field.errors.length !== 0) badFieldNames.push(field.name[0])
+      }
+      form.resetFields(badFieldNames)
+    }, 4000)
+  }
 
   const onFinish = values => {
     firebase
@@ -30,9 +46,10 @@ const Contact = () => {
       .then(docRef => {
         console.log("Document written with ID: ", docRef.id)
         form.resetFields()
+        message.success("Successfully submitted information!")
       })
       .catch(error => {
-        console.error("Error adding document: ", error)
+        message.error("Error submitting contact form")
       })
   }
 
@@ -61,6 +78,7 @@ const Contact = () => {
           {...layout}
           form={form}
           onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
           validateMessages={validateMessages}
           layout="vertical"
           size="small"
@@ -111,10 +129,15 @@ const Contact = () => {
               },
             ]}
           >
-            <Input.TextArea />
+            <Input.TextArea rows={5} />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="submit-btn">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="submit-btn"
+              onClick={() => message.success(SuccessSubmit)}
+            >
               Submit
             </Button>
           </Form.Item>
