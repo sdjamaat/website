@@ -57,7 +57,7 @@ const SalaatTimes = () => {
   const [times, setTimes] = useState(null)
 
   const getTimes = async () => {
-    const url = `http://api.aladhan.com/v1/calendar?latitude=32.895920&longitude=-117.132462&method=2`
+    const url = `https://api.aladhan.com/v1/calendar?latitude=32.895920&longitude=-117.132462&method=2`
     const currentDay = new Date().getDate()
     const req = await fetch(url)
     const { data } = await req.json()
