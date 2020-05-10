@@ -67,7 +67,6 @@ const SalaatTimes = () => {
   }
   useEffect(() => {
     getTimes()
-    console.log(times)
   }, [])
   return (
     <SalaatWrapper>
