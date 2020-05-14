@@ -3,6 +3,7 @@ const lessToJson = require("less-to-json")
 module.exports = {
   /* Your site config here */
   plugins: [
+    `gatsby-plugin-styled-components`,
     {
       resolve: "gatsby-plugin-antd",
       options: {

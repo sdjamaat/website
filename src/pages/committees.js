@@ -53,7 +53,7 @@ const CommitteeTitle = ({ text }) => {
   )
 }
 
-const Committees = () => {
+export default () => {
   const formatMembers = members => {
     let newArray = []
     for (let i = 0; i < members.length; i++) {
@@ -105,5 +105,3 @@ const CommitteesWrapper = styled.div`
     margin-top: -5%;
   }
 `
-
-export default Committees
