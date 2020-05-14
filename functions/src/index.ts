@@ -36,7 +36,7 @@ export const newContactFormSubmission = functions.firestore
       },
     }
     return Promise.all([
-      sendGridMail.send(jamaat_email),
+      sendGridMail.sendMultiple(jamaat_email),
       sendGridMail.send(reciept_email),
     ])
   })
