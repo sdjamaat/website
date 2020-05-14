@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react"
-import { Table, Card, Divider } from "antd"
+import React from "react"
 import Layout from "../components/layout"
-import styled from "styled-components"
 import { committes } from "../../static/committee-info"
+import styled from "styled-components"
+import { Table, Card, Divider } from "antd"
 
 const CommitteeTable = ({ name, data }) => {
   const columns = [
