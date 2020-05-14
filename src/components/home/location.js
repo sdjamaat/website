@@ -4,6 +4,7 @@ import styled from "styled-components"
 import MarkazMap from "./markaz-map"
 import ContainerDimensions from "react-container-dimensions"
 import { Row, Col } from "react-bootstrap"
+import { CompassOutlined } from "@ant-design/icons"
 
 const Location = () => {
   return (
@@ -28,7 +29,13 @@ const Location = () => {
               bordered={false}
               bodyStyle={{ fontSize: "1.2rem", marginBottom: "-23px" }}
             >
-              8977 Activity Rd #101 <br /> San Diego, CA 92121
+              <a
+                href="https://www.google.com/maps/dir/?api=1&destination=8977+activity+rd+%23101+san+diego+ca+92121"
+                target="__blank"
+                className="address"
+              >
+                8977 Activity Rd #101 <br /> San Diego, CA 92121
+              </a>
             </Card>
           </Col>
         </Row>
@@ -47,6 +54,10 @@ const LocationWrapper = styled.div`
     @media (max-width: 990px) and (min-width: 767px) {
       height: 100%;
     }
+  }
+
+  .address {
+    color: #4169e1;
   }
 `
 

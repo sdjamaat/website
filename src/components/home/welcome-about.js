@@ -66,11 +66,12 @@ const WelcomeAbout = () => {
               }}
             >
               <h6>
-                We are members of Dawoodi Bohra community and adhere to the Shia
-                Fatimi tradition of Islam, headed by the 53rd Dai Al-Mutlaq,
-                Syedna Aali Qadr Mufaddal Saifuddin (TUS). Anjuman-e-Mohammedi
-                is a non-profit organization administering and managing the
-                affairs of the local Dawoodi Bohra community in San Diego, CA.
+                We are members of the Dawoodi Bohra community and adhere to the
+                Shia Fatimi tradition of Islam, headed by the 53rd Dai
+                Al-Mutlaq, Syedna Aali Qadr Mufaddal Saifuddin (TUS).
+                Anjuman-e-Mohammedi is a non-profit organization administering
+                and managing the affairs of the local Dawoodi Bohra community in
+                San Diego, CA.
               </h6>
             </Card>
           </Col>

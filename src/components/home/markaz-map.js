@@ -29,11 +29,11 @@ const MarkazMap = ({ width, height }) => {
     }
   }
   const [viewport, setViewport] = useState({
-    latitude: 32.89592,
+    latitude: 32.8962,
     longitude: -117.132462,
-    height: setHeight(),
-    width: setWidth(),
-    zoom: 17,
+    height: setWidth(),
+    width: setHeight(),
+    zoom: 16.6,
     attributionControl: false,
   })
 
@@ -51,10 +51,10 @@ const MarkazMap = ({ width, height }) => {
         <ReactMapGL
           {...viewport}
           mapboxApiAccessToken="pk.eyJ1Ijoic2Rqd2VibWFzdGVyIiwiYSI6ImNrOXpqcHlrNTE3eWMzZm1yN2llZTFnN3QifQ.lHNUxbBArae8Hg-baAprzQ"
-          mapStyle="mapbox://styles/sdjwebmaster/ck9znm0kz2o9l1io3buvdh7yc"
+          mapStyle="mapbox://styles/sdjwebmaster/cka5xlv3z00u21imo5i9x1miw"
           className="map"
         >
-          <Marker latitude={32.8961} longitude={-117.13253}>
+          <Marker latitude={32.89605} longitude={-117.13275}>
             <CityPin size={20} />
           </Marker>
         </ReactMapGL>
