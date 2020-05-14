@@ -1,13 +1,13 @@
 import React from "react"
-import Layout from "../components/layout"
+import { Divider } from "antd"
+import { Row, Col } from "react-bootstrap"
+import styled from "styled-components"
 import Contact from "../components/home/contact"
 import WelcomeAbout from "../components/home/welcome-about"
 import LearnMore from "../components/home/learn-more"
 import Location from "../components/home/location"
 import SalaatTimes from "../components/home/salaat-times"
-import styled from "styled-components"
-import { Divider } from "antd"
-import { Row, Col } from "react-bootstrap"
+import Layout from "../components/layout"
 
 export default () => (
   <Layout displayBanner={true}>

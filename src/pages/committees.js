@@ -44,23 +44,14 @@ const CommitteeTable = ({ name, data }) => {
 
 const CommitteeTitle = ({ text }) => {
   return (
-    <TitleWrapper>
-      <Card
-        bodyStyle={{ padding: ".5rem", textAlign: "center" }}
-        className="site-page-header"
-      >
-        <h4 style={{ margin: ".1rem" }}>{text}</h4>
-      </Card>
-    </TitleWrapper>
+    <Card
+      bodyStyle={{ padding: ".5rem", textAlign: "center" }}
+      style={{ marginBottom: "1rem", borderColor: "gray" }}
+    >
+      <h4 style={{ margin: ".1rem" }}>{text}</h4>
+    </Card>
   )
 }
-
-const TitleWrapper = styled.div`
-  .site-page-header {
-    margin-bottom: 1rem;
-    border-color: gray;
-  }
-`
 
 const Committees = () => {
   const formatMembers = members => {
