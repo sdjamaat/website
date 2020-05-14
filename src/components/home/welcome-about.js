@@ -8,13 +8,6 @@ import { graphql, useStaticQuery } from "gatsby"
 const WelcomeAbout = () => {
   const images = useStaticQuery(graphql`
     query {
-      banner: file(relativePath: { eq: "moula_6.png" }) {
-        childImageSharp {
-          fluid(maxWidth: 1000) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
       logo: file(relativePath: { eq: "logo_full_black.png" }) {
         childImageSharp {
           fluid(maxWidth: 300) {
@@ -77,9 +70,6 @@ const WelcomeAbout = () => {
 }
 
 const WelcomeAboutWrapper = styled.div`
-  .moula-img {
-    border-radius: 8px;
-  }
   .welcome-and-about-us {
     @media only screen and (min-width: 1020px) {
       max-width: 1400px;

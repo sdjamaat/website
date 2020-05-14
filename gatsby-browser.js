@@ -1,5 +1,5 @@
-import "./node_modules/bootstrap/dist/css/bootstrap.css"
 import "./node_modules/mapbox-gl/dist/mapbox-gl.css"
+import "./node_modules/bootstrap/dist/css/bootstrap.css"
 import "firebase/app"
 import "firebase/auth"
 import "firebase/firestore"
