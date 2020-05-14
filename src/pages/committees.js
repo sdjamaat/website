@@ -78,7 +78,11 @@ const Committees = () => {
     <CommitteesWrapper>
       <Layout displayBanner={true}>
         <div className="content">
-          <Card className="title" bodyStyle={{ padding: "0" }} bordered={false}>
+          <Card
+            className="title"
+            bodyStyle={{ margin: "0", padding: "0" }}
+            bordered={false}
+          >
             <Divider>
               <h2>Committees</h2>
             </Divider>
@@ -104,14 +108,10 @@ const CommitteesWrapper = styled.div`
     max-width: 1290px;
     margin: auto;
   }
-  .moula-img {
-    border-radius: 8px;
-    margin-bottom: -4%;
-  }
 
   .title {
-    margin-bottom: -2rem;
-    margin-top: 0rem;
+    margin-bottom: -1rem;
+    margin-top: -5%;
   }
 `
 

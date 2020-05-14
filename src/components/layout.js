@@ -42,6 +42,9 @@ const LayoutWrapper = styled.div`
   display: flex;
   flex-direction: column;
 
+  .moula-img {
+    border-radius: 8px;
+  }
   main {
     padding: 1rem;
   }

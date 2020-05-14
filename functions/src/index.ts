@@ -13,7 +13,7 @@ export const newContactFormSubmission = functions.firestore
   .onCreate(async (change, context) => {
     const submission = change.data() || {}
     const jamaat_email = {
-      to: "ibrahim.0814@gmail.com",
+      to: ["umooor-dakheliyah@sandiegojamaat.net", "ibrahim.0814@gmail.com"],
       from: "webmaster@sandiegojamaat.net",
       templateId: TEMPLATE_ID_JAMAAT,
       dynamic_template_data: {
