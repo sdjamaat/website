@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { committes } from "../../static/committee-info"
 
 const CommitteeTable = ({ name, data }) => {
-  const [width, setWidth] = useState(window.innerWidth)
+  const [width, setWidth] = useState(0)
 
   useEffect(() => {
     const resizeListener = () => {
