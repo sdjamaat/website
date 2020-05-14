@@ -5,21 +5,6 @@ import styled from "styled-components"
 import { committes } from "../../static/committee-info"
 
 const CommitteeTable = ({ name, data }) => {
-  const [width, setWidth] = useState(0)
-
-  useEffect(() => {
-    setWidth(window.innerWidth)
-    const resizeListener = () => {
-      setWidth(window.innerWidth)
-    }
-
-    window.addEventListener("resize", resizeListener)
-
-    return () => {
-      window.removeEventListener("resize", resizeListener)
-    }
-  }, [])
-
   const columns = [
     {
       title: "Name",
@@ -45,7 +30,7 @@ const CommitteeTable = ({ name, data }) => {
       >
         <CommitteeTitle text={name} header={false} />
         <Table
-          tableLayout={width >= 990 ? "fixed" : "auto"}
+          tableLayout="fixed"
           size="small"
           columns={columns}
           dataSource={data}
