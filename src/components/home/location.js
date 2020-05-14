@@ -1,10 +1,9 @@
 import React from "react"
-import { Card } from "antd"
 import styled from "styled-components"
 import MarkazMap from "./markaz-map"
 import ContainerDimensions from "react-container-dimensions"
+import { Card } from "antd"
 import { Row, Col } from "react-bootstrap"
-import { CompassOutlined } from "@ant-design/icons"
 
 const Location = () => {
   return (

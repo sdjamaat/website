@@ -1,6 +1,6 @@
 import React from "react"
-import { Container, Row, Col } from "react-bootstrap"
 import { Card } from "antd"
+import { Container, Row, Col } from "react-bootstrap"
 import styled from "styled-components"
 import Img from "gatsby-image"
 import { graphql, useStaticQuery } from "gatsby"
