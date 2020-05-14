@@ -33,11 +33,13 @@ const Navigation = () => {
             <Nav.Link className="navlink" eventKey="1" as={Link} to="/">
               Home
             </Nav.Link>
-            <Nav.Link className="navlink" eventKey="2" as={Link} to="/">
-              Login
-            </Nav.Link>
-            <Nav.Link className="navlink" eventKey="3" as={Link} to="/">
-              Register
+            <Nav.Link
+              className="navlink"
+              eventKey="2"
+              as={Link}
+              to="/committees"
+            >
+              Committees
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

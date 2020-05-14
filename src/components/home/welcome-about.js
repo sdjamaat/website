@@ -26,11 +26,6 @@ const WelcomeAbout = () => {
   `)
   return (
     <WelcomeAboutWrapper>
-      <Img
-        fluid={images.banner.childImageSharp.fluid}
-        alt="Moula Image"
-        className="moula-img"
-      />
       <Container fluid className="box">
         <Row className="welcome-and-about-us">
           <Col lg={6} className="logo-and-welcome-col">

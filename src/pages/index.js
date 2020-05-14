@@ -10,7 +10,7 @@ import { Divider } from "antd"
 import { Row, Col } from "react-bootstrap"
 
 export default () => (
-  <Layout>
+  <Layout displayBanner={true}>
     <HomeWrapper>
       <WelcomeAbout />
       <Divider />
@@ -45,8 +45,4 @@ const HomeWrapper = styled.div`
     max-width: 1290px;
     margin: auto;
   }
-
-  /* .location-comp {
-    height: 100%;
-  } */
 `
