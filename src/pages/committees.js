@@ -8,6 +8,7 @@ const CommitteeTable = ({ name, data }) => {
   const [width, setWidth] = useState(0)
 
   useEffect(() => {
+    setWidth(window.innerWidth)
     const resizeListener = () => {
       setWidth(window.innerWidth)
     }
