@@ -13,11 +13,6 @@ const Footer = () => {
 }
 
 const FooterWrapper = styled.div`
-  /* position: absolute;
-  bottom: 0;
-  width: 100%;
-   */
-
   margin-top: auto;
   line-height: 2rem;
   .navbar {

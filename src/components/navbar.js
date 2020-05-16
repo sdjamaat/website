@@ -41,6 +41,9 @@ const Navigation = () => {
             >
               Committees
             </Nav.Link>
+            <Nav.Link className="navlink" eventKey="3" as={Link} to="/login">
+              Login
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -55,6 +58,7 @@ const NavbarWrapper = styled.div`
   .navlink {
     font-size: 1.3rem;
   }
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.19);
 `
 
 export default Navigation

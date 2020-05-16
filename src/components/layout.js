@@ -4,6 +4,7 @@ import Footer from "./footer"
 import styled from "styled-components"
 import Img from "gatsby-image"
 import { graphql, useStaticQuery } from "gatsby"
+import { Container } from "react-bootstrap"
 
 const Layout = ({ children, displayBanner }) => {
   const images = useStaticQuery(graphql`
@@ -18,27 +19,28 @@ const Layout = ({ children, displayBanner }) => {
     }
   `)
   return (
-    <div>
-      <LayoutWrapper>
-        <Navigation />
-        <main>
-          {displayBanner && (
-            <Img
-              fluid={images.banner.childImageSharp.fluid}
-              alt="Moula Image"
-              className="moula-img"
-            />
-          )}
-          {children}
-        </main>
-        <Footer />
-      </LayoutWrapper>
-    </div>
+    <LayoutWrapper>
+      <Navigation />
+
+      <main>
+        {displayBanner && (
+          <Img
+            fluid={images.banner.childImageSharp.fluid}
+            alt="Moula Image"
+            className="moula-img"
+          />
+        )}
+
+        {children}
+      </main>
+      <Footer />
+    </LayoutWrapper>
   )
 }
 
 const LayoutWrapper = styled.div`
   min-height: 100vh;
+  min-width: 100vw;
   display: flex;
   flex-direction: column;
 
@@ -46,6 +48,7 @@ const LayoutWrapper = styled.div`
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
   }
+
   main {
     padding: 1rem;
   }

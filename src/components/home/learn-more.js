@@ -55,7 +55,12 @@ const LearnMore = () => {
             <List.Item>
               <List.Item.Meta
                 title={
-                  <a href={item.link} target="_blank" className="title">
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    className="title"
+                    rel="noopener noreferrer"
+                  >
                     {item.title}
                   </a>
                 }

@@ -66,8 +66,8 @@ export default () => {
     return newArray
   }
   return (
-    <CommitteesWrapper>
-      <Layout displayBanner={true}>
+    <Layout displayBanner={true}>
+      <CommitteesWrapper>
         <div className="content">
           <Card
             className="title"
@@ -89,19 +89,19 @@ export default () => {
             )
           })}
         </div>
-      </Layout>
-    </CommitteesWrapper>
+      </CommitteesWrapper>
+    </Layout>
   )
 }
 
 const CommitteesWrapper = styled.div`
-  .content {
-    max-width: 1290px;
-    margin: auto;
-  }
-
   .title {
     margin-bottom: -1rem;
     margin-top: -5%;
+  }
+
+  .content {
+    max-width: 1290px;
+    margin: auto;
   }
 `
