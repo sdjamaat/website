@@ -1,7 +1,9 @@
 const lessToJson = require("less-to-json")
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
 
 module.exports = {
-  /* Your site config here */
   plugins: [
     `gatsby-plugin-styled-components`,
     {
@@ -28,14 +30,14 @@ module.exports = {
       resolve: "gatsby-plugin-firebase",
       options: {
         credentials: {
-          apiKey: "AIzaSyAbxeNKPLZK9GgUI8X3aQcuchDSSB4KnQY",
-          authDomain: "sdj-website.firebaseapp.com",
-          databaseURL: "https://sdj-website.firebaseio.com",
-          projectId: "sdj-website",
-          storageBucket: "sdj-website.appspot.com",
-          messagingSenderId: "845335768104",
-          appId: "1:845335768104:web:03f5ab58e68319e2a6191d",
-          measurementId: "G-Y0HD63KJ5L",
+          apiKey: process.env.GATSBY_FIREBASE_API_KEY,
+          authDomain: process.env.GATSBY_FIREBASE_AUTH_DOMAIN,
+          databaseURL: process.env.GATSBY_FIREBASE_DATABASE_URL,
+          projectId: process.env.GATSBY_FIREBASE_PROJECT_ID,
+          storageBucket: process.env.GATSBY_FIREBASE_STORAGE_BUCKET,
+          messagingSenderId: process.env.GATSBY_FIREBASE_MESSAGING_SENDER_ID,
+          appId: process.env.GATSBY_FIREBASE_APP_ID,
+          measurementId: process.env.GATSBY_FIREBASE_MEASUREMENT_ID,
         },
       },
     },

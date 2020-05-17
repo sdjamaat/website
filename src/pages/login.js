@@ -1,60 +1,120 @@
-import React from "react"
+import React, { useState } from "react"
 import Layout from "../components/layout"
 import styled from "styled-components"
-import { Form, Input, Button, Checkbox, Card } from "antd"
+import { Form, Input, Button, Card, message, Spin } from "antd"
+import { navigate } from "gatsby"
+import firebase from "gatsby-plugin-firebase"
 
 const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  labelCol: { span: 16 },
+  wrapperCol: { span: 24 },
 }
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
+
+message.config({
+  top: 100,
+  duration: 4,
+  maxCount: 3,
+})
+
+const Message = ({ message }) => {
+  return (
+    <>
+      <br />
+      <div>{message}</div>
+    </>
+  )
 }
 
 const LoginForm = () => {
+  const [form] = Form.useForm()
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const onFinish = values => {
-    console.log("Success:", values)
+    setIsSubmitting(true)
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(values.email, values.password)
+      .then(response => {
+        if (response.user.uid) {
+          console.log(response)
+          navigate(`/auth/profile`)
+        } else {
+          message.error({
+            content: (
+              <Message
+                message={`Error: Something went wrong while loggin in`}
+              />
+            ),
+            key: 1,
+          })
+        }
+      })
+      .catch(error => {
+        message.error({
+          content: <Message message={`Error: ${error.message}`} />,
+          key: 1,
+        })
+      })
+      .finally(() => setIsSubmitting(false))
   }
 
-  const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo)
+  const onFinishFailed = () => {
+    setTimeout(() => {
+      let badFields = form.getFieldsError()
+
+      let badFieldNames = []
+      for (let field of badFields) {
+        if (field.errors.length !== 0) badFieldNames.push(field.name[0])
+      }
+      form.resetFields(badFieldNames)
+    }, 4000)
   }
 
   return (
-    <Card>
-      <Form
-        {...layout}
-        name="basic"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
-        <Form.Item
-          label="Username"
-          name="username"
-          rules={[{ required: true, message: "Please input your username!" }]}
+    <Card title="Login" headStyle={{ fontSize: "1.7rem", textAlign: "center" }}>
+      <Spin spinning={isSubmitting}>
+        <Form
+          {...layout}
+          form={form}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          layout="vertical"
         >
-          <Input />
-        </Form.Item>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: "Please input your email!" },
+              { type: "email", message: "Email is not valid" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
-        >
-          <Input.Password />
-        </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
+            <Input.Password />
+          </Form.Item>
 
-        <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className=" submit mod-btn"
+            >
+              Submit
+            </Button>
+          </Form.Item>
 
-        <Form.Item {...tailLayout}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
+          <Form.Item>
+            <Button onClick={() => navigate("/register")} className="mod-btn">
+              Register
+            </Button>
+          </Form.Item>
+        </Form>
+      </Spin>
     </Card>
   )
 }
@@ -73,7 +133,19 @@ export default () => {
 
 const LoginWrapper = styled.div`
   .content {
-    max-width: 1290px;
+    max-width: 500px;
     margin: auto;
+    padding-top: 5%;
+  }
+
+  .mod-btn {
+    width: 100%;
+    padding-top: 0.3rem;
+    padding-bottom: 2.3rem;
+    font-size: 1.3rem;
+  }
+
+  .submit {
+    margin-top: 1rem;
   }
 `

@@ -4,7 +4,6 @@ import Footer from "./footer"
 import styled from "styled-components"
 import Img from "gatsby-image"
 import { graphql, useStaticQuery } from "gatsby"
-import { Container } from "react-bootstrap"
 
 const Layout = ({ children, displayBanner }) => {
   const images = useStaticQuery(graphql`
@@ -40,7 +39,6 @@ const Layout = ({ children, displayBanner }) => {
 
 const LayoutWrapper = styled.div`
   min-height: 100vh;
-  min-width: 100vw;
   display: flex;
   flex-direction: column;
 
