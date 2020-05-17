@@ -39,7 +39,7 @@ export default () => {
     confirmpassword: null,
   })
   const [personalDetails, setPersonalDetails] = useState({
-    title: null,
+    title: "None",
     othertitles: [],
     dob: null,
     phone: null,
