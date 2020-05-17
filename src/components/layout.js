@@ -18,22 +18,22 @@ const Layout = ({ children, displayBanner }) => {
     }
   `)
   return (
-    <div>
-      <LayoutWrapper>
-        <Navigation />
-        <main>
-          {displayBanner && (
-            <Img
-              fluid={images.banner.childImageSharp.fluid}
-              alt="Moula Image"
-              className="moula-img"
-            />
-          )}
-          {children}
-        </main>
-        <Footer />
-      </LayoutWrapper>
-    </div>
+    <LayoutWrapper>
+      <Navigation />
+
+      <main>
+        {displayBanner && (
+          <Img
+            fluid={images.banner.childImageSharp.fluid}
+            alt="Moula Image"
+            className="moula-img"
+          />
+        )}
+
+        {children}
+      </main>
+      <Footer />
+    </LayoutWrapper>
   )
 }
 
@@ -46,6 +46,7 @@ const LayoutWrapper = styled.div`
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
   }
+
   main {
     padding: 1rem;
   }

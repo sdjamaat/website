@@ -1,0 +1,131 @@
+import React from "react"
+import styled from "styled-components"
+import { Form, Input, Button, InputNumber, Tag } from "antd"
+
+const AccountDetails = ({ layout, nextStep, values, setValues }) => {
+  const [form] = Form.useForm()
+  const onFinish = values => {
+    setValues(values)
+    nextStep()
+  }
+
+  const onFinishFailed = () => {
+    setTimeout(() => {
+      let badFields = form.getFieldsError()
+
+      let badFieldNames = []
+      for (let field of badFields) {
+        if (field.errors.length !== 0) badFieldNames.push(field.name[0])
+      }
+      form.resetFields(badFieldNames)
+    }, 4000)
+  }
+
+  return (
+    <AccountDetailsWrapper>
+      <div style={{ textAlign: "center" }}>
+        <Tag
+          className="float-center"
+          color="geekblue"
+          style={{ fontSize: "1.1rem", padding: ".3rem" }}
+        >
+          Account Details
+        </Tag>
+      </div>
+
+      <Form
+        {...layout}
+        form={form}
+        initialValues={values}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        layout="vertical"
+      >
+        <Form.Item
+          label="ITS #"
+          name="its"
+          rules={[{ required: true, message: "Please input your ITS number!" }]}
+        >
+          <InputNumber style={{ width: "100%" }} />
+        </Form.Item>
+
+        <Form.Item
+          label="First name:"
+          name="firstname"
+          rules={[{ required: true, message: "Please input your first name!" }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Last name:"
+          name="lastname"
+          rules={[{ required: true, message: "Please input your last name!" }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Email:"
+          name="email"
+          rules={[{ required: true, message: "Please input your username!" }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: "Please input your password!" }]}
+        >
+          <Input.Password />
+        </Form.Item>
+
+        <Form.Item
+          label="Confirm password"
+          name="confirmpassword"
+          dependencies={["password"]}
+          rules={[
+            {
+              required: true,
+              message: "Please confirm your password!",
+            },
+            ({ getFieldValue }) => ({
+              validator(rule, value) {
+                if (!value || getFieldValue("password") === value) {
+                  return Promise.resolve()
+                }
+
+                return Promise.reject(
+                  "The two passwords that you entered do not match!"
+                )
+              },
+            }),
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="float-right next-btn"
+          >
+            Next
+          </Button>
+        </Form.Item>
+      </Form>
+    </AccountDetailsWrapper>
+  )
+}
+
+const AccountDetailsWrapper = styled.div`
+  .next-btn {
+    padding-top: 0.2rem;
+    padding-bottom: 2.2rem;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+  }
+`
+
+export default AccountDetails
