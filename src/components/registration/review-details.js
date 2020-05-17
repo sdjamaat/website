@@ -8,8 +8,6 @@ const ReviewDetails = ({
   prevStep,
   submitForm,
 }) => {
-  console.log(personalDetails)
-
   return (
     <ReviewDetailsWrapper>
       <div style={{ textAlign: "center" }}>

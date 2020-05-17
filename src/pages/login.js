@@ -35,7 +35,6 @@ const LoginForm = () => {
       .signInWithEmailAndPassword(values.email, values.password)
       .then(response => {
         if (response.user.uid) {
-          console.log(response)
           navigate(`/auth/profile`)
         } else {
           message.error({

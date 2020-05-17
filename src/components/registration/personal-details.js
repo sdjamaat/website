@@ -7,7 +7,6 @@ const { TextArea } = Input
 const PersonalDetails = ({ layout, nextStep, prevStep, values, setValues }) => {
   const [form] = Form.useForm()
   const onFinish = values => {
-    console.log("Success:", values)
     setValues({ ...values })
     nextStep()
   }

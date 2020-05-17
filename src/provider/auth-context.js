@@ -2,7 +2,13 @@ import React, { createContext, useEffect } from "react"
 import firebase from "gatsby-plugin-firebase"
 import { navigate } from "gatsby"
 
-export const AuthContext = createContext(null)
+const defaultState = {
+  getAuthUser: () => {},
+  isLoggedIn: () => false,
+  signOut: () => {},
+}
+
+export const AuthContext = createContext(defaultState)
 
 export const AuthProvider = ({ children }) => {
   useEffect(() => {

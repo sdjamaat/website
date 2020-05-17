@@ -5,7 +5,6 @@ import { Form, Input, Button, InputNumber, Tag } from "antd"
 const AccountDetails = ({ layout, nextStep, values, setValues }) => {
   const [form] = Form.useForm()
   const onFinish = values => {
-    console.log("Success:", values)
     setValues(values)
     nextStep()
   }
