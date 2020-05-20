@@ -118,10 +118,14 @@ const LoginForm = () => {
             </Button>
           </Form.Item>
 
-          <div style={{ textAlign: "center", color: "gray" }}>
-            <button onClick={() => navigate("/forgotpassword")}>
+          <div style={{ textAlign: "center" }}>
+            <Button
+              style={{ color: "gray" }}
+              type="link"
+              onClick={() => navigate("/forgotpassword")}
+            >
               Forgot Password?
-            </button>
+            </Button>
           </div>
         </Form>
       </Spin>
