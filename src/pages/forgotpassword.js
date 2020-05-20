@@ -2,8 +2,8 @@ import React, { useState } from "react"
 import Layout from "../components/layout"
 import styled from "styled-components"
 import { Form, Input, Button, Card, message, Spin } from "antd"
-import { navigate } from "gatsby"
 import firebase from "gatsby-plugin-firebase"
+import { navigate } from "gatsby"
 
 const layout = {
   labelCol: { span: 16 },
@@ -25,38 +25,29 @@ const Message = ({ message }) => {
   )
 }
 
-const LoginForm = () => {
+const ForgotPasswordForm = () => {
   const [form] = Form.useForm()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const onSubmit = values => {
-    if (isSubmitting) {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(values.email, values.password)
-        .then(response => {
-          if (response.user.uid) {
-            navigate(`/auth/profile`)
-          } else {
-            message.error({
-              content: (
-                <Message
-                  message={`Error: Something went wrong while logging in`}
-                />
-              ),
-              key: 1,
-            })
-          }
+    setIsSubmitting(true)
+    firebase
+      .auth()
+      .sendPasswordResetEmail(values.email)
+      .then(() => {
+        message.success({
+          content: (
+            <Message
+              message={`Password reset email sent! Check your inbox for further instructions`}
+            />
+          ),
         })
-        .catch(error => {
-          message.error({
-            content: <Message message={`Error: ${error.message}`} />,
-            key: 1,
-          })
+      })
+      .catch(error => {
+        message.error({
+          content: <Message message={`Error: ${error.message}`} />,
         })
-        .finally(() => setIsSubmitting(false))
-    } else {
-      setIsSubmitting(false)
-    }
+      })
+      .finally(() => setIsSubmitting(false))
   }
 
   const onFinishFailed = () => {
@@ -72,13 +63,16 @@ const LoginForm = () => {
   }
 
   return (
-    <Card title="Login" headStyle={{ fontSize: "1.7rem", textAlign: "center" }}>
+    <Card
+      title="Forgot Password"
+      headStyle={{ fontSize: "1.7rem", textAlign: "center" }}
+    >
       <Spin spinning={isSubmitting}>
         <Form
           {...layout}
           form={form}
           onFinish={onSubmit}
-          initialValues={{ email: null, password: null }}
+          initialValues={{ email: null }}
           onFinishFailed={onFinishFailed}
           layout="vertical"
         >
@@ -93,36 +87,11 @@ const LoginForm = () => {
             <Input />
           </Form.Item>
 
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password />
-          </Form.Item>
-
           <Form.Item>
-            <Button
-              type="primary"
-              className="submit mod-btn"
-              htmlType="submit"
-              onClick={() => setIsSubmitting(true)}
-            >
+            <Button type="primary" htmlType="submit" className="submit mod-btn">
               Submit
             </Button>
           </Form.Item>
-
-          <Form.Item>
-            <Button onClick={() => navigate("/register")} className="mod-btn">
-              Register
-            </Button>
-          </Form.Item>
-
-          <div style={{ textAlign: "center", color: "gray" }}>
-            <button onClick={() => navigate("/forgotpassword")}>
-              Forgot Password?
-            </button>
-          </div>
         </Form>
       </Spin>
     </Card>
@@ -132,16 +101,16 @@ const LoginForm = () => {
 export default () => {
   return (
     <Layout>
-      <LoginWrapper>
+      <ForgotPasswordWrapper>
         <div className="content">
-          <LoginForm />
+          <ForgotPasswordForm />
         </div>
-      </LoginWrapper>
+      </ForgotPasswordWrapper>
     </Layout>
   )
 }
 
-const LoginWrapper = styled.div`
+const ForgotPasswordWrapper = styled.div`
   .content {
     max-width: 500px;
     margin: auto;

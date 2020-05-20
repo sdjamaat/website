@@ -67,7 +67,10 @@ const PersonalDetails = ({ layout, nextStep, prevStep, values, setValues }) => {
           name="dob"
           rules={[{ required: true, message: "Please input your DOB!" }]}
         >
-          <DatePicker style={{ width: "100%", padding: ".2rem" }} />
+          <DatePicker
+            style={{ width: "100%", padding: ".2rem" }}
+            format="MM-DD-YYYY"
+          />
         </Form.Item>
 
         <Form.Item
