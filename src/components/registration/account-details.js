@@ -76,7 +76,20 @@ const AccountDetails = ({ layout, nextStep, values, setValues }) => {
         <Form.Item
           label="Password"
           name="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
+          rules={[
+            { required: true, message: "Please input your password!" },
+            () => ({
+              validator(rule, value) {
+                const passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,200}$/
+                if (!value || value.match(passw)) {
+                  return Promise.resolve()
+                }
+                return Promise.reject(
+                  "Password must be at least 6 characters long and must contain a digit and an uppercase letter"
+                )
+              },
+            }),
+          ]}
         >
           <Input.Password />
         </Form.Item>

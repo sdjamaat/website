@@ -53,7 +53,7 @@ const ReviewDetails = ({
               `, ${personalDetails.othertitles[1]}`}
           </li>
 
-          <li>DOB: {personalDetails.dob.format("YYYY-MM-DD")}</li>
+          <li>DOB: {personalDetails.dob.format("MM-DD-YYYY")}</li>
           <li>Phone: {personalDetails.phone}</li>
           <li>Address: {personalDetails.address}</li>
           <li>Family members: {personalDetails.familymembers}</li>
