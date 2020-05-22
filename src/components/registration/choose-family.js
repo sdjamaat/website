@@ -45,7 +45,6 @@ const ChooseFamily = ({ layout, setStep, values, setValues, families }) => {
 
   const shouldShowMemberSelection = () => {
     for (let member of families[familyIndex].members) {
-      console.log(member)
       if (member.uid === null) {
         return true
       }

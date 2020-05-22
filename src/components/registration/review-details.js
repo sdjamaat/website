@@ -12,7 +12,6 @@ const ReviewDetails = ({
   setStep,
   submitForm,
 }) => {
-  console.log(familyAffiliation)
   return (
     <ReviewDetailsWrapper>
       <div style={{ textAlign: "center" }}>

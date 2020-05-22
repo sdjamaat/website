@@ -193,7 +193,6 @@ export default () => {
   }
 
   const writeFamilyData = metadata => {
-    console.log(metadata)
     return firebase
       .firestore()
       .collection("families")
@@ -204,7 +203,6 @@ export default () => {
   }
 
   const updateFamilyMemberInfo = (familyid, newMembersArray) => {
-    console.log("in firebase", newMembersArray)
     return firebase.firestore().collection("families").doc(familyid).set(
       {
         members: newMembersArray,
@@ -214,10 +212,7 @@ export default () => {
   }
 
   const mergeUserInfoWithExisitingFamilyArray = (uid, memberindex) => {
-    // console.log("modifying", familyAffiliation.members)
     let newFamilyMemberArray = cloneDeep(familyAffiliation.members)
-
-    // console.log(newFamilyMemberArray)
     newFamilyMemberArray[memberindex].firstname = accountDetails.firstname
     newFamilyMemberArray[memberindex].lastname = accountDetails.lastname
     newFamilyMemberArray[memberindex].its = accountDetails.its
@@ -271,16 +266,6 @@ export default () => {
     setIsSubmitting(true)
     const familyid = getFamilyID()
 
-    // let mergeddata = null
-
-    // if (!accountDetails.familyhead) {
-    //   let mergeddata = mergeUserInfoWithExisitingFamilyArray(
-    //     2342343,
-    //     familyAffiliation.memberindex
-    //   )
-    //   console.log("MERGED", mergeddata)
-    // }
-
     const {
       password,
       confirmpassword,
@@ -295,8 +280,6 @@ export default () => {
       permissions: { admin: false },
       familyid: familyid,
     }
-
-    console.log(metadata)
 
     firebase
       .auth()

@@ -79,7 +79,6 @@ const FamilyMemberDetails = ({
   const [form] = Form.useForm()
 
   const onFinish = values => {
-    console.log(values)
     setValues(values)
     setStep("review")
   }
