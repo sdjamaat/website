@@ -194,7 +194,7 @@ const tnc = {
       role: "Counselor",
     },
     {
-      name: "Quiadzohar Dhilla",
+      name: "Quaidzoher Dhilla",
       role: "Administrator",
     },
     {
