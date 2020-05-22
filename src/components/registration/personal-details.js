@@ -2,13 +2,22 @@ import React from "react"
 import styled from "styled-components"
 import { Form, Input, Button, InputNumber, Tag, Select, DatePicker } from "antd"
 const { Option } = Select
-const { TextArea } = Input
 
-const PersonalDetails = ({ layout, nextStep, prevStep, values, setValues }) => {
+const PersonalDetails = ({
+  layout,
+  setStep,
+  skipFamilyDetails,
+  values,
+  setValues,
+}) => {
   const [form] = Form.useForm()
   const onFinish = values => {
     setValues({ ...values })
-    nextStep()
+    if (skipFamilyDetails) {
+      setStep("choose-family")
+    } else {
+      setStep("family-details")
+    }
   }
 
   const onFinishFailed = () => {
@@ -63,58 +72,29 @@ const PersonalDetails = ({ layout, nextStep, prevStep, values, setValues }) => {
         </Form.Item>
 
         <Form.Item
-          label="Date of Birth:"
-          name="dob"
-          rules={[{ required: true, message: "Please input your DOB!" }]}
+          label="YOB:"
+          name="yob"
+          rules={[{ required: true, message: "Please input your YOB" }]}
         >
           <DatePicker
             style={{ width: "100%", padding: ".2rem" }}
-            format="MM-DD-YYYY"
+            picker="year"
           />
         </Form.Item>
 
         <Form.Item
           label="Phone #"
           name="phone"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          rules={[{ required: true, message: "Please input your username" }]}
         >
           <InputNumber style={{ width: "100%" }} />
-        </Form.Item>
-
-        <Form.Item
-          label="Address:"
-          name="address"
-          rules={[{ required: true, message: "Please input your address!" }]}
-        >
-          <TextArea rows={3} />
-        </Form.Item>
-
-        <Form.Item
-          label="# Family members (including you)"
-          name="familymembers"
-          rules={[
-            {
-              required: true,
-              message: "Please input number of family members!",
-            },
-          ]}
-        >
-          <InputNumber style={{ width: "100%" }} />
-        </Form.Item>
-
-        <Form.Item
-          label="Move status"
-          name="movestatus"
-          rules={[{ required: true }]}
-        >
-          <Select>
-            <Option value="Temporary">Temporary</Option>
-            <Option value="Permanent">Permanent</Option>
-          </Select>
         </Form.Item>
 
         <Form.Item>
-          <Button onClick={prevStep} className="float-left next-btn">
+          <Button
+            onClick={() => setStep("account-details")}
+            className="float-left next-btn"
+          >
             Back
           </Button>
           <Button

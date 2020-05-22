@@ -29,12 +29,12 @@ const Location = () => {
               bodyStyle={{ fontSize: "1.2rem", marginBottom: "-23px" }}
             >
               <a
-                href="https://www.google.com/maps/dir/?api=1&destination=8977+activity+rd+%23101+san+diego+ca+92121"
+                href="https://www.google.com/maps/dir/?api=1&destination=8977+activity+rd+%23101+san+diego+ca"
                 target="__blank"
                 rel="noopener noreferrer"
                 className="address"
               >
-                8977 Activity Rd #101 <br /> San Diego, CA 92121
+                8977 Activity Rd #101 <br /> San Diego, CA 92126
               </a>
             </Card>
           </Col>

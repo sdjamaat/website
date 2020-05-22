@@ -1,12 +1,13 @@
 import React from "react"
 import styled from "styled-components"
-import { Form, Input, Button, InputNumber, Tag } from "antd"
+import { Form, Input, Button, InputNumber, Tag, Select } from "antd"
+const { Option } = Select
 
-const AccountDetails = ({ layout, nextStep, values, setValues }) => {
+const AccountDetails = ({ layout, setStep, values, setValues }) => {
   const [form] = Form.useForm()
   const onFinish = values => {
-    setValues(values)
-    nextStep()
+    setValues({ ...values })
+    setStep("personal-details")
   }
 
   const onFinishFailed = () => {
@@ -27,7 +28,11 @@ const AccountDetails = ({ layout, nextStep, values, setValues }) => {
         <Tag
           className="float-center"
           color="geekblue"
-          style={{ fontSize: "1.1rem", padding: ".3rem" }}
+          style={{
+            fontSize: "1.1rem",
+            padding: ".3rem",
+            marginBottom: "1rem",
+          }}
         >
           Account Details
         </Tag>
@@ -42,9 +47,21 @@ const AccountDetails = ({ layout, nextStep, values, setValues }) => {
         layout="vertical"
       >
         <Form.Item
+          label="Head of family?"
+          name="familyhead"
+          rules={[
+            { required: true, message: "Please select if head of family" },
+          ]}
+        >
+          <Select>
+            <Option value={true}>Yes</Option>
+            <Option value={false}>No</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item
           label="ITS #"
           name="its"
-          rules={[{ required: true, message: "Please input your ITS number!" }]}
+          rules={[{ required: true, message: "Please input your ITS number" }]}
         >
           <InputNumber style={{ width: "100%" }} />
         </Form.Item>
@@ -52,7 +69,7 @@ const AccountDetails = ({ layout, nextStep, values, setValues }) => {
         <Form.Item
           label="First name:"
           name="firstname"
-          rules={[{ required: true, message: "Please input your first name!" }]}
+          rules={[{ required: true, message: "Please input your first name" }]}
         >
           <Input />
         </Form.Item>
@@ -60,7 +77,7 @@ const AccountDetails = ({ layout, nextStep, values, setValues }) => {
         <Form.Item
           label="Last name:"
           name="lastname"
-          rules={[{ required: true, message: "Please input your last name!" }]}
+          rules={[{ required: true, message: "Please input your last name" }]}
         >
           <Input />
         </Form.Item>
@@ -68,7 +85,7 @@ const AccountDetails = ({ layout, nextStep, values, setValues }) => {
         <Form.Item
           label="Email:"
           name="email"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          rules={[{ required: true, message: "Please input your username" }]}
         >
           <Input />
         </Form.Item>
@@ -77,7 +94,7 @@ const AccountDetails = ({ layout, nextStep, values, setValues }) => {
           label="Password"
           name="password"
           rules={[
-            { required: true, message: "Please input your password!" },
+            { required: true, message: "Please input your password" },
             () => ({
               validator(rule, value) {
                 const passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,200}$/
@@ -101,7 +118,7 @@ const AccountDetails = ({ layout, nextStep, values, setValues }) => {
           rules={[
             {
               required: true,
-              message: "Please confirm your password!",
+              message: "Please confirm your password",
             },
             ({ getFieldValue }) => ({
               validator(rule, value) {
@@ -110,7 +127,7 @@ const AccountDetails = ({ layout, nextStep, values, setValues }) => {
                 }
 
                 return Promise.reject(
-                  "The two passwords that you entered do not match!"
+                  "The two passwords that you entered do not match"
                 )
               },
             }),

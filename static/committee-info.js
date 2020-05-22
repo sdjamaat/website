@@ -7,7 +7,15 @@ const boardOfDirectors = {
     },
     {
       name: "Abdullah Badani",
-      role: "Director",
+      role: "Vice President",
+    },
+    {
+      name: "M Saifuddin Suterwala",
+      role: "Secretary",
+    },
+    {
+      name: "Murtuza Chhatriwala",
+      role: "Treasurer",
     },
     {
       name: "M Juzer Fatehi",
@@ -18,19 +26,11 @@ const boardOfDirectors = {
       role: "Director",
     },
     {
-      name: "M Saifuddin Suterwala",
-      role: "Secretary",
-    },
-    {
-      name: "Murtuza Chattriwala",
-      role: "Treasurer",
-    },
-    {
       name: "M Moiz Ghadiali",
       role: "Advisor",
     },
     {
-      name: "M Tayyeb Baxamusa",
+      name: "Tayyeb Baxamusa",
       role: "Advisor",
     },
     {
@@ -38,7 +38,7 @@ const boardOfDirectors = {
       role: "Advisor",
     },
     {
-      name: "M Aliasghar Presswala",
+      name: "M Aliasgar Presswala",
       role: "Advisor",
     },
   ],
@@ -60,7 +60,7 @@ const madresa = {
       role: "Joint Secretary",
     },
     {
-      name: "Murtuza Chattriwala",
+      name: "Murtuza Chhatriwala",
       role: "Treasurer",
     },
     {
@@ -73,7 +73,7 @@ const madresa = {
     },
     {
       name: "Umema Darugar",
-      role: "Teacher",
+      role: "Head Teacher",
     },
     {
       name: "Rashida Kurawadwala",
@@ -110,7 +110,7 @@ const shabab = {
       role: "Joint Secretary",
     },
     {
-      name: "M Aliasghar Presswala",
+      name: "M Aliasgar Presswala",
       role: "Treasurer",
     },
   ],
@@ -150,7 +150,7 @@ const fmb = {
       role: "Menu Planner",
     },
     {
-      name: "Murtuza Chattriwala",
+      name: "Murtuza Chhatriwala",
       role: "Treasurer",
     },
   ],
@@ -198,7 +198,7 @@ const tnc = {
       role: "Administrator",
     },
     {
-      name: "Murtuza Chattriwala",
+      name: "Murtuza Chhatriwala",
       role: "Treasurer & IT",
     },
   ],

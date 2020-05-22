@@ -64,7 +64,7 @@ const ForgotPasswordForm = () => {
 
   return (
     <Card
-      title="Forgot Password"
+      title="Reset Password"
       headStyle={{ fontSize: "1.7rem", textAlign: "center" }}
     >
       <Spin spinning={isSubmitting}>
@@ -90,6 +90,12 @@ const ForgotPasswordForm = () => {
           <Form.Item>
             <Button type="primary" htmlType="submit" className="submit mod-btn">
               Submit
+            </Button>
+          </Form.Item>
+
+          <Form.Item>
+            <Button className=" mod-btn" onClick={() => navigate("/login")}>
+              Back to Login
             </Button>
           </Form.Item>
         </Form>
