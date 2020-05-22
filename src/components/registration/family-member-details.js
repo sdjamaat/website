@@ -1,15 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import {
-  Form,
-  Input,
-  Button,
-  InputNumber,
-  Tag,
-  Select,
-  Card,
-  DatePicker,
-} from "antd"
+import { Form, Input, Button, InputNumber, Tag, Card, DatePicker } from "antd"
 
 const FamilyMemberInfoForm = ({ index }) => {
   return (

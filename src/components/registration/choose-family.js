@@ -8,6 +8,8 @@ const ChooseFamily = ({ layout, setStep, values, setValues, families }) => {
 
   const [familyIndex, setFamilyIndex] = useState(values.familyindex)
 
+  useEffect(() => {}, [familyIndex])
+
   const onFinish = values => {
     if (!values.hasOwnProperty("memberindex")) {
       message.error(
@@ -27,7 +29,6 @@ const ChooseFamily = ({ layout, setStep, values, setValues, families }) => {
     }
   }
 
-  useEffect(() => {}, [familyIndex])
   const onFinishFailed = () => {
     setTimeout(() => {
       let badFields = form.getFieldsError()
