@@ -1,13 +1,19 @@
 import React from "react"
 import styled from "styled-components"
-import { Form, Input, Button, InputNumber, Tag, Select } from "antd"
+import { Form, Input, Button, InputNumber, Tag, Select, message } from "antd"
 const { Option } = Select
 
 const FamilyDetails = ({ layout, setStep, values, setValues }) => {
   const [form] = Form.useForm()
   const onFinish = values => {
     setValues({ ...values })
-    setStep("family-member-details")
+    if (values.size <= 0) {
+      message.error("Family size cannot be 0 or less")
+    } else if (values.size === 1) {
+      setStep("review")
+    } else {
+      setStep("family-member-details")
+    }
   }
 
   const onFinishFailed = () => {

@@ -100,7 +100,7 @@ const ReviewDetails = ({
         </Card>
       )}
 
-      {showFamilyDetails && (
+      {showFamilyDetails && familyDetails.size > 1 && (
         <div className="members-content">
           <Card
             title="Family Members"
