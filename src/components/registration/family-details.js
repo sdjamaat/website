@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { Form, Input, Button, InputNumber, Tag, Select, message } from "antd"
+import { onFinishFailed } from "../../functions/forms"
 const { Option } = Select
 
 const FamilyDetails = ({ layout, setStep, values, setValues }) => {
@@ -14,18 +15,6 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
     } else {
       setStep("family-member-details")
     }
-  }
-
-  const onFinishFailed = () => {
-    setTimeout(() => {
-      let badFields = form.getFieldsError()
-
-      let badFieldNames = []
-      for (let field of badFields) {
-        if (field.errors.length !== 0) badFieldNames.push(field.name[0])
-      }
-      form.resetFields(badFieldNames)
-    }, 4000)
   }
 
   return (
@@ -45,7 +34,7 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
         form={form}
         initialValues={values}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        onFinishFailed={() => onFinishFailed(form)}
         layout="vertical"
       >
         <Form.Item

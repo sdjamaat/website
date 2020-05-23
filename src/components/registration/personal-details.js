@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { Form, Input, Button, InputNumber, Tag, Select, DatePicker } from "antd"
+import { onFinishFailed } from "../../functions/forms"
 const { Option } = Select
 
 const PersonalDetails = ({
@@ -20,18 +21,6 @@ const PersonalDetails = ({
     }
   }
 
-  const onFinishFailed = () => {
-    setTimeout(() => {
-      let badFields = form.getFieldsError()
-
-      let badFieldNames = []
-      for (let field of badFields) {
-        if (field.errors.length !== 0) badFieldNames.push(field.name[0])
-      }
-      form.resetFields(badFieldNames)
-    }, 4000)
-  }
-
   return (
     <PersonalDetailsWrapper>
       <div style={{ textAlign: "center" }}>
@@ -49,7 +38,7 @@ const PersonalDetails = ({
         form={form}
         initialValues={values}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        onFinishFailed={() => onFinishFailed(form)}
         layout="vertical"
       >
         <Form.Item label="Title" name="title" rules={[{ required: false }]}>

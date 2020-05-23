@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import Layout from "../components/layout"
 import styled from "styled-components"
 import { Form, Input, Button, Card, message, Spin } from "antd"
+import { onFinishFailed } from "../functions/forms"
 import { navigate } from "gatsby"
 import firebase from "gatsby-plugin-firebase"
 
@@ -59,18 +60,6 @@ const LoginForm = () => {
     }
   }
 
-  const onFinishFailed = () => {
-    setTimeout(() => {
-      let badFields = form.getFieldsError()
-
-      let badFieldNames = []
-      for (let field of badFields) {
-        if (field.errors.length !== 0) badFieldNames.push(field.name[0])
-      }
-      form.resetFields(badFieldNames)
-    }, 4000)
-  }
-
   return (
     <Card title="Login" headStyle={{ fontSize: "1.7rem", textAlign: "center" }}>
       <Spin spinning={isSubmitting}>
@@ -79,7 +68,7 @@ const LoginForm = () => {
           form={form}
           onFinish={onSubmit}
           initialValues={{ email: null, password: null }}
-          onFinishFailed={onFinishFailed}
+          onFinishFailed={() => onFinishFailed(form)}
           layout="vertical"
         >
           <Form.Item

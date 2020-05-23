@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { Form, Input, Button, InputNumber, Tag, Card, DatePicker } from "antd"
+import { onFinishFailed } from "../../functions/forms"
 
 const FamilyMemberInfoForm = ({ index }) => {
   return (
@@ -74,18 +75,6 @@ const FamilyMemberDetails = ({
     setStep("review")
   }
 
-  const onFinishFailed = () => {
-    setTimeout(() => {
-      let badFields = form.getFieldsError()
-
-      let badFieldNames = []
-      for (let field of badFields) {
-        if (field.errors.length !== 0) badFieldNames.push(field.name[0])
-      }
-      form.resetFields(badFieldNames)
-    }, 4000)
-  }
-
   const getMemberForms = () => {
     let members = []
     for (let i = 1; i < numFamilyMembers; i++) {
@@ -115,7 +104,7 @@ const FamilyMemberDetails = ({
         form={form}
         initialValues={values}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        onFinishFailed={() => onFinishFailed(form)}
         layout="vertical"
         scrollToFirstError="true"
       >

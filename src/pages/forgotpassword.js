@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import Layout from "../components/layout"
 import styled from "styled-components"
 import { Form, Input, Button, Card, message, Spin } from "antd"
+import { onFinishFailed } from "../functions/forms"
 import firebase from "gatsby-plugin-firebase"
 import { navigate } from "gatsby"
 
@@ -50,18 +51,6 @@ const ForgotPasswordForm = () => {
       .finally(() => setIsSubmitting(false))
   }
 
-  const onFinishFailed = () => {
-    setTimeout(() => {
-      let badFields = form.getFieldsError()
-
-      let badFieldNames = []
-      for (let field of badFields) {
-        if (field.errors.length !== 0) badFieldNames.push(field.name[0])
-      }
-      form.resetFields(badFieldNames)
-    }, 4000)
-  }
-
   return (
     <Card
       title="Reset Password"
@@ -73,7 +62,7 @@ const ForgotPasswordForm = () => {
           form={form}
           onFinish={onSubmit}
           initialValues={{ email: null }}
-          onFinishFailed={onFinishFailed}
+          onFinishFailed={() => onFinishFailed(form)}
           layout="vertical"
         >
           <Form.Item

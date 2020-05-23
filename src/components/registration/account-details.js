@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { Form, Input, Button, InputNumber, Tag, Select } from "antd"
+import { onFinishFailed } from "../../functions/forms"
 const { Option } = Select
 
 const AccountDetails = ({ layout, setStep, values, setValues }) => {
@@ -8,18 +9,6 @@ const AccountDetails = ({ layout, setStep, values, setValues }) => {
   const onFinish = values => {
     setValues({ ...values })
     setStep("personal-details")
-  }
-
-  const onFinishFailed = () => {
-    setTimeout(() => {
-      let badFields = form.getFieldsError()
-
-      let badFieldNames = []
-      for (let field of badFields) {
-        if (field.errors.length !== 0) badFieldNames.push(field.name[0])
-      }
-      form.resetFields(badFieldNames)
-    }, 4000)
   }
 
   return (
@@ -43,7 +32,7 @@ const AccountDetails = ({ layout, setStep, values, setValues }) => {
         form={form}
         initialValues={values}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        onFinishFailed={() => onFinishFailed(form)}
         layout="vertical"
       >
         <Form.Item

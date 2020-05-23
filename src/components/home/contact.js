@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { Form, Input, InputNumber, Button, Card, message, Spin } from "antd"
+import { onFinishFailed } from "../../functions/forms"
 import firebase from "gatsby-plugin-firebase"
 import styled from "styled-components"
 
@@ -27,18 +28,6 @@ const Contact = () => {
   const [form] = Form.useForm()
 
   const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const onFinishFailed = () => {
-    setTimeout(() => {
-      let badFields = form.getFieldsError()
-
-      let badFieldNames = []
-      for (let field of badFields) {
-        if (field.errors.length !== 0) badFieldNames.push(field.name[0])
-      }
-      form.resetFields(badFieldNames)
-    }, 4000)
-  }
 
   const onFinish = values => {
     setIsSubmitting(true)
@@ -91,7 +80,7 @@ const Contact = () => {
             {...layout}
             form={form}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
+            onFinishFailed={() => onFinishFailed(form)}
             validateMessages={validateMessages}
             layout="vertical"
             size="small"
