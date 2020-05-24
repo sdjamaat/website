@@ -92,7 +92,7 @@ const ReviewDetails = ({
             <li>
               Faiz-ul-Mawaid status:{" "}
               {familyDetails.fmbstatus !== "Not enrolled"
-                ? `${familyDetails.fmbstatus} thali`
+                ? `Enrolled - ${familyDetails.fmbstatus} thaali`
                 : "Not enrolled"}
             </li>
           </ul>

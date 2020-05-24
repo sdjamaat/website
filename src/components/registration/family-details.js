@@ -72,7 +72,7 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
         </Form.Item>
 
         <Form.Item
-          label="Address (city):"
+          label="City:"
           name={["address", "city"]}
           rules={[
             { required: true, message: "Please input your address city" },
@@ -82,7 +82,7 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
         </Form.Item>
 
         <Form.Item
-          label="Address (zip code):"
+          label="Zip code:"
           name={["address", "zip"]}
           rules={[
             { required: true, message: "Please input your address zip code" },
@@ -98,8 +98,9 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
         >
           <Select>
             <Option value="Not enrolled">Not enrolled</Option>
-            <Option value="Half">Enrolled - Half thali</Option>
-            <Option value="Full">Enrolled - Full thali</Option>
+            <Option value="Full">Enrolled - Full thaali</Option>
+            <Option value="Half">Enrolled - Half thaali</Option>
+            <Option value="Barakati">Enrolled - Barakati thaali</Option>
           </Select>
         </Form.Item>
         <Form.Item>
