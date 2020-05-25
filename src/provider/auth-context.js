@@ -1,4 +1,4 @@
-import React, { createContext, useEffect } from "react"
+import React, { createContext, useEffect, useState } from "react"
 import firebase from "gatsby-plugin-firebase"
 import { navigate } from "gatsby"
 
@@ -11,18 +11,13 @@ const defaultState = {
 export const AuthContext = createContext(defaultState)
 
 export const AuthProvider = ({ children }) => {
+  const isLoggedIn = () => {
+    return localStorage.getItem("authUser") !== null
+  }
+
   useEffect(() => {
     const unlisten = firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        localStorage.setItem(
-          "authUser",
-          JSON.stringify({
-            uid: user.uid,
-            name: user.displayName,
-            email: user.email,
-          })
-        )
-      } else {
+      if (user === null) {
         localStorage.removeItem("authUser")
       }
     })
@@ -30,10 +25,6 @@ export const AuthProvider = ({ children }) => {
       unlisten()
     }
   }, [])
-
-  const isLoggedIn = () => {
-    return localStorage.getItem("authUser") !== null
-  }
 
   const getAuthUser = () => {
     if (isLoggedIn()) {

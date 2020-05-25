@@ -26,35 +26,64 @@ const Message = ({ message }) => {
   )
 }
 
+const getAndSetUserInformation = async uid => {
+  try {
+    const doc = await firebase.firestore().collection("users").doc(uid).get()
+    if (doc.exists) {
+      const userInfo = doc.data()
+      localStorage.setItem(
+        "authUser",
+        JSON.stringify({
+          uid: uid,
+          firstname: userInfo.firstname,
+          lastname: userInfo.lastname,
+          email: userInfo.email,
+          familyid: userInfo.familyid,
+          its: userInfo.its,
+          permissions: userInfo.permissions,
+          phone: userInfo.phone,
+          title: userInfo.title,
+        })
+      )
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!")
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 const LoginForm = () => {
   const [form] = Form.useForm()
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const onSubmit = values => {
+  const onSubmit = async values => {
     if (isSubmitting) {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(values.email, values.password)
-        .then(response => {
-          if (response.user.uid) {
-            navigate(`/auth/profile`)
-          } else {
-            message.error({
-              content: (
-                <Message
-                  message={`Error: Something went wrong while logging in`}
-                />
-              ),
-              key: 1,
-            })
-          }
-        })
-        .catch(error => {
+      try {
+        const response = await firebase
+          .auth()
+          .signInWithEmailAndPassword(values.email, values.password)
+        if (response.user.uid) {
+          await getAndSetUserInformation(response.user.uid)
+          navigate(`/auth/profile`)
+        } else {
           message.error({
-            content: <Message message={`Error: ${error.message}`} />,
+            content: (
+              <Message
+                message={`Error: Something went wrong while logging in`}
+              />
+            ),
             key: 1,
           })
+        }
+      } catch (error) {
+        message.error({
+          content: <Message message={`Error: ${error.message}`} />,
+          key: 1,
         })
-        .finally(() => setIsSubmitting(false))
+      } finally {
+        setIsSubmitting(false)
+      }
     } else {
       setIsSubmitting(false)
     }

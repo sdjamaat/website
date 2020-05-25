@@ -1,33 +1,29 @@
 import React, { useContext } from "react"
 import { Link, graphql, useStaticQuery } from "gatsby"
-import { Nav, Navbar } from "react-bootstrap"
+import { Nav, Navbar, NavDropdown } from "react-bootstrap"
 import styled from "styled-components"
 import Img from "gatsby-image"
 import { AuthContext } from "../provider/auth-context"
 
-const Navigation = () => {
-  const { isLoggedIn, signOut } = useContext(AuthContext)
-  const logo = useStaticQuery(graphql`
-    query {
-      file(relativePath: { eq: "logo_small_black.png" }) {
-        childImageSharp {
-          fixed(width: 92) {
-            ...GatsbyImageSharpFixed
-          }
-        }
-      }
-    }
-  `)
+const Navigation = ({ logo }) => {
+  const { isLoggedIn, signOut, getAuthUser } = useContext(AuthContext)
+  // const logo = useStaticQuery(graphql`
+  //   query {
+  //     file(relativePath: { eq: "logo_small_black.png" }) {
+  //       childImageSharp {
+  //         fixed(width: 92) {
+  //           ...GatsbyImageSharpFixed
+  //         }
+  //       }
+  //     }
+  //   }
+  // `)
 
   return (
     <NavbarWrapper>
       <Navbar collapseOnSelect sticky="top" bg="light" expand="lg">
         <Navbar.Brand as={Link} to="/">
-          <Img
-            fixed={logo.file.childImageSharp.fixed}
-            alt="Small logo"
-            className="logo"
-          />
+          <Img fixed={logo} alt="Small logo" className="logo" />
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -59,19 +55,47 @@ const Navigation = () => {
               </Nav.Link>
             )}
             {isLoggedIn() && (
-              <Nav.Link
+              <NavDropdown
+                title={getAuthUser().firstname}
+                alignRight
+                id="basic-nav-dropdown"
                 className="navlink"
-                eventKey="5"
-                as={Link}
-                to="/auth/profile"
               >
-                Profile
-              </Nav.Link>
-            )}
-            {isLoggedIn() && (
-              <Nav.Link className="navlink" eventKey="5" onClick={signOut}>
-                Sign Out
-              </Nav.Link>
+                <NavDropdown.Item
+                  className="dropdown navlink"
+                  style={{ color: "gray" }}
+                  as={Link}
+                  to="/auth/profile"
+                >
+                  Profile
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  className="dropdown navlink"
+                  style={{ color: "gray" }}
+                  as={Link}
+                  to="/auth/faiz"
+                >
+                  Faiz-ul-Mawaid
+                </NavDropdown.Item>
+                {getAuthUser().permissions.admin && (
+                  <NavDropdown.Item
+                    className="dropdown navlink"
+                    style={{ color: "gray" }}
+                    as={Link}
+                    to="/auth/admin"
+                  >
+                    Admin Panel
+                  </NavDropdown.Item>
+                )}
+                <NavDropdown.Divider />
+                <NavDropdown.Item
+                  className="dropdown navlink"
+                  style={{ color: "gray" }}
+                  onClick={signOut}
+                >
+                  Sign Out
+                </NavDropdown.Item>
+              </NavDropdown>
             )}
           </Nav>
         </Navbar.Collapse>
@@ -81,6 +105,9 @@ const Navigation = () => {
 }
 
 const NavbarWrapper = styled.div`
+  .dropdown:active {
+    background-color: transparent;
+  }
   .logo {
     margin-bottom: -0.6rem;
   }

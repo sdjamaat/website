@@ -15,11 +15,18 @@ const Layout = ({ children, displayBanner }) => {
           }
         }
       }
+      logo: file(relativePath: { eq: "logo_small_black.png" }) {
+        childImageSharp {
+          fixed(width: 92) {
+            ...GatsbyImageSharpFixed
+          }
+        }
+      }
     }
   `)
   return (
     <LayoutWrapper>
-      <Navigation />
+      <Navigation logo={images.logo.childImageSharp.fixed} />
 
       <main>
         {displayBanner && (
@@ -45,6 +52,8 @@ const LayoutWrapper = styled.div`
   .moula-img {
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
+    max-width: 1600px;
+    margin: auto;
   }
 
   main {

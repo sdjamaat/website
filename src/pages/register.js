@@ -103,10 +103,6 @@ export default () => {
     familyindex: 0,
   })
 
-  const setFamDetails = members => {
-    setFamilyMemberDetails(members)
-  }
-
   const getCurrentForm = step => {
     switch (step) {
       case "account-details":
@@ -153,7 +149,7 @@ export default () => {
             layout={layout}
             setStep={setStep}
             values={familyMemberDetails}
-            setValues={setFamDetails}
+            setValues={setFamilyMemberDetails}
             numFamilyMembers={familyDetails.size}
           />
         )

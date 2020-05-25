@@ -13,8 +13,9 @@ export default () => (
   <Layout displayBanner={true}>
     <HomeWrapper>
       <WelcomeAbout />
-      <Divider />
+
       <Row className="content">
+        <Divider />
         <Col lg={4}>
           <Row>
             <Col>
