@@ -922,7 +922,7 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2", "@babel/runtime@^7.9.6":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.1.5", "@babel/runtime@^7.4.2", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2", "@babel/runtime@^7.9.6":
   version "7.9.6"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
   integrity sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
@@ -13318,6 +13318,14 @@ react-responsive@^8.0.3:
     matchmediaquery "^0.3.0"
     prop-types "^15.6.1"
     shallow-equal "^1.1.0"
+
+react-sticky-box@^0.9.3:
+  version "0.9.3"
+  resolved "https://registry.yarnpkg.com/react-sticky-box/-/react-sticky-box-0.9.3.tgz#8450d4cef8e4fdd7b0351520365bc98c97da11af"
+  integrity sha512-Y/qO7vTqAvXuRR6G6ZCW4fX2Bz0GZRwiiLTVeZN5CVz9wzs37ev0Xj3KSKF/PzF0jifwATivI4t24qXG8rSz4Q==
+  dependencies:
+    "@babel/runtime" "^7.1.5"
+    resize-observer-polyfill "^1.5.1"
 
 react-transition-group@^4.0.0:
   version "4.4.1"
