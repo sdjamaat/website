@@ -1,9 +1,11 @@
 import React, { useState } from "react"
-import { Menu, Dropdown, Button } from "antd"
+import { Menu, Dropdown, Button, Divider } from "antd"
 import { Row, Col, Container, Jumbotron } from "react-bootstrap"
 import useWindowDimensions from "../../custom-hooks/window-dimentions"
 import styled from "styled-components"
 import StickyBox from "react-sticky-box"
+import FMBPanel from "../admin/fmb/main"
+const { SubMenu } = Menu
 
 const UsersPanel = () => {
   return (
@@ -83,14 +85,6 @@ const UsersPanel = () => {
       thick. Other brands of graphic tablets are Aiptek, Monoprice, Hanvon,
       Genius, Adesso, Trust, Manhattan, Vistablet, DigiPro, etc.
     </div>
-  )
-}
-
-const FMBPanel = () => {
-  return (
-    <>
-      <div>This is the fmb panel.</div>
-    </>
   )
 }
 
@@ -175,19 +169,30 @@ const DakheliyahPanel = () => {
   )
 }
 
-const AdminMenu = ({ handleChangePanel, currentPanel }) => {
+const AdminMenu = ({ handleChangePanel, currMenuItem }) => {
   const { width } = useWindowDimensions()
+
+  const [currMenu, setCurrMenu] = useState([])
+
+  const handleMenuOpenClose = value => {
+    setCurrMenu(value)
+  }
 
   const FullMenu = () => {
     return (
       <Menu
-        onClick={handleChangePanel}
-        defaultSelectedKeys={["fmb"]}
-        selectedKeys={[currentPanel]}
-        mode={width <= 991 ? "vertical" : "inline "}
+        onSelect={handleChangePanel}
+        openKeys={currMenu}
+        onOpenChange={handleMenuOpenClose}
+        selectedKeys={[currMenuItem]}
+        mode={width > 991 && "inline"}
       >
-        <Menu.Item key="fmb">Faiz-ul-Mawaid</Menu.Item>
         <Menu.Item key="users">Users</Menu.Item>
+        <SubMenu key="fmb" title="Faiz-ul-Mawaid">
+          <Menu.Item key="fmb-create-menu">Create Menu</Menu.Item>
+          <Menu.Item key="fmb-view-menus">View Menus</Menu.Item>
+        </SubMenu>
+
         <Menu.Item key="dakheliyah">Dakheliyah</Menu.Item>
       </Menu>
     )
@@ -227,48 +232,39 @@ const AdminMenu = ({ handleChangePanel, currentPanel }) => {
 }
 
 const Admin = () => {
-  const [panel, setPanel] = useState("fmb")
+  const [panel, setPanel] = useState("users")
   const handleChangePanel = event => {
+    console.log(event)
     setPanel(event.key)
   }
 
   const getPanel = panel => {
     switch (panel) {
-      case "fmb":
+      case "fmb-create-menu":
         return <FMBPanel />
+      case "fmb-view-menus":
+        return <div>Hello this is view menus</div>
       case "users":
         return <UsersPanel />
       case "dakheliyah":
         return <DakheliyahPanel />
       default:
-        return <FMBPanel />
+        return <div>Welcome to the Admin Panel</div>
     }
   }
 
   return (
     <AdminWrapper>
-      <Jumbotron
-        fluid
-        style={{
-          padding: "1.3rem",
-          textAlign: "center",
-          borderRadius: 8,
-          marginBottom: "1rem",
-          backgroundColor: "#ebebeb",
-        }}
-      >
-        <Container fluid>
-          <h2 style={{ marginBottom: 0 }}>Admin Panel</h2>
-        </Container>
-      </Jumbotron>
+      <Divider style={{ marginBottom: "2rem" }}>
+        <h2 style={{ marginBottom: "0" }}>Admin Panel</h2>
+      </Divider>
       <Row>
         <Col lg={3}>
           <AdminMenu
             handleChangePanel={handleChangePanel}
-            currentPanel={panel}
+            currMenuItem={panel}
           />
         </Col>
-
         <Col lg={9}>{getPanel(panel)}</Col>
       </Row>
     </AdminWrapper>

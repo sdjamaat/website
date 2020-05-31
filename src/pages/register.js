@@ -233,6 +233,7 @@ export default () => {
         firstname: accountDetails.firstname,
         lastname: accountDetails.lastname,
         its: accountDetails.its,
+        email: accountDetails.email,
         uid: uid,
       },
       displayname: `${accountDetails.lastname} Family (${accountDetails.firstname})`,
