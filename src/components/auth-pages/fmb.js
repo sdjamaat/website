@@ -1,11 +1,10 @@
 import React from "react"
-import { Calendar } from "antd"
+//import { Calendar } from "antd"
 
 const FMB = () => {
   return (
     <>
-      <div>Hello from the fmb page</div>
-      <Calendar />
+      <div>This is the fmb page</div>
     </>
   )
 }

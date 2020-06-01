@@ -1,4 +1,4 @@
-//functions used recurrently in components with forms (especially in registration and login)
+//function used recurrently in components with forms (especially in registration and login)
 
 module.exports = {
   onFinishFailed: form => {
