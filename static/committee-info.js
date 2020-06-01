@@ -34,7 +34,7 @@ const boardOfDirectors = {
       role: "Advisor",
     },
     {
-      name: "M Alisghar Darugar",
+      name: "M Aliasghar Darugar",
       role: "Advisor",
     },
     {
@@ -56,7 +56,7 @@ const madresa = {
       role: "Secretary",
     },
     {
-      name: "Mustafa Lukhmani",
+      name: "Mustafa Lukmani",
       role: "Joint Secretary",
     },
     {
@@ -142,7 +142,7 @@ const fmb = {
       role: "President",
     },
     {
-      name: "M Aliasghar Presswala",
+      name: "M Aliasgar Presswala",
       role: "Secretary",
     },
     {
@@ -216,7 +216,7 @@ const qardan = {
       role: "Secretary",
     },
     {
-      name: "Mustafa Lukhmani",
+      name: "Mustafa Lukmani",
       role: "Treasurer",
     },
   ],
