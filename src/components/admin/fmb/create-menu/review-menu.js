@@ -3,10 +3,7 @@ import styled from "styled-components"
 import { Form, Button, Tag, Card } from "antd"
 import { shortMonthToLongMonth } from "../../../../functions/calendar"
 
-const ReviewMenu = ({ setStep, hijrimonthForm, menuitemsForm }) => {
-  const submitForm = () => {
-    console.log("submitting")
-  }
+const ReviewMenu = ({ setStep, hijrimonthForm, menuitemsForm, submitMenu }) => {
   return (
     <ReviewMenuWrapper>
       <div style={{ textAlign: "center" }}>
@@ -51,7 +48,7 @@ const ReviewMenu = ({ setStep, hijrimonthForm, menuitemsForm }) => {
         </Button>
         <Button
           type="primary"
-          onClick={submitForm}
+          onClick={submitMenu}
           className="float-right next-btn"
         >
           Submit

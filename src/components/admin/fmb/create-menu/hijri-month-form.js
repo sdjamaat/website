@@ -16,7 +16,8 @@ const layout = {
 
 const HijriMonthForm = ({ monthsFinished, setStep, values, setValues }) => {
   const [hijriMonthForm] = Form.useForm()
-  const currentMonth = momentHijri().iMonth()
+  const currentHijriMonth = momentHijri().iMonth()
+  const currentHijriYear = momentHijri().iYear()
 
   const onFinish = values => {
     setValues(values)
@@ -44,7 +45,7 @@ const HijriMonthForm = ({ monthsFinished, setStep, values, setValues }) => {
         layout="vertical"
       >
         <Form.Item
-          label="Hijri Month"
+          label={`Hijri Month for ${currentHijriYear}`}
           name="hijrimonth"
           rules={[{ required: true, message: "Please input hijri month" }]}
         >
@@ -53,7 +54,8 @@ const HijriMonthForm = ({ monthsFinished, setStep, values, setValues }) => {
               return (
                 <Option
                   disabled={
-                    index < currentMonth || monthsFinished.includes(index)
+                    index < currentHijriMonth ||
+                    monthsFinished.includes(shortMonthNames[index])
                   }
                   value={shortMonth}
                   key={index}

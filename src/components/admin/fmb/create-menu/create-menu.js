@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
-import { Card } from "antd"
+import { Card, Spin, message } from "antd"
 import firebase from "gatsby-plugin-firebase"
 import HijriMonthForm from "./hijri-month-form"
 import MenuItemsForm from "./menu-items-form"
 import ReviewMenu from "./review-menu"
+import { cloneDeep } from "lodash"
 const momentHijri = require("moment-hijri")
 
-const CreateMenu = () => {
-  const [monthsFinished, setMonthsFinished] = useState([])
+const CreateMenu = ({ setPage }) => {
   const [step, setstep] = useState("hijrimonth")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [monthsFinished, setMonthsFinished] = useState([])
   const [hijriMonthFormValues, setHijriMonthFormValues] = useState({})
   const [menuItemsFormValues, setMenuItemsFormValues] = useState({})
   const [disabledMenuItems, setDisabledMenuItemNames] = useState([])
@@ -17,13 +19,20 @@ const CreateMenu = () => {
   const getMonthsFinished = async () => {
     let finishedArr = []
     try {
-      const resp = await firebase
+      const queryForFmbHijriDoc = await firebase
         .firestore()
         .collection("fmb")
         .doc(momentHijri().iYear().toString())
-        .get()
 
-      finishedArr = resp.data().finished
+      const yearCollection = await queryForFmbHijriDoc.get()
+      if (yearCollection.exists) {
+        finishedArr = yearCollection.data().finished
+      } else {
+        await queryForFmbHijriDoc.set({
+          finished: [],
+        })
+        await queryForFmbHijriDoc.collection("menus")
+      }
     } catch (error) {
       console.log("Error getting documents", error)
     }
@@ -31,8 +40,50 @@ const CreateMenu = () => {
   }
 
   useEffect(() => {
+    console.log("this is being triggered")
     getMonthsFinished()
   }, [])
+
+  const getProcessedMenuItemsArray = () => {
+    let newMenuItemsArr = cloneDeep(menuItemsFormValues.items)
+
+    for (let item of newMenuItemsArr) {
+      item.date = item.date.format("MM-DD-YYYY")
+      item.nothaali = item.nothaali || false
+    }
+    return newMenuItemsArr
+  }
+
+  const submitMenu = async () => {
+    setIsSubmitting(true)
+    try {
+      const queryForFmbHijriDoc = await firebase
+        .firestore()
+        .collection("fmb")
+        .doc(momentHijri().iYear().toString())
+
+      await queryForFmbHijriDoc.update({
+        finished: firebase.firestore.FieldValue.arrayUnion(
+          hijriMonthFormValues.hijrimonth
+        ),
+      })
+
+      await queryForFmbHijriDoc
+        .collection("menus")
+        .doc(hijriMonthFormValues.hijrimonth)
+        .set({
+          items: getProcessedMenuItemsArray(),
+          active: false,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        })
+      message.success("Successfully created new menu")
+      setIsSubmitting(false)
+      setPage("fmb-view-menus")
+    } catch (error) {
+      message.error(error)
+      setIsSubmitting(false)
+    }
+  }
 
   const getStep = step => {
     switch (step) {
@@ -61,6 +112,7 @@ const CreateMenu = () => {
             setStep={setstep}
             hijrimonthForm={hijriMonthFormValues}
             menuitemsForm={menuItemsFormValues}
+            submitMenu={submitMenu}
           />
         )
       default:
@@ -82,7 +134,7 @@ const CreateMenu = () => {
         headStyle={{ fontSize: "1.5rem", textAlign: "center" }}
         bodyStyle={{ paddingBottom: "0" }}
       >
-        {getStep(step)}
+        <Spin spinning={isSubmitting}>{getStep(step)}</Spin>
       </Card>
     </CreateMenuWrapper>
   )

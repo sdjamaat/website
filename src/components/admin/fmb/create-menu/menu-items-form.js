@@ -12,6 +12,7 @@ import {
   Divider,
   Checkbox,
 } from "antd"
+import { Row, Col } from "react-bootstrap"
 
 const layout = {
   labelCol: { span: 24 },
@@ -80,6 +81,12 @@ const MenuItemsForm = ({
     menuItemsForm.setFieldsValue(newItemsArr)
   }
 
+  /*
+    After an item is deleted, then reset the disabled items array
+    This is done by looking at all the field values after deletion
+    If their 'name' field contains None, then add them to the array
+    There is probably a better way to do this...
+  */
   const resetDisabledItemsArrayAfterItemDelete = async () => {
     let fieldValuesAfterRemoval = menuItemsForm.getFieldsValue().items
     // js is weird, had to put this for loop inside an async function
@@ -161,40 +168,48 @@ const MenuItemsForm = ({
                       style={{ marginBottom: ".5rem" }}
                     >
                       <DatePicker
+                        format="MM-DD-YYYY"
                         style={{ width: "100%", paddingBottom: ".4rem" }}
                       />
                     </Form.Item>
-                    <Form.Item
-                      name={[field.name, "nothali"]}
-                      fieldKey={[field.fieldKey, "nothali"]}
-                      valuePropName="checked"
-                      style={{ marginBottom: "0rem" }}
-                    >
-                      <Checkbox
-                        onChange={event => handleCheckBox(event, field.name)}
-                      >
-                        No Thaali
-                      </Checkbox>
-                    </Form.Item>
+                    <Row>
+                      <Col xs={7} sm={8}>
+                        <Form.Item
+                          name={[field.name, "nothaali"]}
+                          fieldKey={[field.fieldKey, "nothaali"]}
+                          valuePropName="checked"
+                          style={{ marginBottom: "0rem" }}
+                        >
+                          <Checkbox
+                            onChange={event =>
+                              handleCheckBox(event, field.name)
+                            }
+                          >
+                            No Thaali
+                          </Checkbox>
+                        </Form.Item>
+                      </Col>
+                      <Col xs={5} sm={4}>
+                        <Button
+                          className="float-right"
+                          style={{ width: "100%" }}
+                          danger
+                          onClick={async () => {
+                            // reset disabled items array after removing an item
+                            // using the fields value after removal to determine which indexes are still disabled
+                            await remove(field.name)
 
-                    <Form.Item style={{ marginBottom: "-.5rem" }}>
-                      <Button
-                        danger
-                        onClick={async () => {
-                          // reset disabled items array after removing an item
-                          // using the fields value after removal to determine which indexes are still disabled
-                          await remove(field.name)
-
-                          //reset the disabled items array
-                          await resetDisabledItemsArrayAfterItemDelete()
-                        }}
-                        style={{ width: "100%" }}
-                      >
-                        Delete
-                      </Button>
-                    </Form.Item>
-
-                    <Divider style={{ marginBottom: ".8rem" }} />
+                            //reset the disabled items array
+                            await resetDisabledItemsArrayAfterItemDelete()
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </Col>
+                    </Row>
+                    <Divider
+                      style={{ marginBottom: ".8rem", marginTop: ".8rem" }}
+                    />
                   </Space>
                 ))}
                 <Form.Item>

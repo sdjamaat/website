@@ -13,8 +13,8 @@ const UsersPanel = () => {
 }
 
 const AdminMenu = ({
-  handleChangePanelDesktop,
-  handleChangePanelMobile,
+  handleChangePageDesktop,
+  handleChangePageMobile,
   currMenuItem,
 }) => {
   const { width } = useWindowDimensions()
@@ -28,7 +28,7 @@ const AdminMenu = ({
   const FullMenu = () => {
     return (
       <Menu
-        onSelect={handleChangePanelDesktop}
+        onSelect={handleChangePageDesktop}
         openKeys={currMenu}
         onOpenChange={handleMenuOpenClose}
         selectedKeys={[currMenuItem]}
@@ -48,7 +48,7 @@ const AdminMenu = ({
       <>
         <Row style={{ marginBottom: "2rem" }}>
           <Col xs={2}>
-            <div style={{ textAlign: "center", fontSize: "1.2rem" }}>Menu:</div>
+            <div style={{ textAlign: "center", fontSize: "1.2rem" }}>Page:</div>
           </Col>
 
           <Col xs={10}>
@@ -56,13 +56,13 @@ const AdminMenu = ({
               autoFocus={true}
               defaultValue="users"
               style={{ width: "100%" }}
-              onChange={handleChangePanelMobile}
+              onChange={handleChangePageMobile}
               value={currMenuItem}
             >
               <Option value="users">Manage Users</Option>
               <OptGroup label="Faiz-ul-Mawaid">
                 <Option value="fmb-create-menu">Create Menu</Option>
-                <Option value="fmb-view-menus">View Menu</Option>
+                <Option value="fmb-view-menus">View Menus</Option>
               </OptGroup>
             </Select>
           </Col>
@@ -83,19 +83,19 @@ const AdminMenu = ({
 }
 
 const Admin = () => {
-  const [panel, setPanel] = useState("users")
-  const handleChangePanelDesktop = event => {
-    setPanel(event.key)
+  const [page, setPage] = useState("users")
+  const handleChangePageDesktop = event => {
+    setPage(event.key)
   }
 
-  const handleChangePanelMobile = value => {
-    setPanel(value)
+  const handleChangePageMobile = value => {
+    setPage(value)
   }
 
-  const getPanel = panel => {
-    switch (panel) {
+  const getPage = page => {
+    switch (page) {
       case "fmb-create-menu":
-        return <CreateMenu />
+        return <CreateMenu setPage={setPage} />
       case "fmb-view-menus":
         return <div>This is view menus panel</div>
       case "users":
@@ -113,12 +113,12 @@ const Admin = () => {
       <Row>
         <Col lg={3}>
           <AdminMenu
-            handleChangePanelDesktop={handleChangePanelDesktop}
-            handleChangePanelMobile={handleChangePanelMobile}
-            currMenuItem={panel}
+            handleChangePageDesktop={handleChangePageDesktop}
+            handleChangePageMobile={handleChangePageMobile}
+            currMenuItem={page}
           />
         </Col>
-        <Col lg={9}>{getPanel(panel)}</Col>
+        <Col lg={9}>{getPage(page)}</Col>
       </Row>
     </AdminWrapper>
   )
