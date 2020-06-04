@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { Link, graphql, useStaticQuery } from "gatsby"
+import { Link } from "gatsby"
 import { Nav, Navbar, NavDropdown } from "react-bootstrap"
 import styled from "styled-components"
 import Img from "gatsby-image"
@@ -7,17 +7,6 @@ import { AuthContext } from "../provider/auth-context"
 
 const Navigation = ({ logo }) => {
   const { isLoggedIn, signOut, getAuthUser } = useContext(AuthContext)
-  // const logo = useStaticQuery(graphql`
-  //   query {
-  //     file(relativePath: { eq: "logo_small_black.png" }) {
-  //       childImageSharp {
-  //         fixed(width: 92) {
-  //           ...GatsbyImageSharpFixed
-  //         }
-  //       }
-  //     }
-  //   }
-  // `)
 
   return (
     <NavbarWrapper>
@@ -39,12 +28,12 @@ const Navigation = ({ logo }) => {
             >
               Committees
             </Nav.Link>
-            {!isLoggedIn() && (
+            {!isLoggedIn && (
               <Nav.Link className="navlink" eventKey="3" as={Link} to="/login">
                 Login
               </Nav.Link>
             )}
-            {!isLoggedIn() && (
+            {!isLoggedIn && (
               <Nav.Link
                 className="navlink"
                 eventKey="4"
@@ -54,7 +43,7 @@ const Navigation = ({ logo }) => {
                 Register
               </Nav.Link>
             )}
-            {isLoggedIn() && (
+            {isLoggedIn && getAuthUser() !== null && (
               <NavDropdown
                 title={getAuthUser().firstname}
                 alignRight

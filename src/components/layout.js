@@ -8,7 +8,7 @@ import { graphql, useStaticQuery } from "gatsby"
 const Layout = ({ children, displayBanner }) => {
   const images = useStaticQuery(graphql`
     query {
-      banner: file(relativePath: { eq: "moula_6.png" }) {
+      banner: file(relativePath: { eq: "moula.png" }) {
         childImageSharp {
           fluid(maxWidth: 1000) {
             ...GatsbyImageSharpFluid

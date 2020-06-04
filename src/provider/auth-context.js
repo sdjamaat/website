@@ -1,34 +1,37 @@
-import React, { createContext, useEffect, useState } from "react"
+import React, { createContext, useState } from "react"
 import firebase from "gatsby-plugin-firebase"
-import { navigate } from "gatsby"
+const SecureLS = require("secure-ls")
+const ls = new SecureLS({ encodingType: "aes" })
 
 const defaultState = {
   getAuthUser: () => {},
-  isLoggedIn: () => false,
+  isLoggedIn: false,
+  setIsLoggedIn: () => {},
   signOut: () => {},
 }
 
 export const AuthContext = createContext(defaultState)
 
 export const AuthProvider = ({ children }) => {
-  const isLoggedIn = () => {
-    return localStorage.getItem("authUser") !== null
+  const verifyAuthUser = () => {
+    try {
+      const user = ls.get("authUser")
+      if (user.length !== 0) {
+        return user
+      } else {
+        return null
+      }
+    } catch (error) {
+      ls.removeAll()
+      return null
+    }
   }
 
-  useEffect(() => {
-    const unlisten = firebase.auth().onAuthStateChanged(user => {
-      if (user === null) {
-        localStorage.removeItem("authUser")
-      }
-    })
-    return () => {
-      unlisten()
-    }
-  }, [])
+  const [isLoggedIn, setIsLoggedIn] = useState(verifyAuthUser() !== null)
 
   const getAuthUser = () => {
-    if (isLoggedIn()) {
-      return JSON.parse(localStorage.getItem("authUser"))
+    if (isLoggedIn) {
+      return verifyAuthUser()
     } else {
       return null
     }
@@ -38,14 +41,21 @@ export const AuthProvider = ({ children }) => {
     firebase
       .auth()
       .signOut()
+      .then(() => setIsLoggedIn(false))
       .then(() => {
-        localStorage.removeItem("authUser")
+        ls.removeAll()
       })
-      .then(() => navigate("/login"))
   }
 
   return (
-    <AuthContext.Provider value={{ getAuthUser, isLoggedIn, signOut }}>
+    <AuthContext.Provider
+      value={{
+        getAuthUser,
+        isLoggedIn,
+        setIsLoggedIn,
+        signOut,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )

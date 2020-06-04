@@ -1,10 +1,13 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import Layout from "../components/layout"
 import styled from "styled-components"
 import { Form, Input, Button, Card, message, Spin } from "antd"
 import { onFinishFailed } from "../functions/forms"
 import { navigate } from "gatsby"
 import firebase from "gatsby-plugin-firebase"
+import { AuthContext } from "../provider/auth-context"
+const SecureLS = require("secure-ls")
+const ls = new SecureLS({ encodingType: "aes" })
 
 const layout = {
   labelCol: { span: 16 },
@@ -31,20 +34,17 @@ const getAndSetUserInformation = async uid => {
     const doc = await firebase.firestore().collection("users").doc(uid).get()
     if (doc.exists) {
       const userInfo = doc.data()
-      localStorage.setItem(
-        "authUser",
-        JSON.stringify({
-          uid: uid,
-          firstname: userInfo.firstname,
-          lastname: userInfo.lastname,
-          email: userInfo.email,
-          familyid: userInfo.familyid,
-          its: userInfo.its,
-          permissions: userInfo.permissions,
-          phone: userInfo.phone,
-          title: userInfo.title,
-        })
-      )
+      ls.set("authUser", {
+        uid: uid,
+        firstname: userInfo.firstname,
+        lastname: userInfo.lastname,
+        email: userInfo.email,
+        familyid: userInfo.familyid,
+        its: userInfo.its,
+        permissions: userInfo.permissions,
+        phone: userInfo.phone,
+        title: userInfo.title,
+      })
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!")
@@ -57,14 +57,20 @@ const getAndSetUserInformation = async uid => {
 const LoginForm = () => {
   const [form] = Form.useForm()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const { isLoggedIn, setIsLoggedIn, signOut } = useContext(AuthContext)
+
   const onSubmit = async values => {
     if (isSubmitting) {
       try {
+        await firebase
+          .auth()
+          .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
         const response = await firebase
           .auth()
           .signInWithEmailAndPassword(values.email, values.password)
         if (response.user.uid) {
           await getAndSetUserInformation(response.user.uid)
+          setIsLoggedIn(true)
           navigate(`/auth/profile`)
         } else {
           message.error({

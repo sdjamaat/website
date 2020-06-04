@@ -40,7 +40,6 @@ const CreateMenu = ({ setPage }) => {
   }
 
   useEffect(() => {
-    console.log("this is being triggered")
     getMonthsFinished()
   }, [])
 
