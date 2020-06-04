@@ -6,8 +6,6 @@ import { onFinishFailed } from "../functions/forms"
 import { navigate } from "gatsby"
 import firebase from "gatsby-plugin-firebase"
 import { AuthContext } from "../provider/auth-context"
-const SecureLS = require("secure-ls")
-const ls = new SecureLS({ encodingType: "aes" })
 
 const layout = {
   labelCol: { span: 16 },
@@ -29,12 +27,12 @@ const Message = ({ message }) => {
   )
 }
 
-const getAndSetUserInformation = async uid => {
+const getAndSetUserInformation = async (uid, localEncryptedStore) => {
   try {
     const doc = await firebase.firestore().collection("users").doc(uid).get()
     if (doc.exists) {
       const userInfo = doc.data()
-      ls.set("authUser", {
+      localEncryptedStore.set("authUser", {
         uid: uid,
         firstname: userInfo.firstname,
         lastname: userInfo.lastname,
@@ -57,7 +55,7 @@ const getAndSetUserInformation = async uid => {
 const LoginForm = () => {
   const [form] = Form.useForm()
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const { isLoggedIn, setIsLoggedIn, signOut } = useContext(AuthContext)
+  const { setIsLoggedIn, localEncryptedStore } = useContext(AuthContext)
 
   const onSubmit = async values => {
     if (isSubmitting) {
@@ -69,7 +67,7 @@ const LoginForm = () => {
           .auth()
           .signInWithEmailAndPassword(values.email, values.password)
         if (response.user.uid) {
-          await getAndSetUserInformation(response.user.uid)
+          await getAndSetUserInformation(response.user.uid, localEncryptedStore)
           setIsLoggedIn(true)
           navigate(`/auth/profile`)
         } else {
