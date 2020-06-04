@@ -7,7 +7,6 @@ const PrivateRoute = ({ component: Component, location, path, ...rest }) => {
 
   if (!isLoggedIn || getAuthUser() === null) {
     signOut()
-    navigate("/login")
     return null
   } else if (location.pathname === "/auth/admin") {
     if (!currUser.permissions.admin) {

@@ -32,7 +32,8 @@ export const AuthProvider = ({ children }) => {
         return null
       }
     } catch (error) {
-      localEncryptedStore.removeAll()
+      localStorage.removeItem("authUser")
+      localStorage.removeItem("_secure__ls__metadata")
       return null
     }
   }
@@ -56,7 +57,8 @@ export const AuthProvider = ({ children }) => {
       .signOut()
       .then(() => setIsLoggedIn(false))
       .then(() => {
-        localEncryptedStore.removeAll()
+        localStorage.removeItem("authUser")
+        localStorage.removeItem("_secure__ls__metadata")
       })
       .then(() => {
         navigate("/login")
