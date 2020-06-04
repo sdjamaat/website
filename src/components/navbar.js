@@ -96,8 +96,10 @@ const Navigation = ({ logo }) => {
                     <NavDropdown.Item
                       className="dropdown navlink"
                       style={{ color: "gray" }}
-                      onClick={signOut}
-                      onClick={() => setNavExpanded(false)}
+                      onClick={() => {
+                        setNavExpanded(false)
+                        signOut()
+                      }}
                     >
                       Sign Out
                     </NavDropdown.Item>

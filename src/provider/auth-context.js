@@ -58,6 +58,9 @@ export const AuthProvider = ({ children }) => {
       .then(() => {
         localEncryptedStore.removeAll()
       })
+      .then(() => {
+        navigate("/login")
+      })
   }
 
   return (
