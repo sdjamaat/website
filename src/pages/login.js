@@ -55,7 +55,9 @@ const getAndSetUserInformation = async (uid, localEncryptedStore) => {
 const LoginForm = () => {
   const [form] = Form.useForm()
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const { setIsLoggedIn, localEncryptedStore } = useContext(AuthContext)
+  const { setIsLoggedIn, localEncryptedStore, setCurrUser } = useContext(
+    AuthContext
+  )
 
   const onSubmit = async values => {
     if (isSubmitting) {
@@ -69,6 +71,7 @@ const LoginForm = () => {
         if (response.user.uid) {
           await getAndSetUserInformation(response.user.uid, localEncryptedStore)
           setIsLoggedIn(true)
+          setCurrUser(localEncryptedStore.get("authUser"))
           navigate(`/auth/profile`)
         } else {
           message.error({

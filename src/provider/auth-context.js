@@ -1,9 +1,13 @@
 import React, { createContext, useState } from "react"
 import firebase from "gatsby-plugin-firebase"
+import { navigate } from "gatsby"
 const hasWindow = typeof window !== "undefined"
 const SecureLS = hasWindow ? require("secure-ls") : null
 const localEncryptedStore = hasWindow
-  ? new SecureLS({ encodingType: "aes" })
+  ? new SecureLS({
+      encodingType: "aes",
+      encryptionSecret: process.env.GATSBY_ENCRYPTION_SECRET,
+    })
   : null
 
 const defaultState = {
@@ -12,6 +16,8 @@ const defaultState = {
   setIsLoggedIn: () => {},
   signOut: () => {},
   localEncryptedStore: () => {},
+  currUser: null,
+  setCurrUser: () => {},
 }
 
 export const AuthContext = createContext(defaultState)
@@ -35,11 +41,14 @@ export const AuthProvider = ({ children }) => {
 
   const getAuthUser = () => {
     if (isLoggedIn) {
-      return verifyAuthUser()
+      const user = verifyAuthUser()
+      return user
     } else {
       return null
     }
   }
+
+  const [currUser, setCurrUser] = useState(getAuthUser())
 
   const signOut = () => {
     firebase
@@ -59,6 +68,8 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn,
         signOut,
         localEncryptedStore,
+        currUser,
+        setCurrUser,
       }}
     >
       {children}

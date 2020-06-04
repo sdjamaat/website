@@ -106,7 +106,7 @@ const WelcomeAboutWrapper = styled.div`
   }
 
   .box {
-    margin-top: -4.5%;
+    margin-top: -3%;
   }
 
   .welcome-text {

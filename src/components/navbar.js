@@ -1,16 +1,24 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { Link } from "gatsby"
-import { Nav, Navbar, NavDropdown } from "react-bootstrap"
+import { Nav, Navbar, NavDropdown, Collapse } from "react-bootstrap"
 import styled from "styled-components"
 import Img from "gatsby-image"
 import { AuthContext } from "../provider/auth-context"
 
 const Navigation = ({ logo }) => {
-  const { isLoggedIn, signOut, getAuthUser } = useContext(AuthContext)
+  const { isLoggedIn, signOut, currUser } = useContext(AuthContext)
 
+  const [navExpanded, setNavExpanded] = useState(false)
+  const [navDropDownExpanded, setNavDropDownExpanded] = useState(false)
   return (
     <NavbarWrapper>
-      <Navbar collapseOnSelect sticky="top" bg="light" expand="lg">
+      <Navbar
+        onToggle={value => setNavExpanded(value)}
+        expanded={navExpanded}
+        sticky="top"
+        bg="light"
+        expand="lg"
+      >
         <Navbar.Brand as={Link} to="/">
           <Img fixed={logo} alt="Small logo" className="logo" />
         </Navbar.Brand>
@@ -43,47 +51,58 @@ const Navigation = ({ logo }) => {
                 Register
               </Nav.Link>
             )}
-            {isLoggedIn && getAuthUser() !== null && (
+            {isLoggedIn && currUser !== null && (
               <NavDropdown
-                title={getAuthUser().firstname}
+                title={currUser.firstname}
                 alignRight
                 id="basic-nav-dropdown"
                 className="navlink"
+                onClick={() => setNavDropDownExpanded(!navDropDownExpanded)}
+                aria-controls="collapse-dropdown-menu"
+                aria-expanded={navDropDownExpanded}
               >
-                <NavDropdown.Item
-                  className="dropdown navlink"
-                  style={{ color: "gray" }}
-                  as={Link}
-                  to="/auth/profile"
-                >
-                  Profile
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  className="dropdown navlink"
-                  style={{ color: "gray" }}
-                  as={Link}
-                  to="/auth/faiz"
-                >
-                  Faiz-ul-Mawaid
-                </NavDropdown.Item>
-                {getAuthUser().permissions.admin && (
-                  <NavDropdown.Item
-                    className="dropdown navlink"
-                    style={{ color: "gray" }}
-                    as={Link}
-                    to="/auth/admin"
-                  >
-                    Admin Panel
-                  </NavDropdown.Item>
-                )}
-                <NavDropdown.Divider />
-                <NavDropdown.Item
-                  className="dropdown navlink"
-                  style={{ color: "gray" }}
-                  onClick={signOut}
-                >
-                  Sign Out
-                </NavDropdown.Item>
+                <Collapse in={navDropDownExpanded}>
+                  <div id="collapse-dropdown-menu">
+                    <NavDropdown.Item
+                      className="dropdown navlink"
+                      style={{ color: "gray" }}
+                      as={Link}
+                      to="/auth/profile"
+                      onClick={() => setNavExpanded(false)}
+                    >
+                      Profile
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      className="dropdown navlink"
+                      style={{ color: "gray" }}
+                      as={Link}
+                      to="/auth/faiz"
+                      onClick={() => setNavExpanded(false)}
+                    >
+                      Faiz-ul-Mawaid
+                    </NavDropdown.Item>
+                    {currUser.permissions.admin && (
+                      <NavDropdown.Item
+                        className="dropdown navlink"
+                        style={{ color: "gray" }}
+                        as={Link}
+                        to="/auth/admin"
+                        onClick={() => setNavExpanded(false)}
+                      >
+                        Admin Panel
+                      </NavDropdown.Item>
+                    )}
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item
+                      className="dropdown navlink"
+                      style={{ color: "gray" }}
+                      onClick={signOut}
+                      onClick={() => setNavExpanded(false)}
+                    >
+                      Sign Out
+                    </NavDropdown.Item>
+                  </div>
+                </Collapse>
               </NavDropdown>
             )}
           </Nav>
