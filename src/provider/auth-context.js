@@ -5,7 +5,7 @@ const hasWindow = typeof window !== "undefined"
 const SecureLS = hasWindow ? require("secure-ls") : null
 const localEncryptedStore = hasWindow
   ? new SecureLS({
-      encodingType: "aes",
+      encodingType: process.env.GATSBY_ENCRYPTION_TYPE,
       encryptionSecret: process.env.GATSBY_ENCRYPTION_SECRET,
     })
   : null

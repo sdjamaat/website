@@ -100,6 +100,8 @@ const ChooseFamily = ({ layout, setStep, values, setValues, families }) => {
                       {member.firstname}
                     </Option>
                   )
+                } else {
+                  return <></>
                 }
               })}
             </Select>

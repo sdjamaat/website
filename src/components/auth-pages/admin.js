@@ -53,7 +53,6 @@ const AdminMenu = ({
 
           <Col xs={10}>
             <Select
-              autoFocus={true}
               defaultValue="users"
               style={{ width: "100%" }}
               onChange={handleChangePageMobile}

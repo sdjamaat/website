@@ -74,7 +74,16 @@ const AccountDetails = ({ layout, setStep, values, setValues }) => {
         <Form.Item
           label="Email:"
           name="email"
-          rules={[{ required: true, message: "Please input your username" }]}
+          rules={[
+            {
+              required: true,
+              message: "Please input your email",
+            },
+            {
+              type: "email",
+              message: "Email is invalid",
+            },
+          ]}
         >
           <Input />
         </Form.Item>

@@ -4,17 +4,6 @@ import { onFinishFailed } from "../../functions/forms"
 import firebase from "gatsby-plugin-firebase"
 import styled from "styled-components"
 
-const validateMessages = {
-  required: "${label} is required!",
-  types: {
-    email: "${label} is not valid!",
-    number: "${label} is not valid!",
-  },
-  number: {
-    range: "${label} must be between ${min} and ${max}",
-  },
-}
-
 const SuccessSubmit = () => {
   return (
     <div style={{ paddingTop: "10px" }}>
@@ -81,7 +70,6 @@ const Contact = () => {
             form={form}
             onFinish={onFinish}
             onFinishFailed={() => onFinishFailed(form)}
-            validateMessages={validateMessages}
             layout="vertical"
             size="small"
           >
@@ -91,6 +79,7 @@ const Contact = () => {
               rules={[
                 {
                   required: true,
+                  message: "Please input your name",
                 },
               ]}
             >
@@ -102,7 +91,11 @@ const Contact = () => {
               rules={[
                 {
                   required: true,
+                  message: "Please input your email",
+                },
+                {
                   type: "email",
+                  message: "Email is invalid",
                 },
               ]}
             >
@@ -111,11 +104,11 @@ const Contact = () => {
 
             <Form.Item
               name="phone"
-              label="Phone Number"
+              label="Phone number"
               rules={[
                 {
                   required: true,
-                  type: "number",
+                  message: "Please input your phone number",
                 },
               ]}
             >
@@ -128,6 +121,7 @@ const Contact = () => {
               rules={[
                 {
                   required: true,
+                  message: "Please input your message",
                 },
               ]}
             >

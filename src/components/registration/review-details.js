@@ -134,6 +134,8 @@ const ReviewDetails = ({
                     </ul>
                   </Card>
                 )
+              } else {
+                return <></>
               }
             })}
           </Card>

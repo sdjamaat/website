@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { Form, Input, Button, InputNumber, Tag, Select, DatePicker } from "antd"
+import { Form, Button, InputNumber, Tag, Select, DatePicker } from "antd"
 import { onFinishFailed } from "../../functions/forms"
 const { Option } = Select
 
