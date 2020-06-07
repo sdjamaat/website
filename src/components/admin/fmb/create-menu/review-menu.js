@@ -21,7 +21,9 @@ const ReviewMenu = ({ setStep, hijrimonthForm, menuitemsForm, submitMenu }) => {
       </div>
 
       <Card
-        title={shortMonthToLongMonth(hijrimonthForm.hijrimonth)}
+        title={`${shortMonthToLongMonth(hijrimonthForm.hijrimonth)} (${
+          hijrimonthForm.year
+        })`}
         headStyle={{ textAlign: "center", overflow: "visible" }}
       >
         {menuitemsForm.items.map((item, index) => {

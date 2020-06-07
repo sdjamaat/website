@@ -14,13 +14,23 @@ const layout = {
   wrapperCol: { span: 24 },
 }
 
-const HijriMonthForm = ({ monthsFinished, setStep, values, setValues }) => {
+const HijriMonthForm = ({
+  monthsFinished,
+  setStep,
+  values,
+  setValues,
+  isNextMoharramFinished,
+}) => {
   const [hijriMonthForm] = Form.useForm()
   const currentHijriMonth = momentHijri().iMonth()
   const currentHijriYear = momentHijri().iYear()
 
   const onFinish = values => {
-    setValues(values)
+    if (currentHijriMonth === 11 && values.hijrimonth === "moharram") {
+      setValues({ hijrimonth: "moharram", year: currentHijriYear + 1 })
+    } else {
+      setValues({ hijrimonth: values.hijrimonth, year: currentHijriYear })
+    }
     setStep("menuitems")
   }
 
@@ -45,25 +55,33 @@ const HijriMonthForm = ({ monthsFinished, setStep, values, setValues }) => {
         layout="vertical"
       >
         <Form.Item
-          label={`Hijri Month for ${currentHijriYear}`}
+          label={`Hijri Month - Current Year is ${currentHijriYear}`}
           name="hijrimonth"
           rules={[{ required: true, message: "Please input hijri month" }]}
         >
           <Select>
             {shortMonthNames.map((shortMonth, index) => {
-              return (
-                <Option
-                  disabled={
-                    index < currentHijriMonth ||
-                    monthsFinished.includes(shortMonthNames[index])
-                  }
-                  value={shortMonth}
-                  key={index}
-                >
-                  {shortMonthToLongMonth(shortMonth)}
-                </Option>
-              )
+              if (
+                index >= currentHijriMonth &&
+                !monthsFinished.includes(shortMonthNames[index])
+              ) {
+                return (
+                  <Option value={shortMonth} key={index}>
+                    {shortMonthToLongMonth(shortMonth)}
+                  </Option>
+                )
+              } else {
+                return null
+              }
             })}
+
+            {currentHijriMonth === 11 && !isNextMoharramFinished && (
+              <Option value="moharram" key="moharram2">
+                {`${shortMonthToLongMonth("moharram")} (${
+                  currentHijriYear + 1
+                })`}
+              </Option>
+            )}
           </Select>
         </Form.Item>
 

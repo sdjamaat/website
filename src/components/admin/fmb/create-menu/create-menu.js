@@ -11,6 +11,7 @@ const momentHijri = require("moment-hijri")
 const CreateMenu = ({ setPage }) => {
   const [step, setstep] = useState("hijrimonth")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isNextMoharramFinished, setIsNextMoharaamFinished] = useState(false)
   const [monthsFinished, setMonthsFinished] = useState([])
   const [hijriMonthFormValues, setHijriMonthFormValues] = useState({})
   const [menuItemsFormValues, setMenuItemsFormValues] = useState({})
@@ -27,9 +28,13 @@ const CreateMenu = ({ setPage }) => {
       const yearCollection = await queryForFmbHijriDoc.get()
       if (yearCollection.exists) {
         finishedArr = yearCollection.data().finished
+        if (yearCollection.data().nextMoharramFinished) {
+          setIsNextMoharaamFinished(true)
+        }
       } else {
         await queryForFmbHijriDoc.set({
           finished: [],
+          nextMoharramFinished: false,
         })
         await queryForFmbHijriDoc.collection("menus")
       }
@@ -53,13 +58,40 @@ const CreateMenu = ({ setPage }) => {
     return newMenuItemsArr
   }
 
+  const getYear = async () => {
+    const currYear = momentHijri().iYear()
+    if (hijriMonthFormValues.year === currYear) {
+      return { year: currYear, setInitialDocValues: false }
+    } else {
+      const nextYear = currYear + 1
+      return { year: nextYear, setInitialDocValues: true }
+    }
+  }
+
   const submitMenu = async () => {
     setIsSubmitting(true)
+    const { year, setInitialDocValues } = await getYear()
     try {
       const queryForFmbHijriDoc = await firebase
         .firestore()
         .collection("fmb")
-        .doc(momentHijri().iYear().toString())
+        .doc(year.toString())
+
+      if (setInitialDocValues) {
+        const prevYear = year - 1
+
+        await firebase
+          .firestore()
+          .collection("fmb")
+          .doc(prevYear.toString())
+          .update({ nextMoharramFinished: true })
+
+        await queryForFmbHijriDoc.set({
+          finished: [],
+          nextMoharramFinished: false,
+        })
+        await queryForFmbHijriDoc.collection("menus")
+      }
 
       await queryForFmbHijriDoc.update({
         finished: firebase.firestore.FieldValue.arrayUnion(
@@ -79,7 +111,8 @@ const CreateMenu = ({ setPage }) => {
       setIsSubmitting(false)
       setPage("fmb-view-menus")
     } catch (error) {
-      message.error(error)
+      console.log(error)
+      message.error("Error, could not submit menu")
       setIsSubmitting(false)
     }
   }
@@ -93,6 +126,7 @@ const CreateMenu = ({ setPage }) => {
             setStep={setstep}
             values={hijriMonthFormValues}
             setValues={setHijriMonthFormValues}
+            isNextMoharramFinished={isNextMoharramFinished}
           />
         )
       case "menuitems":
