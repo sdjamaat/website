@@ -102,7 +102,6 @@ const Admin = () => {
 
   const getMenus = async () => {
     if (shouldFetchMenusFromFirebase) {
-      console.log("fetching from firebase")
       let updatedMenus = []
       const currentHijriYear = momentHijri().iYear()
       try {
@@ -136,7 +135,6 @@ const Admin = () => {
       setShouldFetchMenusFromFirebase(false)
       return updatedMenus
     } else {
-      console.log("fetching from state")
       return menus
     }
   }
