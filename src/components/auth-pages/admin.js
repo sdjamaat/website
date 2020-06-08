@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Menu, Divider, Select, message } from "antd"
+import { Menu, Divider, Select, message, Form } from "antd"
 import { Row, Col } from "react-bootstrap"
 import useWindowDimensions from "../../custom-hooks/window-dimentions"
 import styled from "styled-components"
@@ -46,7 +46,7 @@ const AdminMenu = ({
     )
   }
 
-  const SelectMenu = () => {
+  const SelectDropdownMenu = () => {
     return (
       <>
         <Row style={{ marginBottom: "2rem" }}>
@@ -55,18 +55,23 @@ const AdminMenu = ({
           </Col>
 
           <Col xs={10}>
-            <Select
-              defaultValue="users"
-              style={{ width: "100%" }}
-              onChange={handleChangePageMobile}
-              value={currMenuItem}
-            >
-              <Option value="users">Manage Users</Option>
-              <OptGroup label="Faiz-ul-Mawaid">
-                <Option value="fmb-create-menu">Create Menu</Option>
-                <Option value="fmb-manage-menus">Manage Menus</Option>
-              </OptGroup>
-            </Select>
+            <Form initialValues={{ mobilemenuitem: currMenuItem }}>
+              <Form.Item name="mobilemenuitem">
+                <Select
+                  style={{ width: "100%" }}
+                  onChange={e => handleChangePageMobile(e)}
+                >
+                  <OptGroup label="Users">
+                    <Option value="users">Manage Users</Option>
+                  </OptGroup>
+
+                  <OptGroup label="Faiz-ul-Mawaid">
+                    <Option value="fmb-create-menu">Create Menu</Option>
+                    <Option value="fmb-manage-menus">Manage Menus</Option>
+                  </OptGroup>
+                </Select>
+              </Form.Item>
+            </Form>
           </Col>
         </Row>
       </>
@@ -74,7 +79,7 @@ const AdminMenu = ({
   }
 
   if (width <= 991) {
-    return <SelectMenu />
+    return <SelectDropdownMenu />
   } else {
     return (
       <StickyBox offsetTop={30}>
@@ -165,23 +170,50 @@ const Admin = () => {
 
   return (
     <AdminWrapper>
-      <Divider style={{ marginBottom: "2rem" }}>
-        <h2 style={{ marginBottom: "0" }}>Admin Panel</h2>
-      </Divider>
       <Row>
-        <Col lg={3}>
+        <Col style={{ marginBottom: "-1.5rem" }} lg={3}>
+          <div className="header" style={{ textAlign: "center" }}>
+            <h2>Admin Panel</h2>
+          </div>
+          <Divider className="divider-header-content" />
           <AdminMenu
             handleChangePageDesktop={handleChangePageDesktop}
             handleChangePageMobile={handleChangePageMobile}
             currMenuItem={page}
           />
         </Col>
-        <Col lg={9}>{getPage(page)}</Col>
+        <Col className="page-content" lg={9}>
+          {getPage(page)}
+        </Col>
       </Row>
     </AdminWrapper>
   )
 }
 
-const AdminWrapper = styled.div``
+const AdminWrapper = styled.div`
+  .divider-header-content {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    @media only screen and (min-width: 991px) {
+      display: none;
+    }
+  }
+  .header {
+    margin: 1rem;
+    margin-bottom: 1rem;
+    @media only screen and (min-width: 991px) {
+      margin: 1.7rem 0rem 1.7rem 0rem;
+      h2 {
+        font-size: 1.8rem;
+      }
+    }
+  }
+
+  .page-content {
+    @media only screen and (min-width: 991px) {
+      margin-top: 1.7rem;
+    }
+  }
+`
 
 export default Admin
