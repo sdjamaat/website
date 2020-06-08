@@ -25,6 +25,7 @@ const ReviewMenu = ({ setStep, hijrimonthForm, menuitemsForm, submitMenu }) => {
           hijrimonthForm.year
         })`}
         headStyle={{ textAlign: "center", overflow: "visible" }}
+        bodyStyle={{ paddingBottom: ".5rem" }}
       >
         {menuitemsForm.items.map((item, index) => {
           return (

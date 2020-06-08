@@ -14,19 +14,13 @@ const layout = {
   wrapperCol: { span: 24 },
 }
 
-const HijriMonthForm = ({
-  monthsFinished,
-  setStep,
-  values,
-  setValues,
-  isNextMoharramFinished,
-}) => {
+const HijriMonthForm = ({ monthsFinished, setStep, values, setValues }) => {
   const [hijriMonthForm] = Form.useForm()
   const currentHijriMonth = momentHijri().iMonth()
   const currentHijriYear = momentHijri().iYear()
 
   const onFinish = values => {
-    if (currentHijriMonth === 11 && values.hijrimonth === "moharram") {
+    if (values.hijrimonth === "moharram") {
       setValues({ hijrimonth: "moharram", year: currentHijriYear + 1 })
     } else {
       setValues({ hijrimonth: values.hijrimonth, year: currentHijriYear })
@@ -62,7 +56,18 @@ const HijriMonthForm = ({
           <Select>
             {shortMonthNames.map((shortMonth, index) => {
               if (
-                index >= currentHijriMonth &&
+                shortMonth === "moharram" &&
+                !monthsFinished.includes(shortMonthNames[index])
+              ) {
+                return (
+                  <Option value={shortMonth} key={index}>
+                    {`${shortMonthToLongMonth("moharram")} (${
+                      currentHijriYear + 1
+                    })`}
+                  </Option>
+                )
+              } else if (
+                index + 1 >= currentHijriMonth &&
                 !monthsFinished.includes(shortMonthNames[index])
               ) {
                 return (
@@ -74,14 +79,6 @@ const HijriMonthForm = ({
                 return null
               }
             })}
-
-            {currentHijriMonth === 11 && !isNextMoharramFinished && (
-              <Option value="moharram" key="moharram2">
-                {`${shortMonthToLongMonth("moharram")} (${
-                  currentHijriYear + 1
-                })`}
-              </Option>
-            )}
           </Select>
         </Form.Item>
 

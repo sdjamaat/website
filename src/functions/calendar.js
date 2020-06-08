@@ -32,7 +32,6 @@ module.exports = {
     }
   },
   shortMonthNames: [
-    "moharram",
     "safar",
     "rabi1",
     "rabi2",
@@ -44,5 +43,6 @@ module.exports = {
     "shawwal",
     "zilqadah",
     "zilhaj",
+    "moharram",
   ],
 }

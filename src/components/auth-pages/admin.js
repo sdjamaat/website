@@ -1,10 +1,13 @@
 import React, { useState } from "react"
-import { Menu, Divider, Select } from "antd"
+import { Menu, Divider, Select, message } from "antd"
 import { Row, Col } from "react-bootstrap"
 import useWindowDimensions from "../../custom-hooks/window-dimentions"
 import styled from "styled-components"
 import StickyBox from "react-sticky-box"
 import CreateMenu from "../admin/fmb/create-menu/create-menu"
+import ManageMenus from "../admin/fmb/manage-menus/manage-menus"
+import firebase from "gatsby-plugin-firebase"
+const momentHijri = require("moment-hijri")
 const { SubMenu } = Menu
 const { Option, OptGroup } = Select
 
@@ -19,17 +22,17 @@ const AdminMenu = ({
 }) => {
   const { width } = useWindowDimensions()
 
-  const [currMenu, setCurrMenu] = useState([])
+  const [currMenuKey, setCurrMenuKey] = useState([])
 
   const handleMenuOpenClose = value => {
-    setCurrMenu(value)
+    setCurrMenuKey(value)
   }
 
   const FullMenu = () => {
     return (
       <Menu
         onSelect={handleChangePageDesktop}
-        openKeys={currMenu}
+        openKeys={currMenuKey}
         onOpenChange={handleMenuOpenClose}
         selectedKeys={[currMenuItem]}
         mode={width > 991 && "inline"}
@@ -37,7 +40,7 @@ const AdminMenu = ({
         <Menu.Item key="users">Manage Users</Menu.Item>
         <SubMenu key="fmb" title="Faiz-ul-Mawaid">
           <Menu.Item key="fmb-create-menu">Create Menu</Menu.Item>
-          <Menu.Item key="fmb-view-menus">View Menus</Menu.Item>
+          <Menu.Item key="fmb-manage-menus">Manage Menus</Menu.Item>
         </SubMenu>
       </Menu>
     )
@@ -61,7 +64,7 @@ const AdminMenu = ({
               <Option value="users">Manage Users</Option>
               <OptGroup label="Faiz-ul-Mawaid">
                 <Option value="fmb-create-menu">Create Menu</Option>
-                <Option value="fmb-view-menus">View Menus</Option>
+                <Option value="fmb-manage-menus">Manage Menus</Option>
               </OptGroup>
             </Select>
           </Col>
@@ -83,6 +86,12 @@ const AdminMenu = ({
 
 const Admin = () => {
   const [page, setPage] = useState("users")
+  const [menus, setMenus] = useState([])
+  const [
+    shouldFetchMenusFromFirebase,
+    setShouldFetchMenusFromFirebase,
+  ] = useState(true)
+
   const handleChangePageDesktop = event => {
     setPage(event.key)
   }
@@ -91,12 +100,64 @@ const Admin = () => {
     setPage(value)
   }
 
+  const getMenus = async () => {
+    if (shouldFetchMenusFromFirebase) {
+      console.log("fetching from firebase")
+      let updatedMenus = []
+      const currentHijriYear = momentHijri().iYear()
+      try {
+        const queryForFmbHijriDoc = await firebase
+          .firestore()
+          .collection("fmb")
+          .doc(currentHijriYear.toString())
+
+        const yearCollection = await queryForFmbHijriDoc.get()
+        if (yearCollection.exists) {
+          const menusFromFirebase = await queryForFmbHijriDoc
+            .collection("menus")
+            .get()
+
+          menusFromFirebase.forEach(doc => {
+            let formattedDocData = {
+              ...doc.data(),
+              year:
+                doc.id === "moharram" ? currentHijriYear + 1 : currentHijriYear,
+              month: doc.id,
+            }
+            updatedMenus.push(formattedDocData)
+          })
+        } else {
+          message.error("Error fetching menus")
+        }
+      } catch (error) {
+        console.log("Error getting documents", error)
+      }
+      setMenus(updatedMenus)
+      setShouldFetchMenusFromFirebase(false)
+      return updatedMenus
+    } else {
+      console.log("fetching from state")
+      return menus
+    }
+  }
+
   const getPage = page => {
     switch (page) {
       case "fmb-create-menu":
-        return <CreateMenu setPage={setPage} />
-      case "fmb-view-menus":
-        return <div>This is view menus panel</div>
+        return (
+          <CreateMenu
+            setPage={setPage}
+            refetchMenus={setShouldFetchMenusFromFirebase}
+          />
+        )
+      case "fmb-manage-menus":
+        return (
+          <ManageMenus
+            getMenus={getMenus}
+            refetchMenus={setShouldFetchMenusFromFirebase}
+            setMenusInAdminComp={setMenus}
+          />
+        )
       case "users":
         return <UsersPanel />
       default:
