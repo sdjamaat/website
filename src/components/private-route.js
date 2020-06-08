@@ -3,9 +3,11 @@ import { navigate } from "gatsby"
 import { AuthContext } from "../provider/auth-context"
 
 const PrivateRoute = ({ component: Component, location, path, ...rest }) => {
-  const { isLoggedIn, getAuthUser, signOut, currUser } = useContext(AuthContext)
+  const { isLoggedIn, signOut, currUser, verifyAuthUser } = useContext(
+    AuthContext
+  )
 
-  if (!isLoggedIn || getAuthUser() === null) {
+  if (!isLoggedIn || verifyAuthUser() === null) {
     signOut()
     return null
   } else if (location.pathname === "/auth/admin") {

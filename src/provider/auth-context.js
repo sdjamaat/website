@@ -11,13 +11,13 @@ const localEncryptedStore = hasWindow
   : null
 
 const defaultState = {
-  getAuthUser: () => {},
   isLoggedIn: false,
   setIsLoggedIn: () => {},
   signOut: () => {},
   localEncryptedStore: () => {},
   currUser: null,
   setCurrUser: () => {},
+  verifyAuthUser: () => {},
 }
 
 export const AuthContext = createContext(defaultState)
@@ -68,13 +68,13 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        getAuthUser,
         isLoggedIn,
         setIsLoggedIn,
         signOut,
         localEncryptedStore,
         currUser,
         setCurrUser,
+        verifyAuthUser,
       }}
     >
       {children}
