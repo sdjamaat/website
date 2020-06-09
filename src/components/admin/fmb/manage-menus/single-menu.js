@@ -16,20 +16,14 @@ const SingleMenu = ({ menu, tagColor, tagName, showConfirmationModal }) => {
     if (status === "Active") {
       buttons = (
         <>
-          <Col xs={6}>
+          <Col xs={12}>
             <Button
-              variant="outline-secondary"
-              onClick={() => showConfirmationModal("archive", menu.month, true)}
+              variant="outline-danger"
+              onClick={() =>
+                showConfirmationModal("deactivate", menu.month, true)
+              }
             >
-              Archive
-            </Button>
-          </Col>
-          <Col xs={6}>
-            <Button
-              variant="outline-warning"
-              onClick={() => showConfirmationModal("queue", menu.month, true)}
-            >
-              Queue
+              Deactivate & Archive
             </Button>
           </Col>
         </>

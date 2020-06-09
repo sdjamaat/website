@@ -107,7 +107,11 @@ const ManageMenus = ({ getMenus, refetchMenus, setMenusInAdminComp }) => {
     isDeleting = false
   ) => {
     confirm({
-      title: `Are you sure you want to ${text} this menu?`,
+      title: `Are you sure you want to ${text} this menu? ${
+        isDeactivating
+          ? " Users will no longer be able to submit their thaali preferences for this month."
+          : ""
+      }`,
       onOk: async () => {
         let newStatus = null
         if (text === "activate") {
@@ -123,7 +127,7 @@ const ManageMenus = ({ getMenus, refetchMenus, setMenusInAdminComp }) => {
           }
 
           newStatus = "active"
-        } else if (text === "archive") {
+        } else if (text === "archive" || text === "deactivate") {
           newStatus = "archived"
         } else {
           newStatus = "queued"
