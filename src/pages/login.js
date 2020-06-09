@@ -121,7 +121,7 @@ const LoginForm = () => {
             label="Email"
             name="email"
             rules={[
-              { required: true, message: "Please input your email!" },
+              { required: true, message: "Please input your email" },
               { type: "email", message: "Email is not valid" },
             ]}
           >
@@ -131,7 +131,7 @@ const LoginForm = () => {
           <Form.Item
             label="Password"
             name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
+            rules={[{ required: true, message: "Please input your password" }]}
           >
             <Input.Password />
           </Form.Item>
