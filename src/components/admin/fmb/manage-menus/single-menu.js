@@ -3,11 +3,6 @@ import { Card, Collapse, Tag } from "antd"
 import { Row, Col, Button } from "react-bootstrap"
 import styled from "styled-components"
 import { shortMonthToLongMonth } from "../../../../functions/calendar"
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-} from "@ant-design/icons"
 const { Panel } = Collapse
 
 const SingleMenu = ({ menu, tagColor, tagName, showConfirmationModal }) => {

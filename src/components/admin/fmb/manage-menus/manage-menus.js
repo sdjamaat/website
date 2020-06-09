@@ -5,7 +5,6 @@ import SingleMenu from "./single-menu"
 import { cloneDeep } from "lodash"
 import firebase from "gatsby-plugin-firebase"
 const momentHijri = require("moment-hijri")
-
 const { confirm } = Modal
 
 const DisplaySortedMenus = ({ menus, showConfirmationModal }) => {
@@ -97,7 +96,7 @@ const DisplaySortedMenus = ({ menus, showConfirmationModal }) => {
   )
 }
 
-const ManageMenus = ({ getMenus, refetchMenus, setMenusInAdminComp }) => {
+const ManageMenus = ({ getMenus, setMenusInAdminComp }) => {
   const [menusFromAdminComp, setMenusFromAdminComp] = useState(null)
 
   const showConfirmationModal = (
