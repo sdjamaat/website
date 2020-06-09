@@ -57,7 +57,7 @@ const Navigation = ({ logo }) => {
                 alignRight
                 id="basic-nav-dropdown"
                 className="navlink"
-                onClick={() => setNavDropDownExpanded(!navDropDownExpanded)}
+                onClick={() => setNavDropDownExpanded(true)}
                 aria-controls="collapse-dropdown-menu"
                 aria-expanded={navDropDownExpanded}
               >
@@ -81,17 +81,18 @@ const Navigation = ({ logo }) => {
                     >
                       Faiz-ul-Mawaid
                     </NavDropdown.Item>
-                    {currUser.permissions.admin && (
-                      <NavDropdown.Item
-                        className="dropdown navlink"
-                        style={{ color: "gray" }}
-                        as={Link}
-                        to="/auth/admin"
-                        onClick={() => setNavExpanded(false)}
-                      >
-                        Admin Panel
-                      </NavDropdown.Item>
-                    )}
+                    {currUser.permissions.admin &&
+                      currUser.permissions.chickon && (
+                        <NavDropdown.Item
+                          className="dropdown navlink"
+                          style={{ color: "gray" }}
+                          as={Link}
+                          to="/auth/admin"
+                          onClick={() => setNavExpanded(false)}
+                        >
+                          Admin Panel
+                        </NavDropdown.Item>
+                      )}
                     <NavDropdown.Divider />
                     <NavDropdown.Item
                       className="dropdown navlink"
