@@ -6,6 +6,7 @@ import { onFinishFailed } from "../functions/forms"
 import { navigate } from "gatsby"
 import firebase from "gatsby-plugin-firebase"
 import { AuthContext } from "../provider/auth-context"
+import useComponentWillMount from "../custom-hooks/component-will-mount"
 
 const layout = {
   labelCol: { span: 16 },
@@ -53,11 +54,20 @@ const getAndSetUserInformation = async (uid, localEncryptedStore) => {
 }
 
 const LoginForm = () => {
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    localEncryptedStore,
+    setCurrUser,
+  } = useContext(AuthContext)
+
+  useComponentWillMount(() => {
+    if (isLoggedIn) {
+      navigate("/auth/profile")
+    }
+  })
   const [form] = Form.useForm()
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const { setIsLoggedIn, localEncryptedStore, setCurrUser } = useContext(
-    AuthContext
-  )
 
   const onSubmit = async values => {
     if (isSubmitting) {
