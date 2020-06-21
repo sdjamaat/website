@@ -1,21 +1,20 @@
-import React, { useState, useContext } from "react"
-import { Menu, Divider, Select, message, Form } from "antd"
+import React, { useState } from "react"
+import { Menu, Divider, Select, Form } from "antd"
 import { Row, Col } from "react-bootstrap"
 import useWindowDimensions from "../../custom-hooks/window-dimentions"
 import styled from "styled-components"
+import Calendar from "../dashboard/fmb/calendar/menu-calendar"
+import SubmitFMBMenu from "../dashboard/fmb/submit-menu/submit-menu"
 import StickyBox from "react-sticky-box"
-import CreateMenu from "../admin/fmb/create-menu/create-menu"
-import ManageMenus from "../admin/fmb/manage-menus/manage-menus"
-import firebase from "gatsby-plugin-firebase"
-const momentHijri = require("moment-hijri")
+
 const { SubMenu } = Menu
 const { Option, OptGroup } = Select
 
-const UsersPanel = () => {
-  return <div>This is the manage users panel.</div>
+const UserProfile = () => {
+  return <div>This is the panel where users can manage their profile.</div>
 }
 
-const AdminMenu = ({
+const DashboardMenu = ({
   handleChangePageDesktop,
   handleChangePageMobile,
   currMenuItem,
@@ -37,11 +36,11 @@ const AdminMenu = ({
         selectedKeys={[currMenuItem]}
         mode={width > 991 && "inline"}
       >
-        <Menu.Item key="users">Manage Users</Menu.Item>
+        <Menu.Item key="profile">Profile</Menu.Item>
 
         <SubMenu key="fmb" title="Faiz-ul-Mawaid">
-          <Menu.Item key="fmb-create-menu">Create Menu</Menu.Item>
-          <Menu.Item key="fmb-manage-menus">Manage Menus</Menu.Item>
+          <Menu.Item key="fmb-calendar">Menu Calendar</Menu.Item>
+          <Menu.Item key="fmb-submit-menu">Submit Menu</Menu.Item>
         </SubMenu>
       </Menu>
     )
@@ -62,13 +61,13 @@ const AdminMenu = ({
                   style={{ width: "100%" }}
                   onChange={e => handleChangePageMobile(e)}
                 >
-                  <OptGroup label="Users">
-                    <Option value="users">Manage Users</Option>
+                  <OptGroup label="User">
+                    <Option value="profile">Profile</Option>
                   </OptGroup>
 
                   <OptGroup label="Faiz-ul-Mawaid">
-                    <Option value="fmb-create-menu">Create Menu</Option>
-                    <Option value="fmb-manage-menus">Manage Menus</Option>
+                    <Option value="fmb-calendar">Menu Calendar</Option>
+                    <Option value="fmb-submit-menu">Submit Menu</Option>
                   </OptGroup>
                 </Select>
               </Form.Item>
@@ -90,13 +89,8 @@ const AdminMenu = ({
   }
 }
 
-const Admin = () => {
-  const [page, setPage] = useState("users")
-  const [menus, setMenus] = useState([])
-  const [
-    shouldFetchMenusFromFirebase,
-    setShouldFetchMenusFromFirebase,
-  ] = useState(true)
+const Dashboard = () => {
+  const [page, setPage] = useState("profile")
 
   const handleChangePageDesktop = event => {
     setPage(event.key)
@@ -106,78 +100,28 @@ const Admin = () => {
     setPage(value)
   }
 
-  const getMenus = async () => {
-    if (shouldFetchMenusFromFirebase) {
-      let updatedMenus = []
-      const currentHijriYear = momentHijri().iYear()
-      try {
-        const queryForFmbHijriDoc = await firebase
-          .firestore()
-          .collection("fmb")
-          .doc(currentHijriYear.toString())
-
-        const yearCollection = await queryForFmbHijriDoc.get()
-        if (yearCollection.exists) {
-          const menusFromFirebase = await queryForFmbHijriDoc
-            .collection("menus")
-            .get()
-
-          menusFromFirebase.forEach(doc => {
-            let formattedDocData = {
-              ...doc.data(),
-              year:
-                doc.id === "moharram" ? currentHijriYear + 1 : currentHijriYear,
-              month: doc.id,
-            }
-            updatedMenus.push(formattedDocData)
-          })
-        } else {
-          message.error("Error fetching menus")
-        }
-      } catch (error) {
-        console.log("Error getting documents", error)
-      }
-      setMenus(updatedMenus)
-      setShouldFetchMenusFromFirebase(false)
-      return updatedMenus
-    } else {
-      return menus
-    }
-  }
-
   const getPage = page => {
     switch (page) {
-      case "fmb-create-menu":
-        return (
-          <CreateMenu
-            setPage={setPage}
-            refetchMenus={setShouldFetchMenusFromFirebase}
-          />
-        )
-      case "fmb-manage-menus":
-        return (
-          <ManageMenus
-            getMenus={getMenus}
-            refetchMenus={setShouldFetchMenusFromFirebase}
-            setMenusInAdminComp={setMenus}
-          />
-        )
-      case "users":
-        return <UsersPanel />
+      case "fmb-calendar":
+        return <Calendar />
+      case "fmb-submit-menu":
+        return <SubmitFMBMenu />
+      case "profile":
+        return <UserProfile />
       default:
         return <div>Welcome to the Admin Panel</div>
     }
   }
 
   return (
-    <AdminWrapper>
+    <DashboardWrapper>
       <Row>
         <Col style={{ marginBottom: "-1.5rem" }} lg={3}>
           <div className="header" style={{ textAlign: "center" }}>
-            <h2>Admin Panel</h2>
+            <h2>Dashboard</h2>
           </div>
           <Divider className="divider-header-content" />
-          <AdminMenu
+          <DashboardMenu
             handleChangePageDesktop={handleChangePageDesktop}
             handleChangePageMobile={handleChangePageMobile}
             currMenuItem={page}
@@ -187,11 +131,11 @@ const Admin = () => {
           {getPage(page)}
         </Col>
       </Row>
-    </AdminWrapper>
+    </DashboardWrapper>
   )
 }
 
-const AdminWrapper = styled.div`
+const DashboardWrapper = styled.div`
   .divider-header-content {
     margin-top: 1rem;
     margin-bottom: 2rem;
@@ -217,4 +161,4 @@ const AdminWrapper = styled.div`
   }
 `
 
-export default Admin
+export default Dashboard

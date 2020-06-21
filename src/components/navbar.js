@@ -67,31 +67,12 @@ const Navigation = ({ logo }) => {
                       className="dropdown navlink"
                       style={{ color: "gray" }}
                       as={Link}
-                      to="/auth/profile"
+                      to="/auth/dashboard"
                       onClick={() => setNavExpanded(false)}
                     >
-                      Profile
+                      User Dashboard
                     </NavDropdown.Item>
-                    <NavDropdown.Item
-                      className="dropdown navlink"
-                      style={{ color: "gray" }}
-                      as={Link}
-                      to="/auth/faiz"
-                      onClick={() => setNavExpanded(false)}
-                    >
-                      Faiz-ul-Mawaid
-                    </NavDropdown.Item>
-                    {currUser.permissions.admin && (
-                      <NavDropdown.Item
-                        className="dropdown navlink"
-                        style={{ color: "gray" }}
-                        as={Link}
-                        to="/auth/admin"
-                        onClick={() => setNavExpanded(false)}
-                      >
-                        Admin Panel
-                      </NavDropdown.Item>
-                    )}
+
                     <NavDropdown.Divider />
                     <NavDropdown.Item
                       className="dropdown navlink"

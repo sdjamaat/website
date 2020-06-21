@@ -6,6 +6,7 @@ import { onFinishFailed } from "../functions/forms"
 import { navigate } from "gatsby"
 import firebase from "gatsby-plugin-firebase"
 import { AuthContext } from "../provider/auth-context"
+import CustomMessage from "../components/custom-message"
 import useComponentWillMount from "../custom-hooks/component-will-mount"
 
 const layout = {
@@ -13,44 +14,35 @@ const layout = {
   wrapperCol: { span: 24 },
 }
 
-message.config({
-  top: 100,
-  duration: 4,
-  maxCount: 3,
-})
-
-const Message = ({ message }) => {
-  return (
-    <>
-      <br />
-      <div>{message}</div>
-    </>
-  )
-}
-
 const getAndSetUserInformation = async (uid, localEncryptedStore) => {
   try {
     const doc = await firebase.firestore().collection("users").doc(uid).get()
     if (doc.exists) {
       const userInfo = doc.data()
-      localEncryptedStore.set("authUser", {
-        uid: uid,
-        firstname: userInfo.firstname,
-        lastname: userInfo.lastname,
-        email: userInfo.email,
-        familyid: userInfo.familyid,
-        its: userInfo.its,
-        permissions: userInfo.permissions,
-        phone: userInfo.phone,
-        title: userInfo.title,
-      })
+      if (!userInfo.admin) {
+        localEncryptedStore.set("authUser", {
+          uid: uid,
+          firstname: userInfo.firstname,
+          lastname: userInfo.lastname,
+          email: userInfo.email,
+          familyid: userInfo.familyid,
+          its: userInfo.its,
+          permissions: userInfo.permissions,
+          phone: userInfo.phone,
+          title: userInfo.title,
+        })
+      } else {
+        return false
+      }
     } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!")
+      return false
     }
   } catch (err) {
     console.log(err)
+    return false
   }
+
+  return true
 }
 
 const LoginForm = () => {
@@ -79,25 +71,22 @@ const LoginForm = () => {
           .auth()
           .signInWithEmailAndPassword(values.email, values.password)
         if (response.user.uid) {
-          await getAndSetUserInformation(response.user.uid, localEncryptedStore)
-          setIsLoggedIn(true)
-          setCurrUser(localEncryptedStore.get("authUser"))
-          navigate(`/auth/profile`)
+          const isUser = await getAndSetUserInformation(
+            response.user.uid,
+            localEncryptedStore
+          )
+          if (isUser) {
+            setIsLoggedIn(true)
+            setCurrUser(localEncryptedStore.get("authUser"))
+            navigate("/auth/profile")
+          } else {
+            throw { message: "Unauthorized" }
+          }
         } else {
-          message.error({
-            content: (
-              <Message
-                message={`Error: Something went wrong while logging in`}
-              />
-            ),
-            key: 1,
-          })
+          CustomMessage("error", "Something went wrong while logging in")
         }
       } catch (error) {
-        message.error({
-          content: <Message message={`Error: ${error.message}`} />,
-          key: 1,
-        })
+        CustomMessage("error", error.message)
       } finally {
         setIsSubmitting(false)
       }
@@ -114,7 +103,10 @@ const LoginForm = () => {
           form={form}
           onFinish={onSubmit}
           initialValues={{ email: null, password: null }}
-          onFinishFailed={() => onFinishFailed(form)}
+          onFinishFailed={() => {
+            onFinishFailed(form)
+            setIsSubmitting(false)
+          }}
           layout="vertical"
         >
           <Form.Item

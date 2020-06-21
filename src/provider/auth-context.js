@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useState, useEffect } from "react"
 import firebase from "gatsby-plugin-firebase"
 import { navigate } from "gatsby"
 const hasWindow = typeof window !== "undefined"
@@ -64,6 +64,43 @@ export const AuthProvider = ({ children }) => {
         navigate("/login")
       })
   }
+
+  useEffect(() => {
+    // listen for changes in user information
+    if (currUser !== null && isLoggedIn) {
+      try {
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(currUser.uid)
+          .onSnapshot(doc => {
+            if (doc.exists) {
+              const userInfo = doc.data()
+              if (!userInfo.admin) {
+                localEncryptedStore.set("authUser", {
+                  uid: userInfo.uid,
+                  firstname: userInfo.firstname,
+                  lastname: userInfo.lastname,
+                  email: userInfo.email,
+                  familyid: userInfo.familyid,
+                  its: userInfo.its,
+                  permissions: userInfo.permissions,
+                  phone: userInfo.phone,
+                  title: userInfo.title,
+                })
+                setCurrUser(localEncryptedStore.get("authUser"))
+              } else {
+                signOut()
+              }
+            } else {
+              signOut()
+            }
+          })
+      } catch {
+        signOut()
+      }
+    }
+  }, [])
 
   return (
     <AuthContext.Provider

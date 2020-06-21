@@ -10824,6 +10824,18 @@ moment-hijri@^2.1.2:
   dependencies:
     moment "^2.24.0"
 
+moment-timezone@^0.5.31:
+  version "0.5.31"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.31.tgz#9c40d8c5026f0c7ab46eda3d63e49c155148de05"
+  integrity sha512-+GgHNg8xRhMXfEbv81iDtrVeTcWt0kWmTEY1XQK14dICTXnWJnT0dxdlPspwqF3keKMVPXwayEsk1DI0AA/jdA==
+  dependencies:
+    moment ">= 2.9.0"
+
+"moment@>= 2.9.0", moment@^2.27.0:
+  version "2.27.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
+  integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
+
 moment@^2.24.0, moment@^2.25.3:
   version "2.25.3"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.25.3.tgz#252ff41319cf41e47761a1a88cab30edfe9808c0"
@@ -11220,6 +11232,11 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
+
+numeral-systems@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/numeral-systems/-/numeral-systems-2.0.0.tgz#fb0bdc213f175e974d5553eab9917dc8308edf5f"
+  integrity sha512-KPbJBtaH/rQyxGpFipQyuUVMJbhMusvGH1soEbNHgMMhnxUWDEuepv1Jw7nYHDOEJ4GBY3xYnRE15p2nXBe11A==
 
 oauth-sign@~0.9.0:
   version "0.9.0"
@@ -13240,6 +13257,11 @@ react-dev-utils@^9.1.0:
     sockjs-client "1.4.0"
     strip-ansi "5.2.0"
     text-table "0.2.0"
+
+react-disable@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-disable/-/react-disable-0.1.0.tgz#e3474aefcb2b91fcb534693c66b7497fb28b85af"
+  integrity sha512-3RbSYuUtakIy1ulCfDf6yoJAsjHFNLv467bSBwyxkNDyez/z7CbcTZ6QUWCrhfybvfm81IN6QT3pUfDoKcvaFQ==
 
 react-dom@^16.12.0:
   version "16.13.1"
