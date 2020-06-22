@@ -21,6 +21,7 @@ const SubmitFMBMenu = () => {
   const [refreshComponent, setRefreshComponent] = useState(false)
   const [hasAlreadySubmitted, setHasAlreadySubmitted] = useState(false)
 
+  // set undefined elements to null because firebase doesn't like undefined
   const getSanitizedItemSizesArray = () => {
     let newItemSizesArr = [...selections.items]
     for (let i = 0; i < newItemSizesArr.length; i++) {
@@ -45,7 +46,8 @@ const SubmitFMBMenu = () => {
         .set({
           selections: getSanitizedItemSizesArray(),
           submittedBy: {
-            name: `${currUser.firstname} ${currUser.lastname}`,
+            firstname: currUser.firstname,
+            lastname: currUser.lastname,
             uid: currUser.uid,
           },
         })
