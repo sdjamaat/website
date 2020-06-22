@@ -1,20 +1,26 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import { Form, Input, Button, InputNumber, Tag, Select, message } from "antd"
 import { onFinishFailed } from "../../functions/forms"
+import CustomMessage from "../custom-message"
 const { Option } = Select
 
 const FamilyDetails = ({ layout, setStep, values, setValues }) => {
   const [form] = Form.useForm()
+  const [fmbStatus, setFMBStatus] = useState(values.fmbcode || "Not enrolled")
   const onFinish = values => {
     setValues({ ...values })
     if (values.size <= 0) {
-      message.error("Family size cannot be 0 or less")
+      CustomMessage("error", "Family size cannot be 0 or less")
     } else if (values.size === 1) {
       setStep("review")
     } else {
       setStep("family-member-details")
     }
+  }
+
+  const onFMBStatusChange = value => {
+    setFMBStatus(value)
   }
 
   return (
@@ -38,7 +44,7 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
         layout="vertical"
       >
         <Form.Item
-          label="# Family members in household (incl. you)"
+          label="# of Members in household (including you)"
           name="size"
           rules={[
             {
@@ -53,7 +59,7 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
         <Form.Item
           label="Move status"
           name="movestatus"
-          rules={[{ required: true }]}
+          rules={[{ required: true, message: "Please input your move status" }]}
         >
           <Select>
             <Option value="Temporary">Temporary</Option>
@@ -62,7 +68,7 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
         </Form.Item>
 
         <Form.Item
-          label="Address (num & street):"
+          label="Address (number & street):"
           name={["address", "street"]}
           rules={[
             { required: true, message: "Please input your address street" },
@@ -94,15 +100,35 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
         <Form.Item
           label="Faiz-ul-Mawaid status"
           name="fmbstatus"
-          rules={[{ required: true }]}
+          rules={[
+            {
+              required: true,
+              message: "Please input your Faiz-ul-Mawaid status",
+            },
+          ]}
         >
-          <Select>
+          <Select onChange={val => onFMBStatusChange(val)}>
             <Option value="Not enrolled">Not enrolled</Option>
             <Option value="Full">Enrolled - Full thaali</Option>
             <Option value="Half">Enrolled - Half thaali</Option>
             <Option value="Barakati">Enrolled - Barakati thaali</Option>
           </Select>
         </Form.Item>
+
+        {fmbStatus !== "Not enrolled" && (
+          <Form.Item
+            label="Faiz-ul-Mawaid family code"
+            name="fmbcode"
+            rules={[
+              {
+                required: true,
+                message: "Please input your Faiz-ul-Mawaid code",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        )}
         <Form.Item>
           <Button
             onClick={() => setStep("personal-details")}

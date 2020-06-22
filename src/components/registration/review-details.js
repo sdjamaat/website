@@ -68,6 +68,7 @@ const ReviewDetails = ({
               personalDetails.othertitles[0]}
             {personalDetails.othertitles.length > 1 &&
               `, ${personalDetails.othertitles[1]}`}
+            {personalDetails.othertitles.length === 0 && "None"}
           </li>
 
           <li>YOB: {personalDetails.yob.format("YYYY")}</li>
@@ -85,16 +86,18 @@ const ReviewDetails = ({
           <ul>
             <li>Members: {familyDetails.size}</li>
             <li>Move status: {familyDetails.movestatus}</li>
-            <li>
-              Address:{" "}
-              {`${familyDetails.address.street}, ${familyDetails.address.city}, CA, ${familyDetails.address.zip}`}
-            </li>
+            <li>Address street: {familyDetails.address.street}</li>
+            <li>City: {familyDetails.address.city}</li>
+            <li>Zip: {familyDetails.address.zip}</li>
             <li>
               Faiz-ul-Mawaid status:{" "}
               {familyDetails.fmbstatus !== "Not enrolled"
                 ? `Enrolled - ${familyDetails.fmbstatus} thaali`
                 : "Not enrolled"}
             </li>
+            {familyDetails.fmbstatus !== "Not enrolled" ? (
+              <li> Faiz-ul-Mawaid family code: {familyDetails.fmbcode}</li>
+            ) : null}
           </ul>
         </Card>
       )}
@@ -124,7 +127,7 @@ const ReviewDetails = ({
                         marginBottom: ".5rem",
                       }}
                     >
-                      Family Member {index + 1}
+                      Family Member #{index + 1}
                     </p>
                     <ul>
                       <li>First name: {member.firstname}</li>
@@ -135,7 +138,7 @@ const ReviewDetails = ({
                   </Card>
                 )
               } else {
-                return <></>
+                return null
               }
             })}
           </Card>
@@ -144,11 +147,15 @@ const ReviewDetails = ({
 
       <Form.Item>
         <Button
-          onClick={() =>
-            showFamilyDetails
-              ? setStep("family-member-details")
-              : setStep("choose-family")
-          }
+          onClick={() => {
+            if (showFamilyDetails && familyDetails.size > 1) {
+              setStep("family-member-details")
+            } else if (showFamilyDetails && familyDetails.size <= 1) {
+              setStep("family-details")
+            } else {
+              setStep("choose-family")
+            }
+          }}
           className="float-left next-btn"
         >
           Back

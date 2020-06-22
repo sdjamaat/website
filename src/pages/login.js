@@ -174,7 +174,7 @@ export default () => {
 
 const LoginWrapper = styled.div`
   .content {
-    max-width: 500px;
+    max-width: 550px;
     margin: auto;
     padding-top: 5%;
   }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { Form, Button, Tag, Select, message, Alert } from "antd"
 import { onFinishFailed } from "../../functions/forms"
+import CustomMessage from "../custom-message"
 const { Option } = Select
 
 const ChooseFamily = ({ layout, setStep, values, setValues, families }) => {
@@ -13,13 +14,14 @@ const ChooseFamily = ({ layout, setStep, values, setValues, families }) => {
 
   const onFinish = values => {
     if (!values.hasOwnProperty("memberindex")) {
-      message.error(
+      CustomMessage(
+        "error",
         "Cannot move forward without selecting an eligible family member"
       )
     } else if (
       values.memberindex >= families[values.familyindex].members.length
     ) {
-      message.error("Invalid member selection")
+      CustomMessage("error", "Invalid member selection")
     } else {
       setValues({
         ...families[values.familyindex],
@@ -101,7 +103,7 @@ const ChooseFamily = ({ layout, setStep, values, setValues, families }) => {
                     </Option>
                   )
                 } else {
-                  return <></>
+                  return null
                 }
               })}
             </Select>
@@ -110,6 +112,7 @@ const ChooseFamily = ({ layout, setStep, values, setValues, families }) => {
           <Alert
             message="All eligible members are already registered for this family"
             type="warning"
+            style={{ marginTop: "-.5rem", marginBottom: ".5rem" }}
           />
         )}
 

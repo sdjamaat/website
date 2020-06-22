@@ -9,6 +9,7 @@ import FamilyDetails from "../components/registration/family-details"
 import ReviewDetails from "../components/registration/review-details"
 import ChooseFamily from "../components/registration/choose-family"
 import FamilyMemberDetails from "../components/registration/family-member-details"
+import CustomMessage from "../components/custom-message"
 import firebase from "gatsby-plugin-firebase"
 import { navigate } from "gatsby"
 
@@ -58,6 +59,7 @@ export default () => {
       })
       .catch(err => {
         console.log("Error getting documents", err)
+        CustomMessage("error", "Cannot connect to database")
       })
   }
 
@@ -238,21 +240,30 @@ export default () => {
       },
       displayname: `${accountDetails.lastname} Family (${accountDetails.firstname})`,
       fmb: {
-        code: `${accountDetails.firstname
-          .charAt(0)
-          .toUpperCase()}${accountDetails.lastname.charAt(0).toUpperCase()}`,
-        enrolled: `${fmbstatus !== "Not enrolled" ? true : false}`,
+        code:
+          familyDetails.fmbstatus !== "Not enrolled"
+            ? familyDetails.fmbcode
+            : `${accountDetails.firstname
+                .charAt(0)
+                .toUpperCase()}${accountDetails.lastname
+                .charAt(0)
+                .toUpperCase()}`,
+        enrolled: fmbstatus !== "Not enrolled" ? true : false,
         defaultsize: `${fmbstatus !== "Not enrolled" ? fmbstatus : "None"}`,
       },
       familyid: familyid,
     }
+    if (familyDetails.fmbstatus !== "Not enrolled") {
+      delete newFamilyDetails.fmbcode
+    }
     return newFamilyDetails
   }
 
+  // get family id if it already exists or generate new family id
   const getFamilyID = () => {
     if (accountDetails.familyhead) {
       return `${accountDetails.firstname.toLowerCase()}${accountDetails.lastname.toLowerCase()}${
-        Math.floor(Math.random() * 10000) + 10000
+        Math.floor(Math.random() * 100000) + 100000
       }`
     } else {
       return familyAffiliation.familyid
@@ -305,22 +316,16 @@ export default () => {
       })
       .then(() => {
         setTimeout(() => {
-          navigate("/auth/profile")
+          navigate("/login")
         }, 2500)
-        message.success({
-          content: (
-            <Message message="Successfully registered. Redirecting now..." />
-          ),
-          key: 1,
-          duration: 2.5,
-        })
+        CustomMessage(
+          "success",
+          "Successfully registered. Redirecting to login..."
+        )
       })
       .catch(error => {
         console.log(error)
-        message.error({
-          content: <Message message={error.message} />,
-          key: 2,
-        })
+        CustomMessage("error", error.message)
       })
       .finally(() => setIsSubmitting(false))
   }
@@ -344,7 +349,7 @@ export default () => {
 
 const RegisterWrapper = styled.div`
   .content {
-    max-width: 500px;
+    max-width: 550px;
     margin: auto;
     padding-top: 5%;
   }

@@ -1,11 +1,12 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
-import { Form, Input, Button, InputNumber, Tag, Select } from "antd"
+import { Form, Input, Button, InputNumber, Tag, Select, Alert } from "antd"
 import { onFinishFailed } from "../../functions/forms"
 const { Option } = Select
 
 const AccountDetails = ({ layout, setStep, values, setValues }) => {
   const [form] = Form.useForm()
+
   const onFinish = values => {
     setValues({ ...values })
     setStep("personal-details")
@@ -26,6 +27,21 @@ const AccountDetails = ({ layout, setStep, values, setValues }) => {
           Account Details
         </Tag>
       </div>
+
+      <Alert
+        style={{ fontSize: "1rem", marginBottom: "1rem" }}
+        type="info"
+        message={
+          <div>
+            <strong>Note: </strong>
+            If you are a head of family, then you'll be required to enter
+            additional details about your family on subsequent pages. If you are
+            not a head of family, you will need to choose your family
+            affiliation - you also cannot register if your head of family is not
+            already registered
+          </div>
+        }
+      />
 
       <Form
         {...layout}

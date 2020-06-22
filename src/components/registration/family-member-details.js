@@ -7,7 +7,7 @@ const FamilyMemberInfoForm = ({ index }) => {
   return (
     <>
       <Card
-        title={`Family Member ${index + 1}`}
+        title={`Family Member #${index + 1}`}
         headStyle={{ textAlign: "center" }}
         style={{ marginBottom: "1rem" }}
       >
@@ -95,7 +95,7 @@ const FamilyMemberDetails = ({
             marginBottom: "1rem",
           }}
         >
-          Family Member Details
+          Other Family Member Details
         </Tag>
       </div>
 
