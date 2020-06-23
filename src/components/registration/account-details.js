@@ -34,11 +34,11 @@ const AccountDetails = ({ layout, setStep, values, setValues }) => {
         message={
           <div>
             <strong>Note: </strong>
-            If you are a head of family, then you'll be required to enter
-            additional details about your family on subsequent pages. If you are
-            not a head of family, you will need to choose your family
-            affiliation - you also cannot register if your head of family is not
-            already registered
+            If you are a head of family, you'll be required to enter additional
+            details about your family on subsequent pages. If you are not, you
+            will need to choose your family affiliation - this means that you
+            can only register if your head of family is already registered on
+            this site.
           </div>
         }
       />

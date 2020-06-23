@@ -339,6 +339,6 @@ const RegisterWrapper = styled.div`
   .content {
     max-width: 550px;
     margin: auto;
-    padding-top: 5%;
+    padding-top: 3.5%;
   }
 `
