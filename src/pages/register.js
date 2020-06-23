@@ -30,7 +30,6 @@ export default () => {
 
   const getFamilies = async () => {
     if (shouldGetFamiliesFromFirebase) {
-      console.log("fetching from firebase")
       try {
         let allfamilies = []
         const families = await firebase.firestore().collection("families").get()
