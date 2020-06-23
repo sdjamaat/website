@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { cloneDeep } from "lodash"
 import Layout from "../components/layout"
 import styled from "styled-components"
-import { Card, message, Spin } from "antd"
+import { Card, Spin } from "antd"
 import AccountDetails from "../components/registration/account-details"
 import PersonalDetails from "../components/registration/personal-details"
 import FamilyDetails from "../components/registration/family-details"
@@ -18,33 +18,24 @@ const layout = {
   wrapperCol: { span: 24 },
 }
 
-message.config({
-  top: 75,
-  maxCount: 3,
-  duration: 5,
-})
-const Message = ({ message }) => {
-  return (
-    <>
-      <br />
-      <div>{message}</div>
-    </>
-  )
-}
-
 export default () => {
   const [step, setStep] = useState("account-details")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [
+    shouldGetFamiliesFromFirebase,
+    setShouldGetFamiliesFromFirebase,
+  ] = useState(true)
+
   const [families, setFamilies] = useState([])
 
-  const getFamilies = () => {
-    firebase
-      .firestore()
-      .collection("families")
-      .get()
-      .then(snapshot => {
+  const getFamilies = async () => {
+    if (shouldGetFamiliesFromFirebase) {
+      console.log("fetching from firebase")
+      try {
         let allfamilies = []
-        snapshot.forEach(doc => {
+        const families = await firebase.firestore().collection("families").get()
+
+        families.forEach(doc => {
           let family = {
             familyid: doc.id,
             displayname: doc.data().displayname,
@@ -52,20 +43,18 @@ export default () => {
           }
           allfamilies.push(family)
         })
-        return allfamilies
-      })
-      .then(allfamilies => {
-        setFamilies(allfamilies)
-      })
-      .catch(err => {
-        console.log("Error getting documents", err)
-        CustomMessage("error", "Cannot connect to database")
-      })
-  }
 
-  useEffect(() => {
-    getFamilies()
-  }, [])
+        setFamilies(allfamilies)
+        setShouldGetFamiliesFromFirebase(false)
+        return allfamilies
+      } catch (error) {
+        console.log("Error getting documents", error)
+        CustomMessage("error", "Cannot connect to database")
+      }
+    } else {
+      return families
+    }
+  }
 
   const [accountDetails, setAccountDetails] = useState({
     familyhead: null,
@@ -130,7 +119,7 @@ export default () => {
         return (
           <ChooseFamily
             layout={layout}
-            families={families}
+            getFamilies={getFamilies}
             setStep={setStep}
             values={familyAffiliation}
             setValues={setFamilyAffiliation}

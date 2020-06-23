@@ -3,14 +3,28 @@ import styled from "styled-components"
 import { Form, Button, Tag, Select, message, Alert } from "antd"
 import { onFinishFailed } from "../../functions/forms"
 import CustomMessage from "../custom-message"
+import firebase from "gatsby-plugin-firebase"
 const { Option } = Select
 
-const ChooseFamily = ({ layout, setStep, values, setValues, families }) => {
+const ChooseFamily = ({ layout, setStep, values, setValues, getFamilies }) => {
   const [form] = Form.useForm()
 
   const [familyIndex, setFamilyIndex] = useState(values.familyindex)
+  const [
+    familiesFromRegisterComponent,
+    setFamiliesFromRegisterComponent,
+  ] = useState(null)
 
-  useEffect(() => {}, [familyIndex])
+  const initializeChooseFamilyComp = async () => {
+    const fetchedFamilies = await getFamilies()
+    setFamiliesFromRegisterComponent(fetchedFamilies)
+  }
+
+  useEffect(() => {
+    initializeChooseFamilyComp()
+  }, [])
+
+  //useEffect(() => {}, [familyIndex])
 
   const onFinish = values => {
     if (!values.hasOwnProperty("memberindex")) {
@@ -19,12 +33,13 @@ const ChooseFamily = ({ layout, setStep, values, setValues, families }) => {
         "Cannot move forward without selecting an eligible family member"
       )
     } else if (
-      values.memberindex >= families[values.familyindex].members.length
+      values.memberindex >=
+      familiesFromRegisterComponent[values.familyindex].members.length
     ) {
       CustomMessage("error", "Invalid member selection")
     } else {
       setValues({
-        ...families[values.familyindex],
+        ...familiesFromRegisterComponent[values.familyindex],
         memberindex: values.memberindex,
         familyindex: values.familyindex,
       })
@@ -37,11 +52,17 @@ const ChooseFamily = ({ layout, setStep, values, setValues, families }) => {
   }
 
   const shouldShowMemberSelection = () => {
-    for (let member of families[familyIndex].members) {
-      if (member.uid === null) {
-        return true
+    if (
+      familiesFromRegisterComponent !== null &&
+      familiesFromRegisterComponent.length !== 0
+    ) {
+      for (let member of familiesFromRegisterComponent[familyIndex].members) {
+        if (member.uid === null) {
+          return true
+        }
       }
     }
+
     return false
   }
 
@@ -65,23 +86,27 @@ const ChooseFamily = ({ layout, setStep, values, setValues, families }) => {
         onFinishFailed={() => onFinishFailed(form)}
         layout="vertical"
       >
-        <Form.Item
-          label="Family affiliation"
-          name="familyindex"
-          rules={[
-            { required: true, message: "Please input family affiliation" },
-          ]}
-        >
-          <Select onChange={handleFamilySelection}>
-            {families.map((family, index) => {
-              return (
-                <Option key={index} value={index}>
-                  {family.displayname}
-                </Option>
-              )
-            })}
-          </Select>
-        </Form.Item>
+        {familiesFromRegisterComponent !== null ? (
+          <Form.Item
+            label="Family affiliation"
+            name="familyindex"
+            rules={[
+              { required: true, message: "Please input family affiliation" },
+            ]}
+          >
+            <Select onChange={handleFamilySelection}>
+              {familiesFromRegisterComponent.map((family, index) => {
+                return (
+                  <Option key={index} value={index}>
+                    {family.displayname}
+                  </Option>
+                )
+              })}
+            </Select>
+          </Form.Item>
+        ) : (
+          <div style={{ paddingBottom: "1rem" }}>Loading...</div>
+        )}
 
         {shouldShowMemberSelection() ? (
           <Form.Item
@@ -95,17 +120,19 @@ const ChooseFamily = ({ layout, setStep, values, setValues, families }) => {
             ]}
           >
             <Select>
-              {families[familyIndex].members.map((member, index) => {
-                if (member.uid === null) {
-                  return (
-                    <Option key={index} value={index}>
-                      {member.firstname}
-                    </Option>
-                  )
-                } else {
-                  return null
+              {familiesFromRegisterComponent[familyIndex].members.map(
+                (member, index) => {
+                  if (member.uid === null) {
+                    return (
+                      <Option key={index} value={index}>
+                        {member.firstname}
+                      </Option>
+                    )
+                  } else {
+                    return null
+                  }
                 }
-              })}
+              )}
             </Select>
           </Form.Item>
         ) : (
