@@ -24,8 +24,8 @@ const SelectItems = ({ setPanel, items, values, setValues }) => {
 
     if (toggleValue !== "individual") {
       let newItemPreferences = selectItemsForm.getFieldsValue()
-      for (let i = 0; i < newItemPreferences.items.length; i++) {
-        newItemPreferences.items[i] = toggleValue
+      for (let key in newItemPreferences.items) {
+        newItemPreferences.items[key] = toggleValue
       }
       selectItemsForm.setFieldsValue(newItemPreferences)
     }
@@ -98,7 +98,7 @@ const SelectItems = ({ setPanel, items, values, setValues }) => {
                 </p>
                 <Form.Item
                   key={index}
-                  name={["items", index]}
+                  name={["items", item.id]}
                   rules={[
                     { required: true, message: "Please input thaali size" },
                   ]}

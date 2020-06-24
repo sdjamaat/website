@@ -21,15 +21,6 @@ const SubmitFMBMenu = () => {
   const [refreshComponent, setRefreshComponent] = useState(false)
   const [hasAlreadySubmitted, setHasAlreadySubmitted] = useState(false)
 
-  // set undefined elements to null because firebase doesn't like undefined
-  const getSanitizedItemSizesArray = () => {
-    let newItemSizesArr = [...selections.items]
-    for (let i = 0; i < newItemSizesArr.length; i++) {
-      newItemSizesArr[i] = newItemSizesArr[i] || null
-    }
-    return newItemSizesArr
-  }
-
   const submitSelections = async () => {
     try {
       const monthMenuQuery = firebase
@@ -44,7 +35,7 @@ const SubmitFMBMenu = () => {
         .collection("submissions")
         .doc(currUser.familyid)
         .set({
-          selections: getSanitizedItemSizesArray(),
+          selections: selections.items,
           submittedBy: {
             firstname: currUser.firstname,
             lastname: currUser.lastname,
@@ -91,7 +82,7 @@ const SubmitFMBMenu = () => {
           <ReviewSelections
             setPanel={setPanel}
             items={activeMenu.items}
-            selections={selections}
+            selections={selections.items}
             submitSelections={submitSelections}
           />
         )

@@ -50,7 +50,10 @@ const ReviewSelections = ({
                   {moment(item.date, "MM-DD-YYYY").format("dddd, MMMM Do YYYY")}
                 </p>
                 <p style={{ color: "gray", paddingBottom: ".2rem" }}>
-                  Size: {selections.items[index]}
+                  Size:{" "}
+                  {selections.hasOwnProperty(item.id)
+                    ? selections[item.id]
+                    : "Not Found"}
                 </p>
               </div>
             )
