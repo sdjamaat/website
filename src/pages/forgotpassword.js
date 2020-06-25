@@ -5,25 +5,11 @@ import { Form, Input, Button, Card, message, Spin } from "antd"
 import { onFinishFailed } from "../functions/forms"
 import firebase from "gatsby-plugin-firebase"
 import { navigate } from "gatsby"
+import { CustomMessage } from "../components/custom-message"
 
 const layout = {
   labelCol: { span: 16 },
   wrapperCol: { span: 24 },
-}
-
-message.config({
-  top: 100,
-  duration: 4,
-  maxCount: 3,
-})
-
-const Message = ({ message }) => {
-  return (
-    <>
-      <br />
-      <div>{message}</div>
-    </>
-  )
 }
 
 const ForgotPasswordForm = () => {
@@ -35,18 +21,13 @@ const ForgotPasswordForm = () => {
       .auth()
       .sendPasswordResetEmail(values.email)
       .then(() => {
-        message.success({
-          content: (
-            <Message
-              message={`Password reset email sent! Check your inbox for further instructions`}
-            />
-          ),
-        })
+        CustomMessage(
+          "success",
+          "Password reset email sent! Check your inbox for further instructions"
+        )
       })
       .catch(error => {
-        message.error({
-          content: <Message message={`Error: ${error.message}`} />,
-        })
+        CustomMessage("error", error.message)
       })
       .finally(() => setIsSubmitting(false))
   }

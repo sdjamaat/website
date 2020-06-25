@@ -3,15 +3,7 @@ import { Form, Input, InputNumber, Button, Card, message, Spin } from "antd"
 import { onFinishFailed } from "../../functions/forms"
 import firebase from "gatsby-plugin-firebase"
 import styled from "styled-components"
-
-const SuccessSubmit = () => {
-  return (
-    <div style={{ paddingTop: "10px" }}>
-      Successfully submitted information! <br /> Check your email for a
-      confirmation message.
-    </div>
-  )
-}
+import { CustomMessage } from "../custom-message"
 
 const Contact = () => {
   const [form] = Form.useForm()
@@ -31,14 +23,13 @@ const Contact = () => {
       })
       .then(docRef => {
         form.resetFields()
-        message.success({
-          content: <SuccessSubmit />,
-          key: 1,
-          duration: 5,
-        })
+        CustomMessage(
+          "success",
+          "Successfully submitted information! Check your email for a confirmation message"
+        )
       })
       .catch(error => {
-        message.error("Error submitting contact form")
+        CustomMessage("error", "Could not submit contact form")
       })
       .finally(() => setIsSubmitting(false))
   }
