@@ -53,7 +53,9 @@ const Navigation = ({ logo }) => {
             )}
             {isLoggedIn && currUser !== null && (
               <NavDropdown
-                title={currUser.firstname}
+                title={`${
+                  currUser.title !== "None" ? currUser.title + " " : ""
+                }${currUser.firstname}`}
                 alignRight
                 id="basic-nav-dropdown"
                 className="navlink"

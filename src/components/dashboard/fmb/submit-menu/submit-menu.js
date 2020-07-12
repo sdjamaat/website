@@ -91,32 +91,33 @@ const SubmitFMBMenu = () => {
     }
   }
 
-  const getCurrentlyActiveMenu = async () => {
+  useEffect(() => {
     const fmbYearQuery = firebase
       .firestore()
       .collection("fmb")
       .doc(getHijriDate().year.toString())
-    const activeMenuMonth = (await fmbYearQuery.get()).data().activeMenu
 
-    if (activeMenuMonth !== null) {
-      const activeMenu = (
-        await fmbYearQuery.collection("menus").doc(activeMenuMonth).get()
-      ).data()
-      const completedSubmissions = activeMenu.submissions
+    fmbYearQuery.onSnapshot(doc => {
+      const activeMenuMonth = doc.data().activeMenu
+      if (activeMenuMonth !== null) {
+        fmbYearQuery
+          .collection("menus")
+          .doc(activeMenuMonth)
+          .onSnapshot(doc => {
+            const activeMenu = doc.data()
+            const completedSubmissions = activeMenu.submissions
 
-      // check if user has already submitted current menu
-      if (completedSubmissions.includes(currUser.familyid)) {
-        setHasAlreadySubmitted(true)
+            // check if user has already submitted current menu
+            if (completedSubmissions.includes(currUser.familyid)) {
+              setHasAlreadySubmitted(true)
+            }
+            setActiveMenu({ ...activeMenu, shortMonthName: activeMenuMonth })
+          })
+      } else {
+        setActiveMenu([])
       }
-      setActiveMenu({ ...activeMenu, shortMonthName: activeMenuMonth })
-    } else {
-      setActiveMenu([])
-    }
-  }
-
-  useEffect(() => {
-    getCurrentlyActiveMenu()
-  }, [refreshComponent])
+    })
+  }, [])
 
   return (
     <SubmitFMBMenuWrapper>

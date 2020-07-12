@@ -1,13 +1,13 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { Form, Input, Button, InputNumber, Tag, Select, message } from "antd"
+import { Form, Input, Button, InputNumber, Tag, Select } from "antd"
 import { onFinishFailed } from "../../functions/forms"
 import CustomMessage from "../custom-message"
 const { Option } = Select
 
 const FamilyDetails = ({ layout, setStep, values, setValues }) => {
   const [form] = Form.useForm()
-  const [fmbStatus, setFMBStatus] = useState(values.fmbcode || "Not enrolled")
+
   const onFinish = values => {
     setValues({ ...values })
     if (values.size <= 0) {
@@ -19,17 +19,17 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
     }
   }
 
-  const onFMBStatusChange = value => {
-    setFMBStatus(value)
-  }
-
   return (
     <FamilyDetailsWrapper>
       <div style={{ textAlign: "center" }}>
         <Tag
           className="float-center"
           color="geekblue"
-          style={{ fontSize: "1.1rem", padding: ".3rem", marginBottom: "1rem" }}
+          style={{
+            fontSize: "1.1rem",
+            padding: ".3rem",
+            marginBottom: "1.5rem",
+          }}
         >
           Family Details
         </Tag>
@@ -97,38 +97,6 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
           <InputNumber style={{ width: "100%" }} />
         </Form.Item>
 
-        <Form.Item
-          label="Faiz-ul-Mawaid status"
-          name="fmbstatus"
-          rules={[
-            {
-              required: true,
-              message: "Please input your Faiz-ul-Mawaid status",
-            },
-          ]}
-        >
-          <Select onChange={val => onFMBStatusChange(val)}>
-            <Option value="Not enrolled">Not enrolled</Option>
-            <Option value="Full">Enrolled - Full thaali</Option>
-            <Option value="Half">Enrolled - Half thaali</Option>
-            <Option value="Barakati">Enrolled - Barakati thaali</Option>
-          </Select>
-        </Form.Item>
-
-        {fmbStatus !== "Not enrolled" && (
-          <Form.Item
-            label="Faiz-ul-Mawaid family code"
-            name="fmbcode"
-            rules={[
-              {
-                required: true,
-                message: "Please input your Faiz-ul-Mawaid code",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        )}
         <Form.Item>
           <Button
             onClick={() => setStep("personal-details")}

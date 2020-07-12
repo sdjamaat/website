@@ -71,7 +71,7 @@ const ReviewDetails = ({
             {personalDetails.othertitles.length === 0 && "None"}
           </li>
 
-          <li>YOB: {personalDetails.yob.format("YYYY")}</li>
+          <li>YoB: {personalDetails.yob.format("YYYY")}</li>
           <li>Phone: {personalDetails.phone}</li>
         </ul>
       </Card>
@@ -89,15 +89,6 @@ const ReviewDetails = ({
             <li>Address street: {familyDetails.address.street}</li>
             <li>City: {familyDetails.address.city}</li>
             <li>Zip: {familyDetails.address.zip}</li>
-            <li>
-              Faiz-ul-Mawaid status:{" "}
-              {familyDetails.fmbstatus !== "Not enrolled"
-                ? `Enrolled - ${familyDetails.fmbstatus} thaali`
-                : "Not enrolled"}
-            </li>
-            {familyDetails.fmbstatus !== "Not enrolled" ? (
-              <li> Faiz-ul-Mawaid family code: {familyDetails.fmbcode}</li>
-            ) : null}
           </ul>
         </Card>
       )}
@@ -132,7 +123,7 @@ const ReviewDetails = ({
                     <ul>
                       <li>First name: {member.firstname}</li>
                       <li>Last name: {member.lastname}</li>
-                      <li>YOB: {member.yob.format("YYYY")}</li>
+                      <li>YoB: {member.yob.format("YYYY")}</li>
                       <li>ITS #: {member.its ? member.its : "None"}</li>
                     </ul>
                   </Card>

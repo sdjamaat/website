@@ -38,7 +38,7 @@ const FamilyMemberInfoForm = ({ index }) => {
         </Form.Item>
 
         <Form.Item
-          label={`YOB`}
+          label={`YoB`}
           name={["members", index, "yob"]}
           rules={[
             {
@@ -92,7 +92,7 @@ const FamilyMemberDetails = ({
           style={{
             fontSize: "1.1rem",
             padding: ".3rem",
-            marginBottom: "1rem",
+            marginBottom: "1.5rem",
           }}
         >
           Other Family Member Details

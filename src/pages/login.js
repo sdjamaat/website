@@ -32,7 +32,6 @@ const getAndSetUserInformation = async (uid, localEncryptedStore) => {
           email: userInfo.email,
           familyid: userInfo.familyid,
           its: userInfo.its,
-          permissions: userInfo.permissions,
           phone: userInfo.phone,
           title: userInfo.title,
           yob: userInfo.yob,
@@ -64,7 +63,7 @@ const LoginForm = () => {
 
   useComponentWillMount(() => {
     if (isLoggedIn) {
-      navigate("/auth/profile")
+      navigate("/auth/dashboard")
     }
   })
   const [form] = Form.useForm()
@@ -87,7 +86,7 @@ const LoginForm = () => {
           if (isUser) {
             setIsLoggedIn(true)
             setCurrUser(localEncryptedStore.get("authUser"))
-            navigate("/auth/profile")
+            navigate("/auth/dashboard")
           } else {
             throw { message: "Unauthorized" }
           }

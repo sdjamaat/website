@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useContext, useCallback } from "react"
 import { Menu, Divider, Select, Form } from "antd"
 import { Row, Col } from "react-bootstrap"
 import useWindowDimensions from "../../custom-hooks/window-dimentions"
@@ -6,6 +6,7 @@ import styled from "styled-components"
 import Calendar from "../dashboard/fmb/calendar/menu-calendar"
 import SubmitFMBMenu from "../dashboard/fmb/submit-menu/submit-menu"
 import Profile from "../dashboard/profile/profile"
+import { AuthContext } from "../../provider/auth-context"
 import StickyBox from "react-sticky-box"
 
 const { SubMenu } = Menu
@@ -17,6 +18,8 @@ const DashboardMenu = ({
   currMenuItem,
 }) => {
   const { width } = useWindowDimensions()
+
+  const { currUser } = useContext(AuthContext)
 
   const [currMenuKey, setCurrMenuKey] = useState([])
 
@@ -37,7 +40,9 @@ const DashboardMenu = ({
 
         <SubMenu key="fmb" title="Faiz-ul-Mawaid">
           <Menu.Item key="fmb-calendar">Menu Calendar</Menu.Item>
-          <Menu.Item key="fmb-submit-menu">Submit Thaali Choices</Menu.Item>
+          {currUser.family.fmb.enrolled && (
+            <Menu.Item key="fmb-submit-menu">Submit Thaali Choices</Menu.Item>
+          )}
         </SubMenu>
       </Menu>
     )
@@ -64,9 +69,11 @@ const DashboardMenu = ({
 
                   <OptGroup label="Faiz-ul-Mawaid">
                     <Option value="fmb-calendar">Menu Calendar</Option>
-                    <Option value="fmb-submit-menu">
-                      Submit Thaali Choices
-                    </Option>
+                    {currUser.family.fmb.enrolled && (
+                      <Option value="fmb-submit-menu">
+                        Submit Thaali Choices
+                      </Option>
+                    )}
                   </OptGroup>
                 </Select>
               </Form.Item>

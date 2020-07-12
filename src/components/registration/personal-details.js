@@ -61,7 +61,7 @@ const PersonalDetails = ({
         </Form.Item>
 
         <Form.Item
-          label="YOB:"
+          label="YoB:"
           name="yob"
           rules={[{ required: true, message: "Please input your YOB" }]}
         >

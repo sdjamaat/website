@@ -80,7 +80,6 @@ export default () => {
       city: null,
       zip: null,
     },
-    fmbstatus: null,
   })
 
   const [familyMemberDetails, setFamilyMemberDetails] = useState({
@@ -229,22 +228,13 @@ export default () => {
       },
       displayname: `${accountDetails.lastname} Family (${accountDetails.firstname})`,
       fmb: {
-        code:
-          familyDetails.fmbstatus !== "Not enrolled"
-            ? familyDetails.fmbcode
-            : `${accountDetails.firstname
-                .charAt(0)
-                .toUpperCase()}${accountDetails.lastname
-                .charAt(0)
-                .toUpperCase()}`,
-        enrolled: fmbstatus !== "Not enrolled" ? true : false,
-        defaultsize: `${fmbstatus !== "Not enrolled" ? fmbstatus : "None"}`,
+        code: null,
+        enrolled: false,
+        thaaliSize: null,
       },
       familyid: familyid,
     }
-    if (familyDetails.fmbstatus !== "Not enrolled") {
-      delete newFamilyDetails.fmbcode
-    }
+
     return newFamilyDetails
   }
 
@@ -274,7 +264,6 @@ export default () => {
       ...restOfAccountDetails,
       ...restOfPersonalDetails,
       yob: yob.format("YYYY"),
-      permissions: { admin: false },
       familyid: familyid,
     }
 
