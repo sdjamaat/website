@@ -20,6 +20,11 @@ const getAndSetUserInformation = async (uid, localEncryptedStore) => {
     if (doc.exists) {
       const userInfo = doc.data()
       if (!userInfo.admin) {
+        const familyInfo = await firebase
+          .firestore()
+          .collection("families")
+          .doc(userInfo.familyid)
+          .get()
         localEncryptedStore.set("authUser", {
           uid: uid,
           firstname: userInfo.firstname,
@@ -30,6 +35,10 @@ const getAndSetUserInformation = async (uid, localEncryptedStore) => {
           permissions: userInfo.permissions,
           phone: userInfo.phone,
           title: userInfo.title,
+          yob: userInfo.yob,
+          family: {
+            ...familyInfo.data(),
+          },
         })
       } else {
         return false

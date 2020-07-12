@@ -121,7 +121,7 @@ const SubmitFMBMenu = () => {
   return (
     <SubmitFMBMenuWrapper>
       <Card
-        title="Submit Menu"
+        title="Submit Thaali Choices"
         headStyle={{ fontSize: "1.5rem", textAlign: "center" }}
       >
         {hasAlreadySubmitted && (

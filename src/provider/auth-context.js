@@ -77,18 +77,28 @@ export const AuthProvider = ({ children }) => {
             if (doc.exists) {
               const userInfo = doc.data()
               if (!userInfo.admin) {
-                localEncryptedStore.set("authUser", {
-                  uid: userInfo.uid,
-                  firstname: userInfo.firstname,
-                  lastname: userInfo.lastname,
-                  email: userInfo.email,
-                  familyid: userInfo.familyid,
-                  its: userInfo.its,
-                  permissions: userInfo.permissions,
-                  phone: userInfo.phone,
-                  title: userInfo.title,
-                })
-                setCurrUser(localEncryptedStore.get("authUser"))
+                firebase
+                  .firestore()
+                  .collection("families")
+                  .doc(userInfo.familyid)
+                  .onSnapshot(doc => {
+                    localEncryptedStore.set("authUser", {
+                      uid: userInfo.uid,
+                      firstname: userInfo.firstname,
+                      lastname: userInfo.lastname,
+                      email: userInfo.email,
+                      familyid: userInfo.familyid,
+                      its: userInfo.its,
+                      permissions: userInfo.permissions,
+                      phone: userInfo.phone,
+                      title: userInfo.title,
+                      yob: userInfo.yob,
+                      family: {
+                        ...doc.data(),
+                      },
+                    })
+                    setCurrUser(localEncryptedStore.get("authUser"))
+                  })
               } else {
                 signOut()
               }

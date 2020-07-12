@@ -5,14 +5,11 @@ import useWindowDimensions from "../../custom-hooks/window-dimentions"
 import styled from "styled-components"
 import Calendar from "../dashboard/fmb/calendar/menu-calendar"
 import SubmitFMBMenu from "../dashboard/fmb/submit-menu/submit-menu"
+import Profile from "../dashboard/profile/profile"
 import StickyBox from "react-sticky-box"
 
 const { SubMenu } = Menu
 const { Option, OptGroup } = Select
-
-const UserProfile = () => {
-  return <div>This is the panel where users can manage their profile.</div>
-}
 
 const DashboardMenu = ({
   handleChangePageDesktop,
@@ -40,7 +37,7 @@ const DashboardMenu = ({
 
         <SubMenu key="fmb" title="Faiz-ul-Mawaid">
           <Menu.Item key="fmb-calendar">Menu Calendar</Menu.Item>
-          <Menu.Item key="fmb-submit-menu">Submit Menu</Menu.Item>
+          <Menu.Item key="fmb-submit-menu">Submit Thaali Choices</Menu.Item>
         </SubMenu>
       </Menu>
     )
@@ -67,7 +64,9 @@ const DashboardMenu = ({
 
                   <OptGroup label="Faiz-ul-Mawaid">
                     <Option value="fmb-calendar">Menu Calendar</Option>
-                    <Option value="fmb-submit-menu">Submit Menu</Option>
+                    <Option value="fmb-submit-menu">
+                      Submit Thaali Choices
+                    </Option>
                   </OptGroup>
                 </Select>
               </Form.Item>
@@ -107,7 +106,7 @@ const Dashboard = () => {
       case "fmb-submit-menu":
         return <SubmitFMBMenu />
       case "profile":
-        return <UserProfile />
+        return <Profile />
       default:
         return <div>Welcome to the Admin Panel</div>
     }

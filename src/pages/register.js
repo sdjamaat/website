@@ -207,7 +207,7 @@ export default () => {
     return newFamilyMemberArray
   }
 
-  const getFormattedFamilyDetails = (familyid, uid) => {
+  const getFormattedFamilyDetails = (familyid, uid, headOfFamilYOB) => {
     let newFamilyMemberArray = cloneDeep(familyMemberDetails.members)
     newFamilyMemberArray.shift()
     for (let member of newFamilyMemberArray) {
@@ -223,6 +223,7 @@ export default () => {
         firstname: accountDetails.firstname,
         lastname: accountDetails.lastname,
         its: accountDetails.its,
+        yob: headOfFamilYOB,
         email: accountDetails.email,
         uid: uid,
       },
@@ -291,7 +292,9 @@ export default () => {
       })
       .then(uid => {
         if (accountDetails.familyhead) {
-          writeFamilyData(getFormattedFamilyDetails(familyid, uid))
+          writeFamilyData(
+            getFormattedFamilyDetails(familyid, uid, metadata.yob)
+          )
         } else {
           updateFamilyMemberInfo(
             familyid,
