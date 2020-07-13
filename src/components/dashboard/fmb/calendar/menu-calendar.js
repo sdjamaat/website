@@ -44,7 +44,7 @@ const FMBCalendar = () => {
       )
 
       if (getMatchingItemArr.length > 0) {
-        matchingItem = getMatchingItemArr[0].name
+        matchingItem = getMatchingItemArr[0]
       }
     }
     return matchingItem
@@ -61,7 +61,7 @@ const FMBCalendar = () => {
       ...menuModalDetails,
       englishDisplay: englishDisplay,
       hijriDisplay: hijriDisplay,
-      item: matchingItem,
+      item: matchingItem ? { ...matchingItem } : null,
       open: true,
     })
   }
@@ -77,10 +77,19 @@ const FMBCalendar = () => {
     const matchingItem = getMatchingItemForDate(dateValue)
     if (matchingItem === null) {
       return null
-    } else if (matchingItem === "None") {
-      return <Badge status="warning" text="No Thaali" />
+    } else if (matchingItem.nothaali) {
+      return (
+        <Badge
+          status="warning"
+          text={
+            matchingItem.reasonNoThaali
+              ? `No Thaali (${matchingItem.reasonNoThaali})`
+              : "No Thaali"
+          }
+        />
+      )
     } else {
-      return <Badge color="blue" text={matchingItem} />
+      return <Badge color="blue" text={matchingItem.name} />
     }
   }
 
@@ -114,15 +123,22 @@ const FMBCalendar = () => {
             : ""}
         </div>
         <div style={{ fontSize: "1.3rem" }}>
-          {menuModalDetails.item !== null &&
-          menuModalDetails.item !== "None" ? (
-            <Alert type="info" message={menuModalDetails.item} />
+          {menuModalDetails.item !== null && menuModalDetails.item.nothaali ? (
+            <Alert
+              type="warning"
+              message={
+                menuModalDetails.item.reasonNoThaali
+                  ? `No Thaali (${menuModalDetails.item.reasonNoThaali})`
+                  : "No Thaali"
+              }
+            />
           ) : (
             ""
           )}
+
           {menuModalDetails.item !== null &&
-            menuModalDetails.item === "None" && (
-              <Alert type="warning" message="No Thaali" />
+            !menuModalDetails.item.nothaali && (
+              <Alert type="info" message={menuModalDetails.item.name} />
             )}
         </div>
       </Modal>
