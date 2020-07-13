@@ -24,7 +24,7 @@ const Profile = () => {
                 {currUser.firstname}
               </Descriptions.Item>
               <Descriptions.Item label="Last name">
-                {currUser.firstname}
+                {currUser.lastname}
               </Descriptions.Item>
               <Descriptions.Item label="Email">
                 {currUser.email}
