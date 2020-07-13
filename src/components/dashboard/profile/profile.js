@@ -93,34 +93,17 @@ const Profile = () => {
                   <Descriptions.Item label="Address">
                     {currUser.family.address.street}
                   </Descriptions.Item>
+                  <Descriptions.Item label="City">
+                    {currUser.family.address.city}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Zip">
+                    {currUser.family.address.zip}
+                  </Descriptions.Item>
                   <Descriptions.Item label="Move Status">
                     {currUser.family.movestatus}
                   </Descriptions.Item>
                   <Descriptions.Item label="Size">
                     {currUser.family.size}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Faiz-ul-Mawaid">
-                    {currUser.family.fmb.enrolled ? (
-                      "Taking thaali barakat"
-                    ) : (
-                      <div>
-                        Not taking thaali
-                        <br />{" "}
-                        <div style={{ fontSize: "1rem", paddingTop: ".5rem" }}>
-                          If you would like to recieve Faiz-ul-Mawaid thaali
-                          barakat, please contact Aliasgar or Zahra Presswala.
-                          You can also email
-                          <a
-                            href="mailto:faizulmawaidilburhaniyah.sd@gmail.com"
-                            target="__blank"
-                            style={{ color: "#4169e1" }}
-                          >
-                            {" "}
-                            faizulmawaidilburhaniyah.sd@gmail.com.
-                          </a>
-                        </div>
-                      </div>
-                    )}
                   </Descriptions.Item>
                 </Descriptions>
               </Col>

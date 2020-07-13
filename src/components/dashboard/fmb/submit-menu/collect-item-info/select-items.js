@@ -1,8 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { Form, Button, Tag, Select, Radio, Divider } from "antd"
 import { Row, Col } from "react-bootstrap"
 import { onFinishFailed } from "../../../../../functions/forms"
 import styled from "styled-components"
+import { AuthContext } from "../../../../../provider/auth-context"
 const moment = require("moment")
 const { Option } = Select
 
@@ -13,6 +14,33 @@ const layout = {
 
 const SelectItems = ({ setPanel, items, values, setValues }) => {
   const [selectItemsForm] = Form.useForm()
+
+  const { currUser } = useContext(AuthContext)
+
+  const userFamilyThaaliSize = currUser.family.fmb.thaaliSize
+
+  const canSelectGivenThaaliSize = thaaliSize => {
+    if (
+      userFamilyThaaliSize === "Full" &&
+      (thaaliSize === "Full" ||
+        thaaliSize === "Half" ||
+        thaaliSize === "Barakati")
+    ) {
+      return true
+    } else if (
+      userFamilyThaaliSize === "Half" &&
+      (thaaliSize === "Half" || thaaliSize === "Barakati")
+    ) {
+      return true
+    } else if (
+      userFamilyThaaliSize === "Barakati" &&
+      thaaliSize === "Barakati"
+    ) {
+      return true
+    }
+
+    return false
+  }
 
   const onFinish = values => {
     setValues(values)
@@ -72,9 +100,16 @@ const SelectItems = ({ setPanel, items, values, setValues }) => {
         <Form.Item name="select-toggle" label="Toggle size (for all items)">
           <Radio.Group onChange={event => onSelectToggleChange(event)}>
             <Radio value="individual">Individual selection</Radio>
-            <Radio value="Full">Full</Radio>
-            <Radio value="Half">Half</Radio>
-            <Radio value="Barakati">Barakati</Radio>
+            {canSelectGivenThaaliSize("Full") && (
+              <Radio value="Full">Full</Radio>
+            )}
+            {canSelectGivenThaaliSize("Half") && (
+              <Radio value="Half">Half</Radio>
+            )}
+            {canSelectGivenThaaliSize("Barakati") && (
+              <Radio value="Barakati">Barakati</Radio>
+            )}
+
             <Radio value="No Thaali">No Thaali</Radio>
           </Radio.Group>
         </Form.Item>
@@ -104,9 +139,15 @@ const SelectItems = ({ setPanel, items, values, setValues }) => {
                   ]}
                 >
                   <Select style={{ width: "100%" }}>
-                    <Option value="Full">Full</Option>
-                    <Option value="Half">Half</Option>
-                    <Option value="Barakati">Barakati</Option>
+                    {canSelectGivenThaaliSize("Full") && (
+                      <Option value="Full">Full</Option>
+                    )}
+                    {canSelectGivenThaaliSize("Half") && (
+                      <Option value="Half">Half</Option>
+                    )}
+                    {canSelectGivenThaaliSize("Barakati") && (
+                      <Option value="Barakati">Barakati</Option>
+                    )}
                     <Option value="No Thaali">No Thaali</Option>
                   </Select>
                 </Form.Item>
