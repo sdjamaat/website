@@ -41,6 +41,7 @@ const SubmitFMBMenu = () => {
             lastname: currUser.lastname,
             uid: currUser.uid,
           },
+          code: currUser.family.fmb.code,
         })
 
       // put family id in submissions array to track already submitted values
@@ -49,10 +50,11 @@ const SubmitFMBMenu = () => {
           currUser.familyid
         ),
       })
-      CustomMessage("success", "Successfully submitted menu preferences!")
+      CustomMessage("success", "Successfully submitted thaali preferences!")
       setRefreshComponent(!refreshComponent)
       setPanel("start")
     } catch (error) {
+      CustomMessage("error", "Could not submit thaali preferences")
       console.log(error)
     }
   }
