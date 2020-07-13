@@ -42,6 +42,7 @@ const SubmitFMBMenu = () => {
             uid: currUser.uid,
           },
           code: currUser.family.fmb.code,
+          familyDisplayName: currUser.family.displayname,
         })
 
       // put family id in submissions array to track already submitted values
