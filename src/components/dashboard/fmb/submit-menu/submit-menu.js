@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
-import { Card, Alert } from "antd"
+import { Card, Alert, Spin, Collapse, Divider } from "antd"
 import { DateContext } from "../../../../provider/date-context"
 import { AuthContext } from "../../../../provider/auth-context"
 import CustomMessage from "../../../custom-message"
@@ -8,11 +8,15 @@ import styled from "styled-components"
 import StartPanel from "./collect-item-info/start-panel"
 import ReviewSelections from "./collect-item-info/review-selections"
 import SelectItems from "./collect-item-info/select-items"
+import moment from "moment"
+
+const { Panel } = Collapse
 
 const SubmitFMBMenu = () => {
   const { getHijriDate } = useContext(DateContext)
   const { currUser } = useContext(AuthContext)
   const [activeMenu, setActiveMenu] = useState(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [selections, setSelections] = useState({
     "select-toggle": "individual",
   })
@@ -20,8 +24,10 @@ const SubmitFMBMenu = () => {
   const [panel, setPanel] = useState("start")
   const [refreshComponent, setRefreshComponent] = useState(false)
   const [hasAlreadySubmitted, setHasAlreadySubmitted] = useState(false)
+  const [alreadySubmittedItemsDoc, setAlreadySubmittedItemsDoc] = useState({})
 
   const submitSelections = async () => {
+    setIsSubmitting(true)
     try {
       const monthMenuQuery = firebase
         .firestore()
@@ -51,10 +57,13 @@ const SubmitFMBMenu = () => {
           currUser.familyid
         ),
       })
+
       CustomMessage("success", "Successfully submitted thaali preferences!")
       setRefreshComponent(!refreshComponent)
+      setIsSubmitting(false)
       setPanel("start")
     } catch (error) {
+      setIsSubmitting(false)
       CustomMessage("error", "Could not submit thaali preferences")
       console.log(error)
     }
@@ -106,18 +115,25 @@ const SubmitFMBMenu = () => {
         fmbYearQuery
           .collection("menus")
           .doc(activeMenuMonth)
-          .onSnapshot(doc => {
+          .onSnapshot(async doc => {
             const activeMenu = doc.data()
             const completedSubmissions = activeMenu.submissions
 
             // check if user has already submitted current menu
             if (completedSubmissions.includes(currUser.familyid)) {
+              const alreadySubmittedItemsDoc = await fmbYearQuery
+                .collection("menus")
+                .doc(activeMenuMonth)
+                .collection("submissions")
+                .doc(currUser.familyid)
+                .get()
+              setAlreadySubmittedItemsDoc(alreadySubmittedItemsDoc.data())
               setHasAlreadySubmitted(true)
             }
             setActiveMenu({ ...activeMenu, shortMonthName: activeMenuMonth })
           })
       } else {
-        setActiveMenu([])
+        setActiveMenu(-1)
       }
     })
   }, [])
@@ -128,23 +144,92 @@ const SubmitFMBMenu = () => {
         title="Submit Thaali Choices"
         headStyle={{ fontSize: "1.5rem", textAlign: "center" }}
       >
-        {hasAlreadySubmitted && (
-          <Alert
-            style={{ marginBottom: "1rem" }}
-            type="success"
-            message="Your family's thaali preferences for the next month have been recorded"
-          />
+        {hasAlreadySubmitted && activeMenu !== null && activeMenu !== -1 && (
+          <>
+            <Alert
+              style={{ marginBottom: "1rem" }}
+              type="success"
+              message="Your family's thaali preferences for the next month have been recorded"
+            />
+            <Collapse style={{ marginTop: "-.5rem" }}>
+              <Panel header="Selections" key="1">
+                <div
+                  style={{
+                    textAlign: "center",
+                    paddingBottom: "1.3rem",
+                    paddingTop: ".5rem",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  <strong>Submitted by:</strong>{" "}
+                  {alreadySubmittedItemsDoc.submittedBy.firstname}{" "}
+                  {alreadySubmittedItemsDoc.submittedBy.lastname}{" "}
+                </div>
+                <div style={{ paddingLeft: ".4rem" }}>
+                  {activeMenu.items.map((item, index) => {
+                    if (!item.nothaali) {
+                      return (
+                        <div
+                          key={index}
+                          style={{
+                            borderLeft: "1px solid gray",
+                            paddingLeft: "1rem",
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontSize: "1.2rem",
+                              paddingBottom: ".7rem",
+                            }}
+                          >
+                            {item.name}
+                          </div>
+                          <p
+                            style={{
+                              marginBottom: ".2rem",
+                              marginTop: "-.5rem",
+                              color: "gray",
+                            }}
+                          >
+                            {moment(item.date, "MM-DD-YYYY").format(
+                              "dddd, MMMM Do YYYY"
+                            )}
+                          </p>
+                          <p
+                            style={{
+                              color: "gray",
+                              paddingBottom: ".2rem",
+                            }}
+                          >
+                            Size:{" "}
+                            {alreadySubmittedItemsDoc.selections.hasOwnProperty(
+                              item.id
+                            )
+                              ? alreadySubmittedItemsDoc.selections[item.id]
+                              : "Not Found"}
+                          </p>
+                        </div>
+                      )
+                    } else {
+                      return null
+                    }
+                  })}
+                </div>
+              </Panel>
+            </Collapse>
+            <Divider style={{ marginTop: "1rem", marginBottom: "1rem" }} />
+          </>
         )}
         <div>
           {activeMenu === null ? (
             <div>Loading...</div>
-          ) : activeMenu.length === 0 ? (
+          ) : activeMenu === -1 ? (
             <Alert
               type="warning"
               message="There are no menus open for submission"
             />
           ) : (
-            getCurrPage(panel)
+            <Spin spinning={isSubmitting}>{getCurrPage(panel)}</Spin>
           )}
         </div>
       </Card>
@@ -155,6 +240,11 @@ const SubmitFMBMenu = () => {
 const SubmitFMBMenuWrapper = styled.div`
   max-width: 1000px;
   margin: auto;
+
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+  }
   .next-btn {
     padding-top: 0.2rem;
     padding-bottom: 2.2rem;
