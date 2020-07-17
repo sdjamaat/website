@@ -59,7 +59,14 @@ const WelcomeAbout = () => {
                 Al-Mutlaq, Syedna Aali Qadr Mufaddal Saifuddin (TUS).
                 Anjuman-e-Mohammedi is a non-profit organization administering
                 and managing the affairs of the local Dawoodi Bohra community in
-                San Diego, CA.
+                San Diego, California.{" "}
+                <a
+                  href="https://usa.thedawoodibohras.com/san-diego/"
+                  target="__blank"
+                  style={{ color: "#4169e1" }}
+                >
+                  Learn more
+                </a>
               </h6>
             </Card>
           </Col>

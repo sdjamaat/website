@@ -6,8 +6,8 @@ const data = [
   {
     title: "The Dawoodi Bohras",
     description:
-      "A comprehensive website about history and culture of the Dawoodi Bohra community",
-    link: "https://thedawoodibohras.com/",
+      "A comprehensive website about the history & culture of the Dawoodi Bohra community",
+    link: "https://usa.thedawoodibohras.com/",
   },
   {
     title: "Mumineen.org",
