@@ -102,7 +102,7 @@ const Profile = () => {
                   <Descriptions.Item label="Move Status">
                     {currUser.family.movestatus}
                   </Descriptions.Item>
-                  <Descriptions.Item label="Size">
+                  <Descriptions.Item label="Family Size">
                     {currUser.family.size}
                   </Descriptions.Item>
                 </Descriptions>
