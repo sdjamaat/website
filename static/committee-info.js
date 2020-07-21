@@ -76,6 +76,10 @@ const madresa = {
       role: "Head Teacher",
     },
     {
+      name: "Fatema Doctor",
+      role: "Teacher",
+    },
+    {
       name: "Rashida Kurawadwala",
       role: "Teacher",
     },
@@ -85,10 +89,6 @@ const madresa = {
     },
     {
       name: "Arva Rashid",
-      role: "Teacher",
-    },
-    {
-      name: "Fatema Doctor",
       role: "Teacher",
     },
   ],
@@ -219,6 +219,14 @@ const qardan = {
       name: "Mustafa Lukmani",
       role: "Treasurer",
     },
+    {
+      name: "Shk. Aliasgar Taquee",
+      role: "Member",
+    },
+    {
+      name: "Quaidzoher Dhilla",
+      role: "Member",
+    },
   ],
 }
 
@@ -232,7 +240,7 @@ const website = {
   ],
 }
 
-const committes = [
+const committees = [
   boardOfDirectors,
   madresa,
   shabab,
@@ -244,4 +252,4 @@ const committes = [
   website,
 ]
 
-exports.committes = committes
+exports.committees = committees

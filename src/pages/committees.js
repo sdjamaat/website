@@ -1,8 +1,10 @@
-import React from "react"
-import { Table, Card, Divider } from "antd"
+import React, { useContext } from "react"
+import { Link } from "gatsby"
+import { Table, Card, Divider, Alert } from "antd"
 import styled from "styled-components"
-import { committes } from "../../static/committee-info"
+import { committees } from "../../static/committee-info"
 import Layout from "../components/layout"
+import { AuthContext } from "../provider/auth-context"
 
 const CommitteeTable = ({ name, data }) => {
   const columns = [
@@ -54,6 +56,7 @@ const CommitteeTitle = ({ text }) => {
 }
 
 export default () => {
+  const { isLoggedIn } = useContext(AuthContext)
   const formatMembers = members => {
     let newArray = []
     for (let i = 0; i < members.length; i++) {
@@ -74,20 +77,45 @@ export default () => {
             bodyStyle={{ margin: "0", padding: "0" }}
             bordered={false}
           >
-            <Divider>
-              <h2>Committees</h2>
+            <Divider style={{ paddingBottom: ".5rem" }}>
+              <h2 style={{ marginBottom: "0" }}>Committees</h2>
             </Divider>
           </Card>
+          <CommitteeTable
+            name={committees[0].name}
+            data={formatMembers(committees[0].members)}
+          />
 
-          {committes.map((committee, index) => {
-            return (
-              <CommitteeTable
-                key={index}
-                name={committee.name}
-                data={formatMembers(committee.members)}
-              />
-            )
-          })}
+          {isLoggedIn ? (
+            committees.map((committee, index) => {
+              console.log(index)
+              if (index !== 0) {
+                return (
+                  <CommitteeTable
+                    key={index}
+                    name={committee.name}
+                    data={formatMembers(committee.members)}
+                  />
+                )
+              } else {
+                return null
+              }
+            })
+          ) : (
+            <Alert
+              style={{ margin: ".5rem" }}
+              message={
+                <div style={{ textAlign: "center" }}>
+                  Please{" "}
+                  <Link style={{ color: "#4169e1" }} to="/login">
+                    login
+                  </Link>{" "}
+                  to view more information
+                </div>
+              }
+              type="info"
+            />
+          )}
         </div>
       </CommitteesWrapper>
     </Layout>

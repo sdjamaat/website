@@ -16,9 +16,9 @@ const Profile = () => {
       >
         <Row>
           <Col md={12} lg={12}>
-            <h5 style={{ paddingLeft: ".3rem", paddingBottom: ".5rem" }}>
+            <Divider orientation="left" style={{ marginTop: "0" }}>
               Account Details
-            </h5>
+            </Divider>
             <Descriptions layout="vertical" size="small" bordered>
               <Descriptions.Item label="First name">
                 {currUser.firstname}
@@ -39,16 +39,9 @@ const Profile = () => {
             </Descriptions>
           </Col>
 
-          <Col md={12} lg={12}>
-            <h5
-              style={{
-                paddingLeft: ".3rem",
-                marginTop: "2rem",
-                paddingBottom: ".5rem",
-              }}
-            >
-              Family Details
-            </h5>
+          <Col md={12} lg={12} style={{ marginTop: ".5rem" }}>
+            <Divider orientation="left">Family Details</Divider>
+
             <Row>
               <Col sm={12} md={4}>
                 <Timeline style={{ marginTop: ".6rem", paddingLeft: ".5rem" }}>
@@ -118,6 +111,18 @@ const Profile = () => {
 const ProfileWrapper = styled.div`
   max-width: 1000px;
   margin: auto;
+
+  .ant-divider-horizontal.ant-divider-with-text-left::before {
+    width: 0%;
+  }
+
+  .ant-divider-horizontal.ant-divider-with-text-left::after {
+    width: 100%;
+  }
+
+  .ant-divider-inner-text {
+    padding-left: 0.2rem;
+  }
   .next-btn {
     padding-top: 0.2rem;
     padding-bottom: 2.2rem;

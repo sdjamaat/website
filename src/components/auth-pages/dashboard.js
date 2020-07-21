@@ -21,7 +21,7 @@ const DashboardMenu = ({
 
   const { currUser } = useContext(AuthContext)
 
-  const [currMenuKey, setCurrMenuKey] = useState([])
+  const [currMenuKey, setCurrMenuKey] = useState(["fmb"])
 
   const handleMenuOpenClose = value => {
     setCurrMenuKey(value)
