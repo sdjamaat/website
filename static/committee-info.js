@@ -44,8 +44,8 @@ const boardOfDirectors = {
   ],
 }
 
-const madresa = {
-  name: "Madresa Jamaliyah",
+const madrasah = {
+  name: "Madrasah Jamaliyah",
   members: [
     {
       name: "Amil Saheb Shk. Khuzaima Yamani",
@@ -72,23 +72,31 @@ const madresa = {
       role: "Member",
     },
     {
-      name: "Umema Darugar",
+      name: "Umaima Darugar",
       role: "Head Teacher",
-    },
-    {
-      name: "Fatema Doctor",
-      role: "Teacher",
-    },
-    {
-      name: "Rashida Kurawadwala",
-      role: "Teacher",
     },
     {
       name: "M Kutbuddin Doctor",
       role: "Teacher",
     },
     {
-      name: "Arva Rashid",
+      name: "Fatema Doctor",
+      role: "Teacher",
+    },
+    {
+      name: "Aarefa Taquee",
+      role: "Teacher",
+    },
+    {
+      name: "Munira Suterwala",
+      role: "Teacher",
+    },
+    {
+      name: "Rashida Zakir",
+      role: "Teacher",
+    },
+    {
+      name: "Munira Darugar",
       role: "Teacher",
     },
   ],
@@ -242,7 +250,7 @@ const website = {
 
 const committees = [
   boardOfDirectors,
-  madresa,
+  madrasah,
   shabab,
   bwa,
   fmb,
