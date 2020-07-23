@@ -3,7 +3,7 @@ import { Form, Input, InputNumber, Button, Card, message, Spin } from "antd"
 import { onFinishFailed } from "../../functions/forms"
 import firebase from "gatsby-plugin-firebase"
 import styled from "styled-components"
-import { CustomMessage } from "../custom-message"
+import CustomMessage from "../custom-message"
 
 const Contact = () => {
   const [form] = Form.useForm()

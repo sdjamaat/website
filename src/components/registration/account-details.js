@@ -7,7 +7,10 @@ const { Option } = Select
 const AccountDetails = ({ layout, setStep, values, setValues }) => {
   const [form] = Form.useForm()
 
-  const onFinish = values => {
+  const onFinish = async values => {
+    values.firstname = values.firstname.trim()
+    values.lastname = values.lastname.trim()
+    values.email = values.email.trim()
     setValues({ ...values })
     setStep("personal-details")
   }

@@ -71,6 +71,12 @@ const FamilyMemberDetails = ({
   const [form] = Form.useForm()
 
   const onFinish = values => {
+    for (let member of values.members) {
+      if (member) {
+        member.firstname = member.firstname.trim()
+        member.lastname = member.lastname.trim()
+      }
+    }
     setValues(values)
     setStep("review")
   }

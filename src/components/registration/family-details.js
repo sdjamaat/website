@@ -9,6 +9,8 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
   const [form] = Form.useForm()
 
   const onFinish = values => {
+    values.address.street = values.address.street.trim()
+    values.address.city = values.address.city.trim()
     setValues({ ...values })
     if (values.size <= 0) {
       CustomMessage("error", "Family size cannot be 0 or less")
@@ -44,7 +46,7 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
         layout="vertical"
       >
         <Form.Item
-          label="# of Members in household (including you)"
+          label="Number of family members in household (including you)"
           name="size"
           rules={[
             {

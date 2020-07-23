@@ -115,7 +115,7 @@ const ReviewDetails = ({
                   >
                     <p
                       style={{
-                        paddingLeft: "1rem",
+                        textAlign: "center",
                         fontWeight: "bold",
                         marginBottom: ".5rem",
                       }}
