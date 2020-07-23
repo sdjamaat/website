@@ -57,9 +57,14 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
         </Form.Item>
 
         <Form.Item
-          label="Move status"
-          name="movestatus"
-          rules={[{ required: true, message: "Please input your move status" }]}
+          label="Jamaat registration status:"
+          name="registrationStatus"
+          rules={[
+            {
+              required: true,
+              message: "Please input your registration status",
+            },
+          ]}
         >
           <Select>
             <Option value="Temporary">Temporary</Option>

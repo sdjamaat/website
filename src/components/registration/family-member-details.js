@@ -12,7 +12,7 @@ const FamilyMemberInfoForm = ({ index }) => {
         style={{ marginBottom: "1rem" }}
       >
         <Form.Item
-          label={`First name`}
+          label={`First name:`}
           name={["members", index, "firstname"]}
           rules={[
             {
@@ -25,7 +25,7 @@ const FamilyMemberInfoForm = ({ index }) => {
         </Form.Item>
 
         <Form.Item
-          label={`Last name`}
+          label={`Last name:`}
           name={["members", index, "lastname"]}
           rules={[
             {
@@ -38,7 +38,7 @@ const FamilyMemberInfoForm = ({ index }) => {
         </Form.Item>
 
         <Form.Item
-          label={`YoB`}
+          label={`Year of birth:`}
           name={["members", index, "yob"]}
           rules={[
             {

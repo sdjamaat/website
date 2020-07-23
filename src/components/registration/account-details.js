@@ -105,7 +105,7 @@ const AccountDetails = ({ layout, setStep, values, setValues }) => {
         </Form.Item>
 
         <Form.Item
-          label="Password"
+          label="Password:"
           name="password"
           rules={[
             { required: true, message: "Please input your password" },
@@ -126,7 +126,7 @@ const AccountDetails = ({ layout, setStep, values, setValues }) => {
         </Form.Item>
 
         <Form.Item
-          label="Confirm password"
+          label="Confirm password:"
           name="confirmpassword"
           dependencies={["password"]}
           rules={[

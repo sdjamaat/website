@@ -74,7 +74,7 @@ export default () => {
 
   const [familyDetails, setFamilyDetails] = useState({
     size: null,
-    movestatus: null,
+    registrationStatus: null,
     address: {
       street: null,
       city: null,
@@ -206,7 +206,7 @@ export default () => {
     return newFamilyMemberArray
   }
 
-  const getFormattedFamilyDetails = (familyid, uid, headOfFamilYOB) => {
+  const getFormattedFamilyDetails = (familyid, uid, headOfFamilyYOB) => {
     let newFamilyMemberArray = cloneDeep(familyMemberDetails.members)
     newFamilyMemberArray.shift()
     for (let member of newFamilyMemberArray) {
@@ -214,15 +214,15 @@ export default () => {
       member.uid = null
       member.its = member.its || null
     }
-    const { fmbstatus, ...restOfFamilyDetails } = familyDetails
+
     let newFamilyDetails = {
-      ...restOfFamilyDetails,
+      ...familyDetails,
       members: newFamilyMemberArray,
       head: {
         firstname: accountDetails.firstname,
         lastname: accountDetails.lastname,
         its: accountDetails.its,
-        yob: headOfFamilYOB,
+        yob: headOfFamilyYOB,
         email: accountDetails.email,
         uid: uid,
       },

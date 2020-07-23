@@ -41,7 +41,7 @@ const PersonalDetails = ({
         onFinishFailed={() => onFinishFailed(form)}
         layout="vertical"
       >
-        <Form.Item label="Title" name="title" rules={[{ required: false }]}>
+        <Form.Item label="Title:" name="title" rules={[{ required: false }]}>
           <Select>
             <Option value="None">None</Option>
             <Option value="Mulla">Mulla</Option>
@@ -50,7 +50,7 @@ const PersonalDetails = ({
         </Form.Item>
 
         <Form.Item
-          label="Other titles"
+          label="Other titles:"
           name="othertitles"
           rules={[{ required: false }]}
         >
@@ -61,7 +61,7 @@ const PersonalDetails = ({
         </Form.Item>
 
         <Form.Item
-          label="YoB:"
+          label="Year of birth:"
           name="yob"
           rules={[{ required: true, message: "Please input your YOB" }]}
         >
@@ -72,7 +72,7 @@ const PersonalDetails = ({
         </Form.Item>
 
         <Form.Item
-          label="Phone #"
+          label="Phone number:"
           name="phone"
           rules={[{ required: true, message: "Please input your username" }]}
         >

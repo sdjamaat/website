@@ -71,7 +71,7 @@ const ReviewDetails = ({
             {personalDetails.othertitles.length === 0 && "None"}
           </li>
 
-          <li>YoB: {personalDetails.yob.format("YYYY")}</li>
+          <li>Year of birth: {personalDetails.yob.format("YYYY")}</li>
           <li>Phone: {personalDetails.phone}</li>
         </ul>
       </Card>
@@ -85,7 +85,9 @@ const ReviewDetails = ({
         >
           <ul>
             <li>Members: {familyDetails.size}</li>
-            <li>Move status: {familyDetails.movestatus}</li>
+            <li>
+              Jamaat registration status: {familyDetails.registrationStatus}
+            </li>
             <li>Address street: {familyDetails.address.street}</li>
             <li>City: {familyDetails.address.city}</li>
             <li>Zip: {familyDetails.address.zip}</li>
@@ -123,7 +125,7 @@ const ReviewDetails = ({
                     <ul>
                       <li>First name: {member.firstname}</li>
                       <li>Last name: {member.lastname}</li>
-                      <li>YoB: {member.yob.format("YYYY")}</li>
+                      <li>Year of birth: {member.yob.format("YYYY")}</li>
                       <li>ITS #: {member.its ? member.its : "None"}</li>
                     </ul>
                   </Card>

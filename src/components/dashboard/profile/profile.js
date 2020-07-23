@@ -35,7 +35,9 @@ const Profile = () => {
               <Descriptions.Item label="ITS #">
                 {currUser.its}
               </Descriptions.Item>
-              <Descriptions.Item label="YoB">{currUser.yob}</Descriptions.Item>
+              <Descriptions.Item label="Year of Birth">
+                {currUser.yob}
+              </Descriptions.Item>
             </Descriptions>
           </Col>
 
@@ -56,7 +58,7 @@ const Profile = () => {
                       </span>{" "}
                       <br />
                       <span style={{ color: "gray", fontSize: "1rem" }}>
-                        YoB: {currUser.family.head.yob}
+                        Year of Birth: {currUser.family.head.yob}
                       </span>{" "}
                     </div>
                   </Timeline.Item>
@@ -73,7 +75,7 @@ const Profile = () => {
                           </span>{" "}
                           <br />
                           <span style={{ color: "gray", fontSize: "1rem" }}>
-                            YoB: {member.yob}
+                            Year of Birth: {member.yob}
                           </span>{" "}
                         </div>
                       </Timeline.Item>
@@ -92,8 +94,8 @@ const Profile = () => {
                   <Descriptions.Item label="Zip">
                     {currUser.family.address.zip}
                   </Descriptions.Item>
-                  <Descriptions.Item label="Move Status">
-                    {currUser.family.movestatus}
+                  <Descriptions.Item label="Jamaat Registration Status">
+                    {currUser.family.registrationStatus}
                   </Descriptions.Item>
                   <Descriptions.Item label="Family Size">
                     {currUser.family.size}
