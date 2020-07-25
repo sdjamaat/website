@@ -24,8 +24,6 @@ const ChooseFamily = ({ layout, setStep, values, setValues, getFamilies }) => {
     initializeChooseFamilyComp()
   }, [])
 
-  //useEffect(() => {}, [familyIndex])
-
   const onFinish = values => {
     if (!values.hasOwnProperty("memberindex")) {
       CustomMessage(
@@ -54,7 +52,8 @@ const ChooseFamily = ({ layout, setStep, values, setValues, getFamilies }) => {
   const shouldShowMemberSelection = () => {
     if (
       familiesFromRegisterComponent !== null &&
-      familiesFromRegisterComponent.length !== 0
+      familiesFromRegisterComponent.length !== 0 &&
+      familyIndex !== null
     ) {
       for (let member of familiesFromRegisterComponent[familyIndex].members) {
         if (member.uid === null) {
@@ -136,11 +135,13 @@ const ChooseFamily = ({ layout, setStep, values, setValues, getFamilies }) => {
             </Select>
           </Form.Item>
         ) : (
-          <Alert
-            message="All eligible members are already registered for this family"
-            type="warning"
-            style={{ marginTop: "-.5rem", marginBottom: ".5rem" }}
-          />
+          familyIndex !== null && (
+            <Alert
+              message="All eligible members are already registered for this family"
+              type="warning"
+              style={{ marginTop: "-.5rem", marginBottom: ".5rem" }}
+            />
+          )
         )}
 
         <Form.Item>

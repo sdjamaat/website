@@ -89,7 +89,7 @@ export default () => {
   const [familyAffiliation, setFamilyAffiliation] = useState({
     familyid: null,
     displayname: null,
-    familyindex: 0,
+    familyindex: null,
   })
 
   const getCurrentForm = step => {
