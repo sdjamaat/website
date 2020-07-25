@@ -88,7 +88,6 @@ export default () => {
 
           {isLoggedIn ? (
             committees.map((committee, index) => {
-              console.log(index)
               if (index !== 0) {
                 return (
                   <CommitteeTable

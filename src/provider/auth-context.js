@@ -66,9 +66,25 @@ export const AuthProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    // listen for changes in user information
+    // listen for changes in user or family information
     if (currUser !== null && isLoggedIn) {
       try {
+        // onSnapshot for family information
+        firebase
+          .firestore()
+          .collection("families")
+          .doc(currUser.familyid)
+          .onSnapshot(doc => {
+            localEncryptedStore.set("authUser", {
+              ...currUser,
+              family: {
+                ...doc.data(),
+              },
+            })
+            setCurrUser(localEncryptedStore.get("authUser"))
+          })
+
+        // onSnapshot for user information
         firebase
           .firestore()
           .collection("users")
