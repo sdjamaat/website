@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Card, Table } from "antd"
+import moment from "moment"
 import styled from "styled-components"
 
 const TimesTable = ({ times }) => {
@@ -16,13 +17,10 @@ const TimesTable = ({ times }) => {
   ]
 
   const convertTime = time => {
-    let timeArr = time.split(":")
-    let hours = Number(timeArr[0])
-    let mins = Number(timeArr[1].split(" ")[0])
-    let hoursNew = ((hours + 11) % 12) + 1
-    let amOrpm = "am"
-    if (hours >= 12) amOrpm = "pm"
-    return `${hoursNew}:${mins} ${amOrpm}`
+    return moment(time, "HH:mm")
+      .format("LT")
+      .replace("AM", "am")
+      .replace("PM", "pm")
   }
 
   const data = [

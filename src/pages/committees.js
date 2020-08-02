@@ -62,8 +62,10 @@ export default () => {
     for (let i = 0; i < members.length; i++) {
       let memberObj = {
         key: i,
-        ...members[i],
+        name: "Committee Member",
+        role: "Role",
       }
+
       newArray.push(memberObj)
     }
     return newArray
