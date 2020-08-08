@@ -60,13 +60,15 @@ export default () => {
   const formatMembers = members => {
     let newArray = []
     for (let i = 0; i < members.length; i++) {
-      let memberObj = {
-        key: i,
-        name: "Committee Member",
-        role: "Role",
-      }
+      if (members[i].visible !== false) {
+        let memberObj = {
+          key: i,
+          name: members[i].name,
+          role: members[i].role,
+        }
 
-      newArray.push(memberObj)
+        newArray.push(memberObj)
+      }
     }
     return newArray
   }
