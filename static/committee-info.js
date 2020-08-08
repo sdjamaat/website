@@ -1,46 +1,41 @@
+const AMIL_SAHEB = "Amil Saheb Shk. Khuzaima Yamani"
+const BHABHI_SAHEB = "Bhabi Saheb Rasheeda Yemani"
+
 const boardOfDirectors = {
   name: "Board of Directors",
   members: [
     {
-      name: "Amil Saheb Shk. Khuzaima Yamani",
+      name: AMIL_SAHEB,
       role: "President",
     },
+
     {
-      name: "Abdullah Badani",
-      role: "Vice President",
-    },
-    {
-      name: "M Saifuddin Suterwala",
-      role: "Secretary",
+      name: "Mulla Saifuddin Suterwala",
+      role: "Secretary & Director",
     },
     {
       name: "Murtuza Chhatriwala",
-      role: "Treasurer",
+      role: "Treasurer & Director",
     },
+
     {
-      name: "M Juzer Fatehi",
+      name: "Mulla Aliasghar Presswala",
       role: "Director",
     },
     {
-      name: "M Kutbuddin Doctor",
+      name: "Mulla Juzer Fatehi",
       role: "Director",
     },
     {
-      name: "M Moiz Ghadiali",
-      role: "Advisor",
+      name: "Mulla Qutbuddin Doctor",
+      role: "Director",
     },
-    {
-      name: "Tayyeb Baxamusa",
-      role: "Advisor",
-    },
-    {
-      name: "M Aliasghar Darugar",
-      role: "Advisor",
-    },
-    {
-      name: "M Aliasgar Presswala",
-      role: "Advisor",
-    },
+
+    { name: "Mulla Aliasghar Darugar", role: "Advisor", visible: false },
+    { name: "Abdullah Badani", role: "Advisor", visible: false },
+    { name: "Burhanuddin Hayderi", role: "Advisor", visible: false },
+    { name: "Quaidzoher Dhilla", role: "Advisor", visible: false },
+    { name: "Tayyeb Baxamusa", role: "Advisor", visible: false },
   ],
 }
 
@@ -48,11 +43,11 @@ const madrasah = {
   name: "Madrasah Jamaliyah",
   members: [
     {
-      name: "Amil Saheb Shk. Khuzaima Yamani",
+      name: AMIL_SAHEB,
       role: "President",
     },
     {
-      name: "M Aliasghar Darugar",
+      name: "Mulla Aliasghar Darugar",
       role: "Secretary",
     },
     {
@@ -68,7 +63,7 @@ const madrasah = {
       role: "Member",
     },
     {
-      name: "M Adnan Ghadiali",
+      name: "Mulla Adnan Ghadiali",
       role: "Member",
     },
     {
@@ -76,7 +71,7 @@ const madrasah = {
       role: "Head Teacher",
     },
     {
-      name: "M Kutbuddin Doctor",
+      name: "Mulla Qutbuddin Doctor",
       role: "Teacher",
     },
     {
@@ -106,19 +101,19 @@ const shabab = {
   name: "Shabab-ul-Eidiz-Zahabi",
   members: [
     {
-      name: "Amil Saheb Shk. Khuzaima Yamani",
+      name: AMIL_SAHEB,
       role: "President",
     },
     {
-      name: "M Adnan Ghadiali",
+      name: "Mulla Adnan Ghadiali",
       role: " Secretary",
     },
     {
-      name: "M Saifuddin Suterwala",
+      name: "Mulla Saifuddin Suterwala",
       role: "Joint Secretary",
     },
     {
-      name: "M Aliasgar Presswala",
+      name: "Mulla Aliasgar Presswala",
       role: "Treasurer",
     },
   ],
@@ -128,7 +123,7 @@ const bwa = {
   name: "Burhani Women's Association",
   members: [
     {
-      name: "Bhabi Saheb Rasheeda Yemani",
+      name: BHABHI_SAHEB,
       role: "President",
     },
     {
@@ -146,11 +141,11 @@ const fmb = {
   name: "Faiz-ul-Mawaid",
   members: [
     {
-      name: "Amil Saheb Shk. Khuzaima Yamani",
+      name: AMIL_SAHEB,
       role: "President",
     },
     {
-      name: "M Aliasgar Presswala",
+      name: "Mulla Aliasgar Presswala",
       role: "Secretary",
     },
     {
@@ -168,11 +163,11 @@ const tadfeen = {
   name: "Tadfeen",
   members: [
     {
-      name: "Amil Saheb Shk. Khuzaima Yamani",
+      name: AMIL_SAHEB,
       role: "President",
     },
     {
-      name: "M Moiz Ghadiali",
+      name: "Mulla Moiz Ghadiali",
       role: "Member",
     },
     {
@@ -186,11 +181,11 @@ const tnc = {
   name: "Taiseer-un-Nikah",
   members: [
     {
-      name: "Amil Saheb Shk. Khuzaima Yamani",
+      name: AMIL_SAHEB,
       role: "President",
     },
     {
-      name: "Bhabi Saheb Rasheeda Yemani",
+      name: BHABHI_SAHEB,
       role: "Head of Matchmaking",
     },
     {
@@ -216,7 +211,7 @@ const qardan = {
   name: "Qardan Hasana",
   members: [
     {
-      name: "Amil Saheb Shk. Khuzaima Yamani",
+      name: AMIL_SAHEB,
       role: "President",
     },
     {
