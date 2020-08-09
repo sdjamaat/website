@@ -28,14 +28,16 @@ const Navigation = ({ logo }) => {
             <Nav.Link className="navlink" eventKey="1" as={Link} to="/">
               Home
             </Nav.Link>
-            <Nav.Link
-              className="navlink"
-              eventKey="2"
-              as={Link}
-              to="/committees"
-            >
-              Committees
-            </Nav.Link>
+            {isLoggedIn && (
+              <Nav.Link
+                className="navlink"
+                eventKey="2"
+                as={Link}
+                to="/auth/committees"
+              >
+                Committees
+              </Nav.Link>
+            )}
             {!isLoggedIn && (
               <Nav.Link className="navlink" eventKey="3" as={Link} to="/login">
                 Login
