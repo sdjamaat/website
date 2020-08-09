@@ -9,9 +9,9 @@ import FamilyDetails from "../components/registration/family-details"
 import ReviewDetails from "../components/registration/review-details"
 import ChooseFamily from "../components/registration/choose-family"
 import FamilyMemberDetails from "../components/registration/family-member-details"
+import SuccessSplash from "../components/registration/success"
 import CustomMessage from "../components/custom-message"
 import firebase from "gatsby-plugin-firebase"
-import { navigate } from "gatsby"
 
 const layout = {
   labelCol: { span: 24 },
@@ -155,6 +155,8 @@ export default () => {
             submitForm={submitForm}
           />
         )
+      case "success":
+        return <SuccessSplash />
       default:
         return (
           <AccountDetails
@@ -293,15 +295,28 @@ export default () => {
             )
           )
         }
+        return uid
       })
-      .then(() => {
-        setTimeout(() => {
-          navigate("/login")
-        }, 2500)
-        CustomMessage(
-          "success",
-          "Successfully registered. Redirecting to login..."
-        )
+      .then(async uid => {
+        if (process.env.GATSBY_ARE_NEW_USERS_DISABLED === "true") {
+          const disableNewRegistration = firebase
+            .functions()
+            .httpsCallable("disableNewRegistration")
+          await disableNewRegistration({
+            caller: {
+              uid: uid,
+            },
+          })
+        }
+
+        setStep("success")
+        // setTimeout(() => {
+        //   navigate("/login")
+        // }, 2500)
+        // CustomMessage(
+        //   "success",
+        //   "Successfully registered. Redirecting to login..."
+        // )
       })
       .catch(error => {
         console.log(error)
