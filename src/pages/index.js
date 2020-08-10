@@ -7,6 +7,7 @@ import WelcomeAbout from "../components/home/welcome-about"
 import LearnMore from "../components/home/learn-more"
 import Location from "../components/home/location"
 import SalaatTimes from "../components/home/salaat-times"
+import ITSMessage from "../components/home/its-message"
 import Layout from "../components/layout"
 
 export default () => (
@@ -19,12 +20,12 @@ export default () => (
         <Col lg={4}>
           <Row>
             <Col>
-              <Location />
+              <ITSMessage />
             </Col>
           </Row>
           <Row>
             <Col>
-              <SalaatTimes />
+              <Location />
             </Col>
           </Row>
         </Col>
