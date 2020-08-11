@@ -61,7 +61,7 @@ const WelcomeAbout = () => {
                 and managing the affairs of the local Dawoodi Bohra community in
                 San Diego, California.{" "}
                 <a
-                  href="https://usa.thedawoodibohras.com/san-diego/"
+                  href="https://usa.thedawoodibohras.com/"
                   target="__blank"
                   style={{ color: "#4169e1" }}
                 >

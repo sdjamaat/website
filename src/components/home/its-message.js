@@ -27,7 +27,7 @@ const ITSMessage = () => {
             href="www.usa.thedawoodibohras.com/san-diego/"
             target="__blank"
           >
-            www.usa.thedawoodibohras.com/san-diego/
+            www.usa.thedawoodibohras.com/san-diego
           </a>
         </p>
         <p>
@@ -35,6 +35,7 @@ const ITSMessage = () => {
           <a
             style={{ color: "#4169e1" }}
             href="mailto:san-diego.ca@usa.thedawoodibohras.com"
+            target="__blank"
           >
             san-diego.ca@usa.thedawoodibohras.com
           </a>
