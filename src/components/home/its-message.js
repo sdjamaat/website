@@ -25,7 +25,7 @@ const ITSMessage = () => {
           <br />
           <a
             style={{ color: "#4169e1" }}
-            href="www.usa.thedawoodibohras.com/san-diego/"
+            href="https://www.usa.thedawoodibohras.com/san-diego/"
             target="__blank"
           >
             www.usa.thedawoodibohras.com/san-diego
