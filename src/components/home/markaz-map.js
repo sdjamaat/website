@@ -14,14 +14,14 @@ const MarkazMap = ({ width, height }) => {
   const setHeight = () => {
     if (window.innerWidth <= 991) {
       return 140
-    } else if (window.innerWidth <= 1023) {
-      return 140 + width * 0.538
-    } else if (window.innerWidth <= 1077) {
-      return 140 + width * 0.42
-    } else if (window.innerWidth <= 1195) {
-      return 140 + width * 0.23
-    } else if (window.innerWidth <= 1262) {
-      return 140 + width * 0.15
+      // } else if (window.innerWidth <= 1023) {
+      //   return 140 + width * 0.538
+      // } else if (window.innerWidth <= 1077) {
+      //   return 140 + width * 0.42
+      // } else if (window.innerWidth <= 1195) {
+      //   return 140 + width * 0.23
+      // } else if (window.innerWidth <= 1262) {
+      //   return 140 + width * 0.15
     } else if (window.innerWidth <= 1328) {
       return 140 + width * 0.07
     } else {

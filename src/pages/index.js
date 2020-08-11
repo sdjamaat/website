@@ -7,6 +7,7 @@ import WelcomeAbout from "../components/home/welcome-about"
 import LearnMore from "../components/home/learn-more"
 import Location from "../components/home/location"
 import SalaatTimes from "../components/home/salaat-times"
+import ITSMessage from "../components/home/its-message"
 import Layout from "../components/layout"
 
 export default () => (
@@ -16,24 +17,24 @@ export default () => (
 
       <Row className="content">
         <Divider />
-        <Col lg={4}>
+        <Col lg={6}>
+          <Row>
+            <Col>
+              <ITSMessage />
+            </Col>
+          </Row>
           <Row>
             <Col>
               <Location />
             </Col>
           </Row>
-          <Row>
-            <Col>
-              <SalaatTimes />
-            </Col>
-          </Row>
         </Col>
 
-        <Col lg={4}>
+        {/* <Col lg={4}>
           <LearnMore />
-        </Col>
+        </Col> */}
 
-        <Col lg={4}>
+        <Col lg={6}>
           <Contact />
         </Col>
       </Row>
