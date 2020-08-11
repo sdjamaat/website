@@ -15,7 +15,8 @@ const ITSMessage = () => {
         bodyStyle={{
           textAlign: "center",
           fontSize: "1rem",
-          paddingBottom: "0.2rem",
+          paddingBottom: "0",
+          paddingTop: ".8rem",
         }}
       >
         <p>
