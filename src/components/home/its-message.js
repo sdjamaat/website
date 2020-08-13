@@ -35,10 +35,10 @@ const ITSMessage = () => {
           Or email us: <br />
           <a
             style={{ color: "#4169e1" }}
-            href="mailto:san-diego.ca@usa.thedawoodibohras.com"
+            href="mailto:sandiego.ca@usa.thedawoodibohras.com"
             target="__blank"
           >
-            san-diego.ca@usa.thedawoodibohras.com
+            sandiego.ca@usa.thedawoodibohras.com
           </a>
         </p>
       </Card>
