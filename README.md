@@ -58,6 +58,8 @@ npm install
 
 #### To deploy new functions:
 
+Helpful link: https://firebase.googleblog.com/2016/07/deploy-to-multiple-environments-with.html
+
 Step 1: You need to first be log into the webmaster@sandiegojamaat.net Google account. You only need to do this once (unless you're switching between other Firebase accounts)
 
 ```shell
