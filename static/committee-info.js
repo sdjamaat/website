@@ -19,7 +19,7 @@ const boardOfDirectors = {
     },
 
     {
-      name: "Mulla Aliasghar Presswala",
+      name: "Mulla Aliasgar Presswala",
       role: "Director",
     },
     {
