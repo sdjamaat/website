@@ -53,7 +53,7 @@ const WelcomeAbout = () => {
                 fontWeight: "bold",
               }}
             >
-              <h6>
+              <h6 style={{ lineHeight: "1.35" }}>
                 We are members of the Dawoodi Bohra community and adhere to the
                 Shia Fatimi tradition of Islam, headed by the 53rd Dai
                 Al-Mutlaq, Syedna Aali Qadr Mufaddal Saifuddin (TUS).
@@ -63,7 +63,7 @@ const WelcomeAbout = () => {
                 <a
                   href="https://usa.thedawoodibohras.com/"
                   target="__blank"
-                  style={{ color: "#4169e1" }}
+                  style={{ color: "#4169e1", lineHeight: "1.6rem" }}
                 >
                   Learn more
                 </a>
