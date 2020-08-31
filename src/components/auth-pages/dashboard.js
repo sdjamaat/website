@@ -38,7 +38,8 @@ const DashboardMenu = ({
       >
         <Menu.Item key="profile">Profile</Menu.Item>
 
-        <SubMenu key="fmb" title="Faiz-ul-Mawaid al-Burhaniyah">
+
+        <SubMenu key="fmb" title="Faiz-ul-Mawaid il-Burhaniyah">
           <Menu.Item key="fmb-calendar">Menu Calendar</Menu.Item>
           {currUser.family.fmb.enrolled && (
             <Menu.Item key="fmb-submit-menu">Submit Thaali Choices</Menu.Item>
@@ -67,7 +68,7 @@ const DashboardMenu = ({
                     <Option value="profile">Profile</Option>
                   </OptGroup>
 
-                  <OptGroup label="Faiz-ul-Mawaid al-Burhaniyah">
+                  <OptGroup label="Faiz-ul-Mawaid il-Burhaniyah">
                     <Option value="fmb-calendar">Menu Calendar</Option>
                     {currUser.family.fmb.enrolled && (
                       <Option value="fmb-submit-menu">

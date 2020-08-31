@@ -147,7 +147,7 @@ const bwa = {
 }
 
 const fmb = {
-  name: "Faiz-ul-Mawaid al-Burhaniyah",
+  name: "Faiz-ul-Mawaid il-Burhaniyah",
   members: [
     {
       name: AMIL_SAHEB,
