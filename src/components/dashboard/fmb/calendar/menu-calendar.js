@@ -96,7 +96,7 @@ const FMBCalendar = () => {
   return (
     <FMBCalendarWrapper>
       <div style={{ fontSize: "1.5rem", textAlign: "center" }}>
-        Faiz-ul-Mawaid al-Burhaniyah Calendar
+        Faiz-ul-Mawaid il-Burhaniyah Calendar
       </div>
       {menu === [] ? (
         <div>Loading...</div>
