@@ -38,6 +38,7 @@ const DashboardMenu = ({
       >
         <Menu.Item key="profile">Profile</Menu.Item>
 
+
         <SubMenu key="fmb" title="Faiz-ul-Mawaid il-Burhaniyah">
           <Menu.Item key="fmb-calendar">Menu Calendar</Menu.Item>
           {currUser.family.fmb.enrolled && (
