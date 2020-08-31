@@ -310,13 +310,6 @@ export default () => {
         }
 
         setStep("success")
-        // setTimeout(() => {
-        //   navigate("/login")
-        // }, 2500)
-        // CustomMessage(
-        //   "success",
-        //   "Successfully registered. Redirecting to login..."
-        // )
       })
       .catch(error => {
         console.log(error)
