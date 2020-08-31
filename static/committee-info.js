@@ -10,12 +10,12 @@ const boardOfDirectors = {
     },
 
     {
-      name: "Mulla Saifuddin Suterwala",
-      role: "Secretary & Director",
+      name: "Saifuddin Suterwala",
+      role: "Secretary",
     },
     {
       name: "Murtuza Chhatriwala",
-      role: "Treasurer & Director",
+      role: "Treasurer",
     },
 
     {
@@ -36,6 +36,15 @@ const boardOfDirectors = {
     { name: "Burhanuddin Hayderi", role: "Advisor", visible: false },
     { name: "Quaidzoher Dhilla", role: "Advisor", visible: false },
     { name: "Tayyeb Baxamusa", role: "Advisor", visible: false },
+  ],
+}
+const advisoryCommittee = {
+  name: "Advisory Committee",
+  members: [
+    { name: "Abdullah Badani", role: "Advisor" },
+    { name: "Tayyeb Baxamusa", role: "Advisor" },
+    { name: "Burhanuddin Mohammedali", role: "Advisor" },
+    { name: "Quaidzoher Dhilla", role: "Advisor" },
   ],
 }
 
@@ -109,7 +118,7 @@ const shabab = {
       role: " Secretary",
     },
     {
-      name: "Mulla Saifuddin Suterwala",
+      name: "Saifuddin Suterwala",
       role: "Joint Secretary",
     },
     {
@@ -138,7 +147,7 @@ const bwa = {
 }
 
 const fmb = {
-  name: "Faiz-ul-Mawaid",
+  name: "Faiz-ul-Mawaid al-Burhaniyah",
   members: [
     {
       name: AMIL_SAHEB,
@@ -208,7 +217,7 @@ const tnc = {
 }
 
 const qardan = {
-  name: "Qardan Hasana",
+  name: "Burhani Qardan Hasana",
   members: [
     {
       name: AMIL_SAHEB,
@@ -245,11 +254,11 @@ const website = {
 
 const committees = [
   boardOfDirectors,
+  advisoryCommittee,
   madrasah,
   shabab,
   bwa,
   fmb,
-  tadfeen,
   tnc,
   qardan,
   website,

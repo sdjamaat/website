@@ -69,8 +69,8 @@ const FamilyDetails = ({ layout, setStep, values, setValues }) => {
           ]}
         >
           <Select>
-            <Option value="Temporary">Temporary</Option>
-            <Option value="Permanent">Permanent</Option>
+            <Option value="Resident">Resident</Option>
+            <Option value="Visitor">Visitor</Option>
           </Select>
         </Form.Item>
 
