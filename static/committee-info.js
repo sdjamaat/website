@@ -43,8 +43,9 @@ const advisoryCommittee = {
   members: [
     { name: "Abdullah Badani", role: "Advisor" },
     { name: "Tayyeb Baxamusa", role: "Advisor" },
-    { name: "Burhanuddin Mohammedali", role: "Advisor" },
+    { name: "Dr. Burhanuddin Mohammedali", role: "Advisor" },
     { name: "Quaidzoher Dhilla", role: "Advisor" },
+    { name: "Mulla Aliasghar Darugar", role: "Advisor" },
   ],
 }
 
