@@ -21,7 +21,7 @@ const ITSMessage = () => {
       >
         <p>
           For more information on the local Dawoodi Bohra community of San
-          Diego, California, please visit our website:
+          Diego, California, please visit our page:
           <br />
           <a
             style={{ color: "#4169e1" }}
@@ -35,12 +35,10 @@ const ITSMessage = () => {
           Or email us: <br />
           <a
             style={{ color: "#4169e1" }}
-
             href="mailto:sandiego.ca@usa.thedawoodibohras.com"
             target="__blank"
           >
             sandiego.ca@usa.thedawoodibohras.com
-
           </a>
         </p>
       </Card>
