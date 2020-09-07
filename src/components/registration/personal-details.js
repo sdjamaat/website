@@ -57,6 +57,9 @@ const PersonalDetails = ({
           <Select mode="multiple">
             <Option value="NKD">NKD</Option>
             <Option value="MKD">MKD</Option>
+            <Option value="NDI">NDI</Option>
+            <Option value="MDH">MDH</Option>
+            <Option value="NDH">NDH</Option>
           </Select>
         </Form.Item>
 
