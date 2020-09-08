@@ -24,18 +24,15 @@ const SelectItems = ({ setPanel, items, values, setValues }) => {
       userFamilyThaaliSize === "Full" &&
       (thaaliSize === "Full" ||
         thaaliSize === "Half" ||
-        thaaliSize === "Barakati")
+        thaaliSize === "Quarter")
     ) {
       return true
     } else if (
       userFamilyThaaliSize === "Half" &&
-      (thaaliSize === "Half" || thaaliSize === "Barakati")
+      (thaaliSize === "Half" || thaaliSize === "Quarter")
     ) {
       return true
-    } else if (
-      userFamilyThaaliSize === "Barakati" &&
-      thaaliSize === "Barakati"
-    ) {
+    } else if (userFamilyThaaliSize === "Quarter" && thaaliSize === "Quarter") {
       return true
     }
 
@@ -106,8 +103,8 @@ const SelectItems = ({ setPanel, items, values, setValues }) => {
             {canSelectGivenThaaliSize("Half") && (
               <Radio value="Half">Half</Radio>
             )}
-            {canSelectGivenThaaliSize("Barakati") && (
-              <Radio value="Barakati">Barakati</Radio>
+            {canSelectGivenThaaliSize("Quarter") && (
+              <Radio value="Quarter">Quarter</Radio>
             )}
 
             <Radio value="No Thaali">No Thaali</Radio>
@@ -145,8 +142,8 @@ const SelectItems = ({ setPanel, items, values, setValues }) => {
                     {canSelectGivenThaaliSize("Half") && (
                       <Option value="Half">Half</Option>
                     )}
-                    {canSelectGivenThaaliSize("Barakati") && (
-                      <Option value="Barakati">Barakati</Option>
+                    {canSelectGivenThaaliSize("Quarter") && (
+                      <Option value="Quarter">Quarter</Option>
                     )}
                     <Option value="No Thaali">No Thaali</Option>
                   </Select>
