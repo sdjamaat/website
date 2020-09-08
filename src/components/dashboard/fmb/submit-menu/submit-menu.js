@@ -32,7 +32,7 @@ const SubmitFMBMenu = () => {
       const monthMenuQuery = firebase
         .firestore()
         .collection("fmb")
-        .doc(getHijriDate().databaseYear.toString())
+        .doc(getHijriDate().year.toString())
         .collection("menus")
         .doc(activeMenu.shortMonthName)
 
@@ -107,31 +107,35 @@ const SubmitFMBMenu = () => {
     const fmbYearQuery = firebase
       .firestore()
       .collection("fmb")
-      .doc(getHijriDate().databaseYear.toString())
+      .doc(getHijriDate().year.toString())
 
     fmbYearQuery.onSnapshot(doc => {
-      const activeMenuMonth = doc.data().activeMenu
-      if (activeMenuMonth !== null) {
-        fmbYearQuery
-          .collection("menus")
-          .doc(activeMenuMonth)
-          .onSnapshot(async doc => {
-            const activeMenu = doc.data()
-            const completedSubmissions = activeMenu.submissions
+      if (doc.exists) {
+        const activeMenuMonth = doc.data().activeMenu
+        if (activeMenuMonth !== null) {
+          fmbYearQuery
+            .collection("menus")
+            .doc(activeMenuMonth)
+            .onSnapshot(async doc => {
+              const activeMenu = doc.data()
+              const completedSubmissions = activeMenu.submissions
 
-            // check if user has already submitted current menu
-            if (completedSubmissions.includes(currUser.familyid)) {
-              const alreadySubmittedItemsDoc = await fmbYearQuery
-                .collection("menus")
-                .doc(activeMenuMonth)
-                .collection("submissions")
-                .doc(currUser.familyid)
-                .get()
-              setAlreadySubmittedItemsDoc(alreadySubmittedItemsDoc.data())
-              setHasAlreadySubmitted(true)
-            }
-            setActiveMenu({ ...activeMenu, shortMonthName: activeMenuMonth })
-          })
+              // check if user has already submitted current menu
+              if (completedSubmissions.includes(currUser.familyid)) {
+                const alreadySubmittedItemsDoc = await fmbYearQuery
+                  .collection("menus")
+                  .doc(activeMenuMonth)
+                  .collection("submissions")
+                  .doc(currUser.familyid)
+                  .get()
+                setAlreadySubmittedItemsDoc(alreadySubmittedItemsDoc.data())
+                setHasAlreadySubmitted(true)
+              }
+              setActiveMenu({ ...activeMenu, shortMonthName: activeMenuMonth })
+            })
+        } else {
+          setActiveMenu(-1)
+        }
       } else {
         setActiveMenu(-1)
       }
