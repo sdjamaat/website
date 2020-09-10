@@ -199,20 +199,32 @@ const tnc = {
       role: "Head of Matchmaking",
     },
     {
-      name: "Tayyeb Baxamusa",
+      name: "Mulla Adnan Ghadiali",
       role: "Secretary",
     },
     {
-      name: "Sabera Badani",
+      name: "Kutbuddin Kaliyakuwawala",
+      role: "Treasurer",
+    },
+    {
+      name: "Mulla Juzer Fatehi",
+      role: "Member",
+    },
+    {
+      name: "Tayyeb Baxamusa",
+      role: "IT",
+    },
+    {
+      name: "Zahra Presswala",
+      role: "Counselor Coordinator",
+    },
+    {
+      name: "Tasneem Lukhmani",
       role: "Counselor",
     },
     {
-      name: "Quaidzoher Dhilla",
-      role: "Administrator",
-    },
-    {
-      name: "Murtuza Chhatriwala",
-      role: "Treasurer & IT",
+      name: "Fatema Baxamusa",
+      role: "Counselor",
     },
   ],
 }
