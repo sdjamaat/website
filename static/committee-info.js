@@ -219,7 +219,7 @@ const tnc = {
       role: "Counselor Coordinator",
     },
     {
-      name: "Tasneem Lukhmani",
+      name: "Tasneem Lukmani",
       role: "Counselor",
     },
     {
