@@ -1,5 +1,6 @@
-const AMIL_SAHEB = "Janab Amil Saheb Shk. Khuzaima Yamani"
-const BHABHI_SAHEB = "Bhabi Saheb Rasheeda Yamani"
+const AMIL_SAHEB = "Janab Aamil Saheb Shk. Khuzaima Bhai Yamani"
+const BHABHI_SAHEB = "Bhabhisaheb Rasheeda Yamani"
+
 
 const boardOfDirectors = {
   name: "Board of Directors",
@@ -8,44 +9,37 @@ const boardOfDirectors = {
       name: AMIL_SAHEB,
       role: "President",
     },
-
     {
-      name: "Saifuddin Suterwala",
+      name: "Saifuddin Bhai Suterwala",
       role: "Secretary",
     },
     {
-      name: "Murtuza Chhatriwala",
+      name: "Murtuza Bhai Chhatriwala",
       role: "Treasurer",
     },
 
     {
-      name: "Mulla Aliasgar Presswala",
+      name: "Mulla Aliasgar Bhai Presswala",
       role: "Director",
     },
     {
-      name: "Mulla Juzer Fatehi",
+      name: "Mulla Juzer Bhai Fatehi",
       role: "Director",
     },
     {
-      name: "Mulla Qutbuddin Doctor",
+      name: "Mulla Qutbuddin Bhai Doctor",
       role: "Director",
     },
-
-    { name: "Mulla Aliasghar Darugar", role: "Advisor", visible: false },
-    { name: "Abdullah Badani", role: "Advisor", visible: false },
-    { name: "Burhanuddin Hayderi", role: "Advisor", visible: false },
-    { name: "Quaidzoher Dhilla", role: "Advisor", visible: false },
-    { name: "Tayyeb Baxamusa", role: "Advisor", visible: false },
   ],
 }
 const advisoryCommittee = {
   name: "Advisory Committee",
   members: [
-    { name: "Abdullah Badani", role: "Advisor" },
-    { name: "Tayyeb Baxamusa", role: "Advisor" },
-    { name: "Dr. Burhanuddin Mohammedali", role: "Advisor" },
-    { name: "Quaidzoher Dhilla", role: "Advisor" },
-    { name: "Mulla Aliasghar Darugar", role: "Advisor" },
+    { name: "Abdullah Bhai Badani", role: "Advisor" },
+    { name: "Tayyeb Bhai Baxamusa", role: "Advisor" },
+    { name: "Dr. Burhanuddin Bhai Mohammedali", role: "Advisor" },
+    { name: "Quaidzoher Bhai Dhilla", role: "Advisor" },
+    { name: "Mulla Aliasghar Bhai Darugar", role: "Advisor" },
   ],
 }
 
@@ -57,51 +51,51 @@ const madrasah = {
       role: "President",
     },
     {
-      name: "Mulla Aliasghar Darugar",
+      name: "Mulla Aliasghar Bhai Darugar",
       role: "Secretary",
     },
     {
-      name: "Mustafa Lukmani",
+      name: "Mustafa Bhai Lukmani",
       role: "Joint Secretary",
     },
     {
-      name: "Murtuza Chhatriwala",
+      name: "Murtuza Bhai Chhatriwala",
       role: "Treasurer",
     },
     {
-      name: "Mohammed Kurawadwala",
+      name: "Mohammed Bhai Kurawadwala",
       role: "Member",
     },
     {
-      name: "Mulla Adnan Ghadiali",
+      name: "Mulla Adnan Bhai Ghadiali",
       role: "Member",
     },
     {
-      name: "Umaima Darugar",
+      name: "Umaima Bhen Darugar",
       role: "Head Teacher",
     },
     {
-      name: "Mulla Qutbuddin Doctor",
+      name: "Mulla Qutbuddin Bhai Doctor",
       role: "Teacher",
     },
     {
-      name: "Fatema Doctor",
+      name: "Fatema Bhen Doctor",
       role: "Teacher",
     },
     {
-      name: "Aarefa Taquee",
+      name: "Aarefa Bhen Taquee",
       role: "Teacher",
     },
     {
-      name: "Munira Suterwala",
+      name: "Munira Bhen Suterwala",
       role: "Teacher",
     },
     {
-      name: "Rashida Zakir",
+      name: "Rashida Bhen Zakir",
       role: "Teacher",
     },
     {
-      name: "Munira Darugar",
+      name: "Munira Bhen Darugar",
       role: "Teacher",
     },
   ],
@@ -115,15 +109,15 @@ const shabab = {
       role: "President",
     },
     {
-      name: "Mulla Adnan Ghadiali",
+      name: "Mulla Adnan Bhai Ghadiali",
       role: " Secretary",
     },
     {
-      name: "Saifuddin Suterwala",
+      name: "Saifuddin Bhai Suterwala",
       role: "Joint Secretary",
     },
     {
-      name: "Mulla Aliasgar Presswala",
+      name: "Mulla Aliasgar Bhai Presswala",
       role: "Treasurer",
     },
   ],
@@ -137,11 +131,11 @@ const bwa = {
       role: "President",
     },
     {
-      name: "Fatema Doctor",
+      name: "Fatema Bhen Doctor",
       role: "Secretary",
     },
     {
-      name: "Munira Suterwala",
+      name: "Munira Bhen Suterwala",
       role: "Treasurer",
     },
   ],
@@ -155,15 +149,15 @@ const fmb = {
       role: "President",
     },
     {
-      name: "Mulla Aliasgar Presswala",
+      name: "Mulla Aliasgar Bhai Presswala",
       role: "Secretary",
     },
     {
-      name: "Zahra Presswala",
+      name: "Zahra Bhen Presswala",
       role: "Menu Planner",
     },
     {
-      name: "Murtuza Chhatriwala",
+      name: "Murtuza Bhai Chhatriwala",
       role: "Treasurer",
     },
   ],
@@ -177,11 +171,11 @@ const tadfeen = {
       role: "President",
     },
     {
-      name: "Mulla Moiz Ghadiali",
+      name: "Mulla Moiz Bhai Ghadiali",
       role: "Member",
     },
     {
-      name: "Husain Rangwala",
+      name: "Husain Bhai Rangwala",
       role: "Member",
     },
   ],
@@ -199,31 +193,31 @@ const tnc = {
       role: "Head of Matchmaking",
     },
     {
-      name: "Mulla Adnan Ghadiali",
+      name: "Mulla Adnan Bhai Ghadiali",
       role: "Secretary",
     },
     {
-      name: "Kutbuddin Kaliyakuwawala",
+      name: "Kutbuddin Bhai Kaliyakuwawala",
       role: "Treasurer",
     },
     {
-      name: "Mulla Juzer Fatehi",
+      name: "Mulla Juzer Bhai Fatehi",
       role: "Member",
     },
     {
-      name: "Tayyeb Baxamusa",
+      name: "Tayyeb Bhai Baxamusa",
       role: "IT",
     },
     {
-      name: "Zahra Presswala",
+      name: "Zahra Bhen Presswala",
       role: "Counselor Coordinator",
     },
     {
-      name: "Tasneem Lukmani",
+      name: "Tasneem Bhen Lukmani",
       role: "Counselor",
     },
     {
-      name: "Fatema Baxamusa",
+      name: "Fatema Bhen Baxamusa",
       role: "Counselor",
     },
   ],
@@ -237,19 +231,19 @@ const qardan = {
       role: "President",
     },
     {
-      name: "Tayyeb Baxamusa",
+      name: "Tayyeb Bhai Baxamusa",
       role: "Secretary",
     },
     {
-      name: "Mustafa Lukmani",
+      name: "Mustafa Bhai Lukmani",
       role: "Treasurer",
     },
     {
-      name: "Shk. Aliasgar Taquee",
+      name: "Shk. Aliasgar Bhai Taquee",
       role: "Member",
     },
     {
-      name: "Quaidzoher Dhilla",
+      name: "Quaidzoher Bhai Dhilla",
       role: "Member",
     },
   ],
@@ -259,7 +253,7 @@ const website = {
   name: "Website",
   members: [
     {
-      name: "Ibrahim Darugar",
+      name: "Ibrahim Bhai Darugar",
       role: "Webmaster & Developer",
     },
   ],
