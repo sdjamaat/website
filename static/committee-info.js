@@ -1,5 +1,5 @@
-const AMIL_SAHEB = "Amil Saheb Shk. Khuzaima Yamani"
-const BHABHI_SAHEB = "Bhabi Saheb Rasheeda Yemani"
+const AMIL_SAHEB = "Janab Amil Saheb Shk. Khuzaima Yamani"
+const BHABHI_SAHEB = "Bhabi Saheb Rasheeda Yamani"
 
 const boardOfDirectors = {
   name: "Board of Directors",
