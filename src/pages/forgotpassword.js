@@ -5,7 +5,7 @@ import { Form, Input, Button, Card, message, Spin } from "antd"
 import { onFinishFailed } from "../functions/forms"
 import firebase from "gatsby-plugin-firebase"
 import { navigate } from "gatsby"
-import { CustomMessage } from "../components/custom-message"
+import CustomMessage from "../components/custom-message"
 
 const layout = {
   labelCol: { span: 16 },
