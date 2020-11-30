@@ -6,6 +6,7 @@ import styled from "styled-components"
 import Calendar from "../dashboard/fmb/calendar/menu-calendar"
 import SubmitFMBMenu from "../dashboard/fmb/submit-menu/submit-menu"
 import Profile from "../dashboard/profile/profile"
+import QHForms from "../dashboard/qardan/forms/qh-forms"
 import { AuthContext } from "../../provider/auth-context"
 import StickyBox from "react-sticky-box"
 
@@ -38,12 +39,14 @@ const DashboardMenu = ({
       >
         <Menu.Item key="profile">Profile</Menu.Item>
 
-
         <SubMenu key="fmb" title="Faiz-ul-Mawaid il-Burhaniyah">
           <Menu.Item key="fmb-calendar">Menu Calendar</Menu.Item>
           {currUser.family.fmb.enrolled && (
             <Menu.Item key="fmb-submit-menu">Submit Thaali Choices</Menu.Item>
           )}
+        </SubMenu>
+        <SubMenu key="qh" title="Burhani Qardan Hasana">
+          <Menu.Item key="qh-forms">Application Forms</Menu.Item>
         </SubMenu>
       </Menu>
     )
@@ -75,6 +78,10 @@ const DashboardMenu = ({
                         Submit Thaali Choices
                       </Option>
                     )}
+                  </OptGroup>
+
+                  <OptGroup label="Burhani Qardan Hasana">
+                    <Option value="qh-forms">Application Forms</Option>
                   </OptGroup>
                 </Select>
               </Form.Item>
@@ -115,6 +122,8 @@ const Dashboard = () => {
         return <SubmitFMBMenu />
       case "profile":
         return <Profile />
+      case "qh-forms":
+        return <QHForms />
       default:
         return <div>Welcome to the Admin Panel</div>
     }
