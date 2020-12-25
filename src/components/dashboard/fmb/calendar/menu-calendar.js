@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useContext } from "react"
 import styled from "styled-components"
-import { Badge, Modal, Alert } from "antd"
+import { Badge, Modal, Alert, Button } from "antd"
 import { monthIndexToName } from "../../../../functions/calendar"
 import HijriMonth from "../../../hijri-calendar/hijri-month"
 import { DateContext } from "../../../../provider/date-context"
 import firebase from "gatsby-plugin-firebase"
+import { LeftOutlined, RightOutlined } from "@ant-design/icons"
 
 const FMBCalendar = () => {
   const [menu, setMenu] = useState([])
+  const [nextMonthMenu, setNextMonthMenu] = useState(null)
+  const [shouldShowNextMonth, setShouldShowNextMonth] = useState(false)
   const { getHijriDate } = useContext(DateContext)
   const [menuModalDetails, setMenuModalDetails] = useState({
     open: false,
@@ -25,9 +28,22 @@ const FMBCalendar = () => {
         .doc(monthIndexToName(getHijriDate().month).short)
         .get()
 
+      const menuDetailsNextMonth = await firebase
+        .firestore()
+        .collection("fmb")
+        .doc(getHijriDate().databaseYear.toString())
+        .collection("menus")
+        .doc(monthIndexToName(getHijriDate().month + 1).short)
+        .get()
+
       setMenu(menuDetails.data())
+
+      if (menuDetailsNextMonth.data() !== "undefined") {
+        setNextMonthMenu(menuDetailsNextMonth.data())
+      }
     } catch (error) {
       setMenu([])
+      setNextMonthMenu(null)
       console.log(error)
     }
   }
@@ -38,8 +54,15 @@ const FMBCalendar = () => {
 
   const getMatchingItemForDate = dateValue => {
     let matchingItem = null
-    if (menu && menu !== null && menu.length !== 0) {
-      let getMatchingItemArr = menu.items.filter(
+    let currMenu = null
+    if (shouldShowNextMonth) {
+      currMenu = nextMonthMenu
+    } else {
+      currMenu = menu
+    }
+
+    if (currMenu && currMenu !== null && currMenu.length !== 0) {
+      let getMatchingItemArr = currMenu.items.filter(
         x => x.date === dateValue.format("MM-DD-YYYY")
       )
 
@@ -95,17 +118,46 @@ const FMBCalendar = () => {
 
   return (
     <FMBCalendarWrapper>
-      <div style={{ fontSize: "1.5rem", textAlign: "center" }}>
+      <div
+        style={{
+          fontSize: "1.5rem",
+          textAlign: "center",
+        }}
+      >
         Faiz-ul-Mawaid il-Burhaniyah Calendar
       </div>
+
       {menu === [] ? (
         <div>Loading...</div>
       ) : (
-        <HijriMonth
-          monthIndex={getHijriDate().month}
-          onClickHandler={openMenuDetailsModal}
-          dateBoxContent={getDateBoxContent}
-        />
+        <div className="cont">
+          {nextMonthMenu && (
+            <div className="box1">
+              <Button
+                onClick={() => setShouldShowNextMonth(!shouldShowNextMonth)}
+                icon={<LeftOutlined />}
+                disabled={!shouldShowNextMonth}
+              ></Button>
+              <Button
+                className="float-right"
+                onClick={() => setShouldShowNextMonth(!shouldShowNextMonth)}
+                icon={<RightOutlined />}
+                disabled={shouldShowNextMonth}
+              ></Button>
+            </div>
+          )}
+          <div className="box2">
+            <HijriMonth
+              monthIndex={
+                shouldShowNextMonth
+                  ? getHijriDate().month + 1
+                  : getHijriDate().month
+              }
+              onClickHandler={openMenuDetailsModal}
+              dateBoxContent={getDateBoxContent}
+            />
+          </div>
+        </div>
       )}
       <Modal
         title="Menu Item"
@@ -170,6 +222,27 @@ const FMBCalendarWrapper = styled.div`
     padding-left: 2px;
     padding-right: 2px;
     height: 90px;
+  }
+
+  .cont {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .box1 {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0.5rem;
+    left: 0;
+  }
+  .box1 {
+    z-index: 10;
+  }
+
+  div.box1 > button {
+    padding-bottom: 2.4rem;
+    padding-top: -5rem;
   }
 `
 
