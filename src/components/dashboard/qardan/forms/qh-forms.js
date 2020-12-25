@@ -57,6 +57,29 @@ const QHForms = () => {
             </Col>
           </Row>
         </Alert>
+        <Alert variant="light" className="messageAlert">
+          Please fill and send your application to:{" "}
+          <a
+            style={{ color: "#4169e1" }}
+            href="mailto: sdqardan@gmail.com"
+            target="__blank"
+            rel="noopener noreferrer"
+          >
+            sdqardan@gmail.com
+          </a>{" "}
+          <br />
+          <div style={{ paddingTop: ".3rem" }}>
+            For any questions please contact:{" "}
+            <a
+              style={{ color: "#4169e1" }}
+              href="mailto: sdqardan@gmail.com"
+              target="__blank"
+              rel="noopener noreferrer"
+            >
+              sdqardan@gmail.com
+            </a>
+          </div>
+        </Alert>
       </Card>
     </QHFormsWrapper>
   )
@@ -79,6 +102,10 @@ const QHFormsWrapper = styled.div`
     @media only screen and (max-width: 575px) {
       margin-top: 1rem;
     }
+  }
+
+  .messageAlert {
+    border-left: 4px solid gray;
   }
 `
 
