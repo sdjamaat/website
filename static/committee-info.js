@@ -149,15 +149,59 @@ const fmb = {
     },
     {
       name: "Mulla Aliasgar Bhai Presswala",
-      role: "Secretary",
-    },
-    {
-      name: "Zahra Bhen Presswala",
-      role: "Menu Planner",
+      role: "Secretary (office Bearer)",
     },
     {
       name: "Murtuza Bhai Chhatriwala",
-      role: "Treasurer",
+      role: "Finance (office Bearer)",
+    },
+    {
+      name: "Qasim Bhai Lokhandwala",
+      role: "Jt. Finance (office Bearer)",
+    },
+    {
+      name: "Mulla Aliasgar Bhai Darugar",
+      role: "Procurement (office Bearer)",
+    },
+    {
+      name: "Mulla Qutbuddin Bhai Doctor",
+      role: "Operation (office Bearer)",
+    },
+    {
+      name: "Fatema Bhen Doctor",
+      role: "Dana Committee Coordinator",
+    },
+    {
+      name: "Mustafa Bhai Zakir",
+      role: "Member",
+    },
+    {
+      name: BHABHI_SAHEB,
+      role: "Member",
+    },
+    {
+      name: "Munira Bhen Suterwala",
+      role: "Faiz Support Team Coordinator",
+    },
+    {
+      name: "Umema Bhen Darugar",
+      role: "Faiz Support Team Coordinator",
+    },
+    {
+      name: "Amena Bhen Dhilla",
+      role: "Faiz Support Team Coordinator",
+    },
+    {
+      name: "Zahra Bhen Presswala",
+      role: "Mumenaat Team Coordinator",
+    },
+    {
+      name: "Rashida Bhen Bagasrawala",
+      role: "Member",
+    },
+    {
+      name: "Durriya Bhen Fatehi",
+      role: "Member",
     },
   ],
 }
