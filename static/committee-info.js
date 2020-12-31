@@ -1,7 +1,6 @@
 const AMIL_SAHEB = "Janab Aamil Saheb Shk. Khuzaima Bhai Yamani"
 const BHABHI_SAHEB = "Bhabhisaheb Rasheeda Yamani"
 
-
 const boardOfDirectors = {
   name: "Board of Directors",
   members: [
@@ -231,15 +230,21 @@ const qardan = {
       role: "President",
     },
     {
-      name: "Tayyeb Bhai Baxamusa",
+      name: "Shk. Aliasgar Bhai Taquee",
       role: "Secretary",
     },
+
     {
       name: "Mustafa Bhai Lukmani",
       role: "Treasurer",
     },
     {
-      name: "Shk. Aliasgar Bhai Taquee",
+      name: "Mulla Qutbuddin Bhai Doctor",
+      role: "Member",
+    },
+    { name: "Dr. Burhanuddin Bhai Mohammedali", role: "Member" },
+    {
+      name: "Tayyeb Bhai Baxamusa",
       role: "Member",
     },
     {
