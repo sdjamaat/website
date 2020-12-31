@@ -107,6 +107,7 @@ const QHFormsWrapper = styled.div`
   .messageAlert {
     border-left: 4px solid gray;
   }
+
 `
 
 export default QHForms
