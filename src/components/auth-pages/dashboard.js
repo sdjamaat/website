@@ -9,6 +9,7 @@ import Profile from "../dashboard/profile/profile"
 import QHForms from "../dashboard/qardan/forms/qh-forms"
 import { AuthContext } from "../../provider/auth-context"
 import StickyBox from "react-sticky-box"
+import { navigate } from "gatsby"
 
 const { SubMenu } = Menu
 const { Option, OptGroup } = Select
@@ -42,7 +43,9 @@ const DashboardMenu = ({
         <SubMenu key="fmb" title="Faiz-ul-Mawaid il-Burhaniyah">
           <Menu.Item key="fmb-calendar">Menu Calendar</Menu.Item>
           {currUser.family.fmb.enrolled && (
-            <Menu.Item key="fmb-submit-menu">Submit Thaali Choices</Menu.Item>
+            <Menu.Item key="fmb-submit-choices">
+              Submit Thaali Choices
+            </Menu.Item>
           )}
         </SubMenu>
         <SubMenu key="qh" title="Burhani Qardan Hasana">
@@ -74,7 +77,7 @@ const DashboardMenu = ({
                   <OptGroup label="Faiz-ul-Mawaid il-Burhaniyah">
                     <Option value="fmb-calendar">Menu Calendar</Option>
                     {currUser.family.fmb.enrolled && (
-                      <Option value="fmb-submit-menu">
+                      <Option value="fmb-submit-choices">
                         Submit Thaali Choices
                       </Option>
                     )}
@@ -103,22 +106,26 @@ const DashboardMenu = ({
   }
 }
 
-const Dashboard = () => {
-  const [page, setPage] = useState("profile")
+const Dashboard = props => {
+  console.log(props.page)
+
+  const [page, setPage] = useState(props.page)
 
   const handleChangePageDesktop = event => {
     setPage(event.key)
+    navigate(`auth/dashboard/${event.key}`)
   }
 
   const handleChangePageMobile = value => {
     setPage(value)
+    navigate(`auth/dashboard/${value}`)
   }
 
   const getPage = page => {
     switch (page) {
       case "fmb-calendar":
         return <Calendar />
-      case "fmb-submit-menu":
+      case "fmb-submit-choices":
         return <SubmitFMBMenu />
       case "profile":
         return <Profile />

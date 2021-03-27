@@ -8,7 +8,7 @@ import Committees from "../components/auth-pages/committees"
 const App = () => (
   <Layout>
     <Router>
-      <PrivateRoute path="/auth/dashboard" component={Dashboard} />
+      <PrivateRoute path="/auth/dashboard/:page" component={Dashboard} />
       <PrivateRoute path="/auth/committees" component={Committees} />
     </Router>
   </Layout>
