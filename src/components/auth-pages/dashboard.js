@@ -107,6 +107,7 @@ const DashboardMenu = ({
 }
 
 const Dashboard = props => {
+
   const [page, setPage] = useState(props.page)
 
   const handleChangePageDesktop = event => {
