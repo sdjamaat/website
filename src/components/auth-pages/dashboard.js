@@ -9,7 +9,7 @@ import Profile from "../dashboard/profile/profile"
 import QHForms from "../dashboard/qardan/forms/qh-forms"
 import { AuthContext } from "../../provider/auth-context"
 import StickyBox from "react-sticky-box"
-import { navigate } from "gatsby"
+import useQueryParam from "../../custom-hooks/use-query-params"
 
 const { SubMenu } = Menu
 const { Option, OptGroup } = Select
@@ -107,16 +107,20 @@ const DashboardMenu = ({
 }
 
 const Dashboard = props => {
-  const [page, setPage] = useState(props.page)
+  const [urlQueryTab, setUrlQueryTab] = useQueryParam("tab", "profile")
+
+  const [page, setPage] = useState(urlQueryTab || "profile")
 
   const handleChangePageDesktop = event => {
     setPage(event.key)
-    navigate(`auth/dashboard/${event.key}`)
+    setUrlQueryTab(event.key)
+    //navigate(`auth/dashboard/${event.key}`)
   }
 
   const handleChangePageMobile = value => {
     setPage(value)
-    navigate(`auth/dashboard/${value}`)
+    setUrlQueryTab(value)
+    //navigate(`auth/dashboard/${value}`)
   }
 
   const getPage = page => {
@@ -157,6 +161,9 @@ const Dashboard = props => {
 }
 
 const DashboardWrapper = styled.div`
+  ul.ant-menu {
+    background-color: white;
+  }
   .divider-header-content {
     margin-top: 1rem;
     margin-bottom: 2rem;

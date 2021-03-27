@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   const [currUser, setCurrUser] = useState(getAuthUser())
 
-  const signOut = () => {
+  const signOut = (path = null, tab = null) => {
     firebase
       .auth()
       .signOut()
@@ -61,7 +61,11 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("_secure__ls__metadata")
       })
       .then(() => {
-        navigate("/login")
+        if (path) {
+          navigate(`/login?path=${path}&tab=${tab}`)
+        } else {
+          navigate("/login")
+        }
       })
   }
 

@@ -8,6 +8,7 @@ import firebase from "gatsby-plugin-firebase"
 import { AuthContext } from "../provider/auth-context"
 import CustomMessage from "../components/custom-message"
 import useComponentWillMount from "../custom-hooks/component-will-mount"
+import useQueryParam from "../custom-hooks/use-query-params"
 
 const layout = {
   labelCol: { span: 16 },
@@ -68,6 +69,8 @@ const LoginForm = () => {
   })
   const [form] = Form.useForm()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [path, setPath] = useQueryParam("path", "")
+  const [tab, setTab] = useQueryParam("tab", "")
 
   const onSubmit = async values => {
     if (isSubmitting) {
@@ -86,7 +89,15 @@ const LoginForm = () => {
           if (isUser) {
             setIsLoggedIn(true)
             setCurrUser(localEncryptedStore.get("authUser"))
-            navigate("/auth/dashboard/profile")
+            if (path) {
+              if (tab) {
+                navigate(`${path}?tab=${tab}`)
+              } else {
+                navigate(`${path}`)
+              }
+            } else {
+              navigate("/auth/dashboard?tab=profile")
+            }
           } else {
             throw { message: "Unauthorized" }
           }

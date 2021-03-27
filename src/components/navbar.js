@@ -6,7 +6,9 @@ import Img from "gatsby-image"
 import { AuthContext } from "../provider/auth-context"
 
 const Navigation = ({ logo }) => {
-  const { isLoggedIn, signOut, currUser } = useContext(AuthContext)
+  const { isLoggedIn, signOut, currUser, setIsLoggedIn } = useContext(
+    AuthContext
+  )
 
   const [navExpanded, setNavExpanded] = useState(false)
   const [navDropDownExpanded, setNavDropDownExpanded] = useState(false)
@@ -71,7 +73,7 @@ const Navigation = ({ logo }) => {
                       className="dropdown navlink"
                       style={{ color: "gray" }}
                       as={Link}
-                      to="/auth/dashboard"
+                      to="/auth/dashboard?tab=profile"
                       onClick={() => setNavExpanded(false)}
                     >
                       User Dashboard
@@ -83,7 +85,7 @@ const Navigation = ({ logo }) => {
                       style={{ color: "gray" }}
                       onClick={() => {
                         setNavExpanded(false)
-                        signOut()
+                        signOut(null)
                       }}
                     >
                       Sign Out
