@@ -106,7 +106,7 @@ const DashboardMenu = ({
   }
 }
 
-const Dashboard = props => {
+const Dashboard = () => {
   const [urlQueryTab, setUrlQueryTab] = useQueryParam("tab", "profile")
 
   const [page, setPage] = useState(urlQueryTab || "profile")
@@ -114,13 +114,11 @@ const Dashboard = props => {
   const handleChangePageDesktop = event => {
     setPage(event.key)
     setUrlQueryTab(event.key)
-    //navigate(`auth/dashboard/${event.key}`)
   }
 
   const handleChangePageMobile = value => {
     setPage(value)
     setUrlQueryTab(value)
-    //navigate(`auth/dashboard/${value}`)
   }
 
   const getPage = page => {
