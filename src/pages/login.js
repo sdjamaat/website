@@ -63,7 +63,7 @@ const LoginForm = () => {
 
   useComponentWillMount(() => {
     if (isLoggedIn) {
-      navigate("/auth/dashboard")
+      navigate("/auth/dashboard/profile")
     }
   })
   const [form] = Form.useForm()
@@ -86,7 +86,7 @@ const LoginForm = () => {
           if (isUser) {
             setIsLoggedIn(true)
             setCurrUser(localEncryptedStore.get("authUser"))
-            navigate("/auth/dashboard")
+            navigate("/auth/dashboard/profile")
           } else {
             throw { message: "Unauthorized" }
           }
