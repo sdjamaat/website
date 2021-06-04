@@ -156,7 +156,7 @@ const SubmitFMBMenu = () => {
             <Alert
               style={{ marginBottom: "1rem" }}
               type="success"
-              message="Your family's thaali preferences for the next month have been recorded"
+              message="Your family's thaali preferences have been recorded"
             />
             <Collapse style={{ marginTop: "-.5rem" }}>
               <Panel header="Selections" key="1">
