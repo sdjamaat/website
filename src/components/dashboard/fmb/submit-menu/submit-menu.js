@@ -253,13 +253,6 @@ const SubmitFMBMenuWrapper = styled.div`
     padding-bottom: 0.3rem;
   }
 
-  .ant-collapse
-    > .ant-collapse-item
-    > .ant-collapse-header
-    .ant-collapse-arrow {
-    top: 1.7px;
-  }
-
   .next-btn {
     padding-top: 0.2rem;
     padding-bottom: 2.2rem;
