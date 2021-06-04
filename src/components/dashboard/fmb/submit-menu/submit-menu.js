@@ -111,7 +111,10 @@ const SubmitFMBMenu = () => {
 
     fmbYearQuery.onSnapshot(doc => {
       if (doc.exists) {
-        const activeMenuMonth = doc.data().activeMenu
+        let activeMenuMonth = doc.data().activeMenu
+        if (!activeMenuMonth) {
+          activeMenuMonth = doc.data().lastActiveMenu
+        }
         if (activeMenuMonth !== null) {
           fmbYearQuery
             .collection("menus")
@@ -249,6 +252,14 @@ const SubmitFMBMenuWrapper = styled.div`
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
   }
+
+  .ant-collapse
+    > .ant-collapse-item
+    > .ant-collapse-header
+    .ant-collapse-arrow {
+    top: 1.7px;
+  }
+
   .next-btn {
     padding-top: 0.2rem;
     padding-bottom: 2.2rem;
