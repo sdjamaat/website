@@ -112,8 +112,10 @@ const SubmitFMBMenu = () => {
     fmbYearQuery.onSnapshot(doc => {
       if (doc.exists) {
         let activeMenuMonth = doc.data().activeMenu
+        const isUsingLastActiveMenu = false
         if (!activeMenuMonth) {
           activeMenuMonth = doc.data().lastActiveMenu
+          isUsingLastActiveMenu = true
         }
         if (activeMenuMonth !== null) {
           fmbYearQuery
@@ -134,7 +136,15 @@ const SubmitFMBMenu = () => {
                 setAlreadySubmittedItemsDoc(alreadySubmittedItemsDoc.data())
                 setHasAlreadySubmitted(true)
               }
-              setActiveMenu({ ...activeMenu, shortMonthName: activeMenuMonth })
+              // only set active menu if the user has already submitted something or the we're not using the LAST active menu
+              // don't want to let users who have not submitted anything see anything when we're using the last active menu
+              // setting an active menu means 1) if no submissions than you can submit 2) if submissions you can see your submissions
+              if (hasAlreadySubmitted || !isUsingLastActiveMenu) {
+                setActiveMenu({
+                  ...activeMenu,
+                  shortMonthName: activeMenuMonth,
+                })
+              }
             })
         } else {
           setActiveMenu(-1)
