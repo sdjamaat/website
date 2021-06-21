@@ -144,6 +144,8 @@ const SubmitFMBMenu = () => {
                   ...activeMenu,
                   shortMonthName: activeMenuMonth,
                 })
+              } else {
+                setActiveMenu(-1)
               }
             })
         } else {
@@ -161,7 +163,7 @@ const SubmitFMBMenu = () => {
         title="Submit Thaali Choices"
         headStyle={{ fontSize: "1.5rem", textAlign: "center" }}
       >
-        {hasAlreadySubmitted && (activeMenu !== null || activeMenu !== -1) && (
+        {hasAlreadySubmitted && activeMenu !== null && activeMenu !== -1 && (
           <>
             <Alert
               style={{ marginBottom: "1rem" }}
