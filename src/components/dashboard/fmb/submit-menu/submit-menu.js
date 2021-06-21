@@ -112,7 +112,7 @@ const SubmitFMBMenu = () => {
     fmbYearQuery.onSnapshot(doc => {
       if (doc.exists) {
         let activeMenuMonth = doc.data().activeMenu
-        const isUsingLastActiveMenu = false
+        let isUsingLastActiveMenu = false
         if (!activeMenuMonth) {
           activeMenuMonth = doc.data().lastActiveMenu
           isUsingLastActiveMenu = true
