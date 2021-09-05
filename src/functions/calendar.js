@@ -47,6 +47,7 @@ module.exports = {
   ],
 
   monthIndexToName: index => {
+    index = index % 11
     switch (index) {
       case 0:
         return { short: "moharram", long: "Moharram al-Haraam" }

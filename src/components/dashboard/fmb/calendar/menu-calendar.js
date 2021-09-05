@@ -31,7 +31,7 @@ const FMBCalendar = () => {
       const menuDetailsNextMonth = await firebase
         .firestore()
         .collection("fmb")
-        .doc(getHijriDate().databaseYear.toString())
+        .doc(getHijriDate().year.toString())
         .collection("menus")
         .doc(monthIndexToName(getHijriDate().month + 1).short)
         .get()
