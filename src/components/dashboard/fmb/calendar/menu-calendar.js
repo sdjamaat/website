@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useContext } from "react"
 import styled from "styled-components"
 import { Badge, Modal, Alert, Button } from "antd"
-import { monthIndexToName } from "../../../../functions/calendar"
+import {
+  monthIndexToName,
+  getNextMonthIndex,
+} from "../../../../functions/calendar"
 import HijriMonth from "../../../hijri-calendar/hijri-month"
 import { DateContext } from "../../../../provider/date-context"
 import firebase from "gatsby-plugin-firebase"
@@ -33,7 +36,7 @@ const FMBCalendar = () => {
         .collection("fmb")
         .doc(getHijriDate().year.toString())
         .collection("menus")
-        .doc(monthIndexToName(getHijriDate().month + 1).short)
+        .doc(monthIndexToName(getNextMonthIndex(getHijriDate().month)).short)
         .get()
 
       setMenu(menuDetails.data())
@@ -68,6 +71,7 @@ const FMBCalendar = () => {
 
       if (getMatchingItemArr.length > 0) {
         matchingItem = getMatchingItemArr[0]
+        return matchingItem
       }
     }
     return matchingItem
@@ -150,7 +154,7 @@ const FMBCalendar = () => {
             <HijriMonth
               monthIndex={
                 shouldShowNextMonth
-                  ? getHijriDate().month + 1
+                  ? getNextMonthIndex(getHijriDate().month)
                   : getHijriDate().month
               }
               onClickHandler={openMenuDetailsModal}
@@ -235,9 +239,6 @@ const FMBCalendarWrapper = styled.div`
     position: absolute;
     top: 0.5rem;
     left: 0;
-  }
-  .box1 {
-    z-index: 10;
   }
 
   div.box1 > button {

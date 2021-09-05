@@ -46,6 +46,41 @@ module.exports = {
     "moharram",
   ],
 
+  shortMonthToIndex: shortMonth => {
+    switch (shortMonth) {
+      case "moharram":
+        return 0
+      case "safar":
+        return 1
+      case "rabi1":
+        return 2
+      case "rabi2":
+        return 3
+      case "jumada1":
+        return 4
+      case "jumada2":
+        return 5
+      case "rajab":
+        return 6
+      case "shabaan":
+        return 7
+      case "ramadaan":
+        return 8
+      case "shawwal":
+        return 9
+      case "zilqadah":
+        return 10
+      case "zilhaj":
+        return 11
+      default:
+        return null
+    }
+  },
+
+  getNextMonthIndex: currIndex => {
+    return (currIndex + 1) % 11
+  },
+
   monthIndexToName: index => {
     index = index % 11
     switch (index) {
