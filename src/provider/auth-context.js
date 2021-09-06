@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from "react"
 import firebase from "gatsby-plugin-firebase"
 import { navigate } from "gatsby"
 import Cohere from "cohere-js"
+import moment from "moment"
 const hasWindow = typeof window !== "undefined"
 const SecureLS = hasWindow ? require("secure-ls") : null
 const localEncryptedStore = hasWindow
@@ -27,10 +28,17 @@ const defaultState = {
 export const AuthContext = createContext(defaultState)
 
 export const AuthProvider = ({ children }) => {
+  const checkTimeStampValid = timestamp => {
+    // current cookie expiry time is two weeks
+    timestamp = moment(timestamp).add(14, "d")
+    let currDate = moment()
+    return currDate.isBefore(timestamp)
+  }
+
   const verifyAuthUser = () => {
     try {
       const user = localEncryptedStore.get("authUser")
-      if (user.length !== 0) {
+      if (user.length !== 0 && checkTimeStampValid(user.timestamp)) {
         return user
       } else {
         return null
@@ -85,6 +93,7 @@ export const AuthProvider = ({ children }) => {
           .onSnapshot(doc => {
             localEncryptedStore.set("authUser", {
               ...currUser,
+              timestamp: Date.now(),
               family: {
                 ...doc.data(),
               },
@@ -120,6 +129,7 @@ export const AuthProvider = ({ children }) => {
                   family: {
                     ...familyDoc.data(),
                   },
+                  timestamp: Date.now(),
                 })
                 setCurrUser(localEncryptedStore.get("authUser"))
               } else {

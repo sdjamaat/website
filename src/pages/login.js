@@ -39,6 +39,7 @@ const getAndSetUserInformation = async (uid, localEncryptedStore) => {
           family: {
             ...familyInfo.data(),
           },
+          timestamp: Date.now(),
         })
       } else {
         return false
@@ -75,9 +76,6 @@ const LoginForm = () => {
   const onSubmit = async values => {
     if (isSubmitting) {
       try {
-        await firebase
-          .auth()
-          .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
         const response = await firebase
           .auth()
           .signInWithEmailAndPassword(values.email, values.password)
