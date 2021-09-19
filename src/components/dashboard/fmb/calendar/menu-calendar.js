@@ -79,7 +79,7 @@ const FMBCalendar = () => {
   const openMenuDetailsModal = dateValue => {
     let englishDisplay = dateValue.format("dddd, MMMM Do YYYY")
     let hijriDisplay =
-      dateValue.clone().add(1, "days").iDate() +
+      dateValue.iDate() +
       " " +
       monthIndexToName(getHijriDate().month).long
 

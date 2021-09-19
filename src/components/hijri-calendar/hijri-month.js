@@ -2,7 +2,6 @@
 import React, { useContext } from "react"
 import { monthIndexToName } from "../../functions/calendar"
 import { DateContext } from "../../provider/date-context"
-import { Row, Col } from "react-bootstrap"
 import styled from "styled-components"
 import DateBox from "./date-box"
 import { Disable } from "react-disable"
@@ -20,7 +19,7 @@ const getMonthArrayValues = month => {
   if (start.day() - 1 < 0) {
     startDay = 6
   } else {
-    startDay = start.day() - 1
+    startDay = start.day()
   }
 
   // push back start day to beginning of week (sunday)
@@ -78,7 +77,6 @@ const HijriMonth = ({ monthIndex, onClickHandler, dateBoxContent }) => {
                 if (
                   day.dateObj
                     .clone()
-                    .subtract(1, "days")
                     .format("MM-DD-YYYY") === momentHijri().format("MM-DD-YYYY")
                 ) {
                   isDayToday = true
@@ -91,7 +89,7 @@ const HijriMonth = ({ monthIndex, onClickHandler, dateBoxContent }) => {
                     className={`day ${isDayToday ? "active" : ""}
                     }`}
                     onClick={() =>
-                      onClickHandler(day.dateObj.clone().subtract(1, "days"))
+                      onClickHandler(day.dateObj)
                     }
                   >
                     <div style={{ cursor: `${day.disabled ? "" : "pointer"}` }}>
@@ -99,12 +97,11 @@ const HijriMonth = ({ monthIndex, onClickHandler, dateBoxContent }) => {
                         hijriDay={day.dateObj.iDate()}
                         englishDay={day.dateObj
                           .clone()
-                          .subtract(1, "days")
                           .date()}
                       >
                         {!day.disabled &&
                           dateBoxContent(
-                            day.dateObj.clone().subtract(1, "days")
+                            day.dateObj
                           )}
                       </DateBox>
                     </div>
