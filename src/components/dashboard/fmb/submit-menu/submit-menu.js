@@ -26,6 +26,32 @@ const SubmitFMBMenu = () => {
   const [hasAlreadySubmitted, setHasAlreadySubmitted] = useState(false)
   const [alreadySubmittedItemsDoc, setAlreadySubmittedItemsDoc] = useState({})
 
+  const thaaliSubmitEmailTest = (userSelectionsMap, menuItems) => {
+    let itemsArray = []
+
+    for (let item of menuItems) {
+      if (!item.nothaali) {
+        itemsArray.push({
+          itemName: item.name,
+          itemDate: moment(item.date, "MM-DD-YYYY").format(
+            "dddd, MMMM Do YYYY"
+          ),
+          thaaliChoice: userSelectionsMap[item.id],
+        })
+      }
+    }
+
+    return itemsArray
+  }
+
+  const getEmailsToSendItTo = () => {
+    let listOfEmails = [currUser.email]
+    if (currUser.email !== currUser.family.head.email) {
+      listOfEmails.push(currUser.family.head.email)
+    }
+    return listOfEmails
+  }
+
   const submitSelections = async () => {
     setIsSubmitting(true)
     try {
@@ -57,6 +83,29 @@ const SubmitFMBMenu = () => {
           currUser.familyid
         ),
       })
+
+      const emailItemSelectionData = thaaliSubmitEmailTest(
+        selections.items,
+        activeMenu.items
+      )
+
+      const sendEmailAfterThaaliSubmission = firebase
+        .functions()
+        .httpsCallable("sendEmailAfterThaaliSubmission")
+
+      try {
+        const emailBodyData = {
+          itemSelections: [...emailItemSelectionData],
+          hijriMonthName: activeMenu.displayMonthName,
+          hijriYear: activeMenu.displayYear,
+          userEmails: getEmailsToSendItTo(),
+          familyDisplayName: currUser.family.displayname,
+        }
+
+        await sendEmailAfterThaaliSubmission(emailBodyData)
+      } catch (err) {
+        console.log(err)
+      }
 
       CustomMessage("success", "Successfully submitted thaali preferences!")
       setRefreshComponent(!refreshComponent)
@@ -168,7 +217,7 @@ const SubmitFMBMenu = () => {
             <Alert
               style={{ marginBottom: "1rem" }}
               type="success"
-              message="Your family's thaali preferences have been recorded"
+              message="Your family's thaali preferences have been recorded. Check your inbox for a confirmation email."
             />
             <Collapse style={{ marginTop: "-.5rem" }}>
               <Panel header="Selections" key="1">
