@@ -53,7 +53,7 @@ const FMBCalendar = () => {
 
   useEffect(() => {
     getFirebaseData()
-  }, [])
+  }, [getFirebaseData])
 
   const getMatchingItemForDate = dateValue => {
     let matchingItem = null
@@ -79,9 +79,7 @@ const FMBCalendar = () => {
   const openMenuDetailsModal = dateValue => {
     let englishDisplay = dateValue.format("dddd, MMMM Do YYYY")
     let hijriDisplay =
-      dateValue.iDate() +
-      " " +
-      monthIndexToName(getHijriDate().month).long
+      dateValue.iDate() + " " + monthIndexToName(getHijriDate().month).long
 
     const matchingItem = getMatchingItemForDate(dateValue)
     setMenuModalDetails({

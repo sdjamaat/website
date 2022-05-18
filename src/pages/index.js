@@ -4,11 +4,11 @@ import { Row, Col } from "react-bootstrap"
 import styled from "styled-components"
 import Contact from "../components/home/contact"
 import WelcomeAbout from "../components/home/welcome-about"
-import LearnMore from "../components/home/learn-more"
 import Location from "../components/home/location"
-import SalaatTimes from "../components/home/salaat-times"
 import ITSMessage from "../components/home/its-message"
-import Layout from "../components/layout"
+import Layout from "../components/other/layout"
+// import SalaatTimes from "../components/home/salaat-times"
+// import LearnMore from "../components/home/learn-more"
 
 export default () => (
   <Layout displayBanner={true}>

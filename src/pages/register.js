@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { cloneDeep } from "lodash"
-import Layout from "../components/layout"
+import Layout from "../components/other/layout"
 import styled from "styled-components"
 import { Card, Spin } from "antd"
 import AccountDetails from "../components/registration/account-details"
@@ -10,7 +10,7 @@ import ReviewDetails from "../components/registration/review-details"
 import ChooseFamily from "../components/registration/choose-family"
 import FamilyMemberDetails from "../components/registration/family-member-details"
 import SuccessSplash from "../components/registration/success"
-import CustomMessage from "../components/custom-message"
+import CustomMessage from "../components/other/custom-message"
 import firebase from "gatsby-plugin-firebase"
 
 const layout = {

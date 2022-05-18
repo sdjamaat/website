@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react"
+import React, { createContext } from "react"
 import { monthIndexToName } from "../functions/calendar"
 const moment = require("moment-timezone")
 moment().tz("America/Los_Angeles").format()
@@ -6,13 +6,24 @@ const momentHijri = require("moment-hijri")
 
 const defaultState = {
   momentHijri: null,
-  getHijriDate: () => {},
+  getHijriDate: (): HijriDateReturn => {
+    return
+  },
 }
 
 export const DateContext = createContext(defaultState)
 
+interface HijriDateReturn {
+  day: any
+  month: any
+  year: any
+  databaseYear: any
+  shortMonthName: string
+  longMonthName: string
+}
+
 export const DateProvider = ({ children }) => {
-  const getHijriDate = () => {
+  const getHijriDate = (): HijriDateReturn => {
     const newDate = momentHijri().add(1, "days")
     let databaseYear = newDate.iYear()
     // for moharram, the "year" in terms of the database is last year

@@ -2,13 +2,14 @@ import React, { useState, useEffect, useContext } from "react"
 import { Card, Alert, Spin, Collapse, Divider } from "antd"
 import { DateContext } from "../../../../provider/date-context"
 import { AuthContext } from "../../../../provider/auth-context"
-import CustomMessage from "../../../custom-message"
+import CustomMessage from "../../../other/custom-message"
 import firebase from "gatsby-plugin-firebase"
 import styled from "styled-components"
 import StartPanel from "./collect-item-info/start-panel"
 import ReviewSelections from "./collect-item-info/review-selections"
 import SelectItems from "./collect-item-info/select-items"
 import moment from "moment"
+import ItemListDisplay from "../shared/item-list-display"
 
 const { Panel } = Collapse
 
@@ -212,82 +213,26 @@ const SubmitFMBMenu = () => {
         title="Submit Thaali Choices"
         headStyle={{ fontSize: "1.5rem", textAlign: "center" }}
       >
-        {hasAlreadySubmitted && activeMenu !== null && activeMenu !== -1 && !isSubmitting && (
-          <>
-            <Alert
-              style={{ marginBottom: "1rem" }}
-              type="success"
-              message="Your family's thaali preferences have been recorded. Check your inbox for a confirmation email."
-            />
-            <Collapse style={{ marginTop: "-.5rem" }}>
-              <Panel header="Selections" key="1">
-                <div
-                  style={{
-                    textAlign: "center",
-                    paddingBottom: "1.3rem",
-                    paddingTop: ".5rem",
-                    fontSize: "1.2rem",
-                  }}
-                >
-                  <strong>Submitted by:</strong>{" "}
-                  {alreadySubmittedItemsDoc.submittedBy.firstname}{" "}
-                  {alreadySubmittedItemsDoc.submittedBy.lastname}{" "}
-                </div>
-                <div style={{ paddingLeft: ".4rem" }}>
-                  {activeMenu.items.map((item, index) => {
-                    if (!item.nothaali) {
-                      return (
-                        <div
-                          key={index}
-                          style={{
-                            borderLeft: "1px solid gray",
-                            paddingLeft: "1rem",
-                          }}
-                        >
-                          <div
-                            style={{
-                              fontSize: "1.2rem",
-                              paddingBottom: ".7rem",
-                            }}
-                          >
-                            {item.name}
-                          </div>
-                          <p
-                            style={{
-                              marginBottom: ".2rem",
-                              marginTop: "-.5rem",
-                              color: "gray",
-                            }}
-                          >
-                            {moment(item.date, "MM-DD-YYYY").format(
-                              "dddd, MMMM Do YYYY"
-                            )}
-                          </p>
-                          <p
-                            style={{
-                              color: "gray",
-                              paddingBottom: ".2rem",
-                            }}
-                          >
-                            Size:{" "}
-                            {alreadySubmittedItemsDoc.selections.hasOwnProperty(
-                              item.id
-                            )
-                              ? alreadySubmittedItemsDoc.selections[item.id]
-                              : "Not Found"}
-                          </p>
-                        </div>
-                      )
-                    } else {
-                      return null
-                    }
-                  })}
-                </div>
-              </Panel>
-            </Collapse>
-            <Divider style={{ marginTop: "1rem", marginBottom: "1rem" }} />
-          </>
-        )}
+        {hasAlreadySubmitted &&
+          activeMenu !== null &&
+          activeMenu !== -1 &&
+          !isSubmitting && (
+            <>
+              <Alert
+                style={{ marginBottom: "1rem" }}
+                type="success"
+                message="Your family's thaali preferences have been recorded. Check your inbox for a confirmation email."
+              />
+              <ItemListDisplay
+                title="Selections"
+                items={activeMenu.items}
+                selections={alreadySubmittedItemsDoc.selections}
+                submittedBy={`${alreadySubmittedItemsDoc.submittedBy.firstname} ${alreadySubmittedItemsDoc.submittedBy.lastname}`}
+              />
+
+              <Divider style={{ marginTop: "1rem", marginBottom: "1rem" }} />
+            </>
+          )}
         <div>
           {activeMenu === null ? (
             <div>Loading...</div>

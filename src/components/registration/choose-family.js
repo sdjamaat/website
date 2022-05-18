@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
-import { Form, Button, Tag, Select, message, Alert } from "antd"
+import { Form, Button, Tag, Select, Alert } from "antd"
 import { onFinishFailed } from "../../functions/forms"
-import CustomMessage from "../custom-message"
-import firebase from "gatsby-plugin-firebase"
+import CustomMessage from "../other/custom-message"
 const { Option } = Select
 
 const ChooseFamily = ({ layout, setStep, values, setValues, getFamilies }) => {

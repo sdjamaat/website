@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
-import { AuthContext } from "../provider/auth-context"
-import useQueryParam from "../custom-hooks/use-query-params"
+import { AuthContext } from "../../provider/auth-context"
+import useQueryParam from "../../custom-hooks/use-query-params"
 
 const PrivateRoute = ({ component: Component, location, path, ...rest }) => {
   const { isLoggedIn, signOut, verifyAuthUser } = useContext(AuthContext)

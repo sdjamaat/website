@@ -1,10 +1,11 @@
-import React, { useState, useContext, useCallback } from "react"
+import React, { useState, useContext } from "react"
 import { Menu, Divider, Select, Form } from "antd"
 import { Row, Col } from "react-bootstrap"
 import useWindowDimensions from "../../custom-hooks/window-dimentions"
 import styled from "styled-components"
 import Calendar from "../dashboard/fmb/calendar/menu-calendar"
 import SubmitFMBMenu from "../dashboard/fmb/submit-menu/submit-menu"
+import ViewSelections from "../dashboard/fmb/view-selections/view-selections"
 import Profile from "../dashboard/profile/profile"
 import QHForms from "../dashboard/qardan/forms/qh-forms"
 import { AuthContext } from "../../provider/auth-context"
@@ -47,6 +48,9 @@ const DashboardMenu = ({
               Submit Thaali Choices
             </Menu.Item>
           )}
+          {currUser.family.fmb.enrolled && (
+            <Menu.Item key="fmb-view-selections">View Selections</Menu.Item>
+          )}
         </SubMenu>
         <SubMenu key="qh" title="Burhani Qardan Hasana">
           <Menu.Item key="qh-forms">Application Forms</Menu.Item>
@@ -77,9 +81,14 @@ const DashboardMenu = ({
                   <OptGroup label="Faiz-ul-Mawaid il-Burhaniyah">
                     <Option value="fmb-calendar">Menu Calendar</Option>
                     {currUser.family.fmb.enrolled && (
-                      <Option value="fmb-submit-choices">
-                        Submit Thaali Choices
-                      </Option>
+                      <>
+                        <Option value="fmb-submit-choices">
+                          Submit Thaali Choices
+                        </Option>
+                        <Option value="fmb-view-selections">
+                          View Selections
+                        </Option>
+                      </>
                     )}
                   </OptGroup>
 
@@ -106,7 +115,6 @@ const DashboardMenu = ({
   }
 }
 
-
 const Dashboard = () => {
   const [urlQueryTab, setUrlQueryTab] = useQueryParam("tab", "profile")
 
@@ -128,6 +136,8 @@ const Dashboard = () => {
         return <Calendar />
       case "fmb-submit-choices":
         return <SubmitFMBMenu />
+      case "fmb-view-selections":
+        return <ViewSelections />
       case "profile":
         return <Profile />
       case "qh-forms":

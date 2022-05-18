@@ -1,8 +1,8 @@
-import React, { useState } from "react"
+import React from "react"
 import styled from "styled-components"
 import { Form, Input, Button, InputNumber, Tag, Select } from "antd"
 import { onFinishFailed } from "../../functions/forms"
-import CustomMessage from "../custom-message"
+import CustomMessage from "../other/custom-message"
 const { Option } = Select
 
 const FamilyDetails = ({ layout, setStep, values, setValues }) => {

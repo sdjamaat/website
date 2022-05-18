@@ -3,7 +3,7 @@ import { Link } from "gatsby"
 import { Nav, Navbar, NavDropdown, Collapse } from "react-bootstrap"
 import styled from "styled-components"
 import Img from "gatsby-image"
-import { AuthContext } from "../provider/auth-context"
+import { AuthContext } from "../../provider/auth-context"
 
 const Navigation = ({ logo }) => {
   const { isLoggedIn, signOut, currUser, setIsLoggedIn } = useContext(
