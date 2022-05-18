@@ -31,7 +31,7 @@ const ViewSelections = (props: ViewSelectionsProps) => {
   const [menuList, setMenuList] = useState<MenuListItem[]>([])
   const [isLoading, setIsLoading] = useState<Boolean>(false)
   const hijriYear = getHijriDate().year
-  const getData = async (): Promise<MenuListItem[]> => {
+  const getData = async () => {
     // query where we look for all menus that have submissions from the current users families
     // for each of those menus get submissions data
     setIsLoading(true)
@@ -55,20 +55,17 @@ const ViewSelections = (props: ViewSelectionsProps) => {
         .doc(currUser.familyid)
         .get()) as firestore.DocumentSnapshot<FamilySubmissionData>
       const familySubmissionsDataForMenu = familySubmission.data()
-      console.log(familySubmissionsDataForMenu)
 
       menuListBuilder.push({
         menuData: menuData,
         submissionData: familySubmissionsDataForMenu,
       })
     }
-    return Promise.resolve(menuListBuilder)
+    setMenuList(menuListBuilder)
+    setIsLoading(false)
   }
   useEffect(() => {
-    getData().then(menuList => {
-      setMenuList(menuList)
-      setIsLoading(false)
-    })
+    getData()
   }, [])
   return (
     <CardWithHeaderWrapper>
