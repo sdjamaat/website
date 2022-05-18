@@ -11,7 +11,7 @@ import {
 import { DatabaseContext } from "../../../../provider/database-context"
 import { AuthContext } from "../../../../provider/auth-context"
 import ItemListDisplay from "../shared/item-list-display"
-import { Divider } from "antd"
+import { Alert, Divider } from "antd"
 import styled from "styled-components"
 
 interface ViewSelectionsProps {}
@@ -28,7 +28,7 @@ const ViewSelections = (props: ViewSelectionsProps) => {
   const { getHijriDate } = useContext(DateContext)
   const { hijriYearDocRef } = useContext(DatabaseContext)
   const { currUser } = useContext(AuthContext)
-  const [menuList, setMenuList] = useState<MenuListItem[]>([])
+  const [menuList, setMenuList] = useState<MenuListItem[]>(null)
   const [isLoading, setIsLoading] = useState<Boolean>(false)
   const hijriYear = getHijriDate().year
   const getData = async () => {
@@ -70,24 +70,31 @@ const ViewSelections = (props: ViewSelectionsProps) => {
   return (
     <CardWithHeaderWrapper>
       <CardWithHeader title="View Thaali Selections">
-        {isLoading && menuList.length === 0 ? (
+        {isLoading || menuList === null ? (
           <div>Loading...</div>
         ) : (
           <>
             <Divider style={{ marginTop: "0rem" }} orientation="left">
               Submissions for Hijri Year {hijriYear}
             </Divider>
-            {menuList.map(({ menuData, submissionData }) => {
-              return (
-                <ItemListDisplay
-                  key={menuData.displayMonthName}
-                  title={`${menuData.displayMonthName}`}
-                  submittedBy={`${submissionData.submittedBy.firstname} ${submissionData.submittedBy.lastname}`}
-                  items={menuData.items}
-                  selections={submissionData.selections}
-                />
-              )
-            })}
+            {menuList.length > 0 &&
+              menuList.map(({ menuData, submissionData }) => {
+                return (
+                  <ItemListDisplay
+                    key={menuData.displayMonthName}
+                    title={`${menuData.displayMonthName}`}
+                    submittedBy={`${submissionData.submittedBy.firstname} ${submissionData.submittedBy.lastname}`}
+                    items={menuData.items}
+                    selections={submissionData.selections}
+                  />
+                )
+              })}
+            {menuList.length === 0 && (
+              <Alert
+                type="warning"
+                message="No submissions found for the current hijri year"
+              />
+            )}
           </>
         )}
       </CardWithHeader>
