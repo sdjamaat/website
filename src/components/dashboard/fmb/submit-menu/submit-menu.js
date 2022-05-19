@@ -20,6 +20,7 @@ const SubmitFMBMenu = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [selections, setSelections] = useState({
     "select-toggle": "individual",
+    "group-toggle": "calendar-date",
   })
 
   const [panel, setPanel] = useState("start")
@@ -145,6 +146,10 @@ const SubmitFMBMenu = () => {
             setPanel={setPanel}
             items={activeMenu.items}
             selections={selections.items}
+            distDateMap={selections.distDateMap}
+            hasGroupedSelectionByDistDate={
+              selections["group-toggle"] === "distribution-date"
+            }
             submitSelections={submitSelections}
           />
         )

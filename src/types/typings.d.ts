@@ -34,3 +34,27 @@ export interface MenuData {
   submissions: string[]
   items: ThaaliItem[]
 }
+
+export interface DistributionDateMetadata {
+  distDate: string
+  isFirstItem: Boolean
+}
+
+export type SelectToggleType =
+  | "individual"
+  | "Full"
+  | "Half"
+  | "Quarter"
+  | "No Thaali"
+
+export type GroupToggle = "distribution-date" | "calendar-date"
+
+export interface FormValues {
+  items?: Map<string, SelectToggleType>
+  [`select-toggle`]?: SelectToggleType
+  [`group-toggle`]?: GroupToggle
+}
+
+export interface ValuesFromSelectItems extends FormValues {
+  distDateMap: Map<string, DistributionDateMetadata>
+}
