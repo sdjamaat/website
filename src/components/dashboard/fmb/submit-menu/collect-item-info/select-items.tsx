@@ -107,16 +107,13 @@ const SelectItems = ({
 
   const getDistDate = (date: string): string => {
     let thaaliDate = moment(date, "MM-DD-YYYY")
-    console.log("initial", thaaliDate)
     // distribution days are on Monday and Thursday (1 and 4 according to momentjs)
     // if it's Friday or Tuesday, subtract one day to get the distribution day
     if (thaaliDate.day() === 2 || thaaliDate.day() === 5) {
       thaaliDate = thaaliDate.subtract(1, "days")
-      console.log("fri or tues", thaaliDate)
       // if it's Wednesday or Saturday, subtract two days to get the distribution day
     } else if (thaaliDate.day() === 3 || thaaliDate.day() === 6) {
       thaaliDate = thaaliDate.subtract(2, "days")
-      console.log("wed or sat", thaaliDate)
     }
 
     const formattedNewDate = thaaliDate.format("MM-DD-YYYY")
@@ -199,7 +196,6 @@ const SelectItems = ({
         {!isLoading &&
           items.map((item, index) => {
             const { distDate, isFirstItem } = distDateMap.get(item.id)
-            console.log(distDate, isFirstItem)
             if (!item.nothaali) {
               return (
                 <div key={index}>
