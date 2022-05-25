@@ -105,7 +105,7 @@ const SelectItems = ({
     }
   }
 
-  const getDistDate = (date: string): string => {
+  const getDistDate = (date: string): any => {
     let thaaliDate = moment(date, "MM-DD-YYYY")
     // distribution days are on Monday and Thursday (1 and 4 according to momentjs)
     // if it's Friday or Tuesday, subtract one day to get the distribution day
@@ -116,9 +116,9 @@ const SelectItems = ({
       thaaliDate = thaaliDate.subtract(2, "days")
     }
 
-    const formattedNewDate = thaaliDate.format("MM-DD-YYYY")
+    //const formattedNewDate = thaaliDate.format("MM-DD-YYYY")
 
-    return formattedNewDate
+    return thaaliDate
   }
 
   const setUpDistDateMap = () => {
