@@ -105,7 +105,7 @@ const SelectItems = ({
     }
   }
 
-  const getDistDate = (date: string): any => {
+  const getDistDate = (date: string): string => {
     let thaaliDate = moment(date, "MM-DD-YYYY")
     // distribution days are on Monday and Thursday (1 and 4 according to momentjs)
     // if it's Friday or Tuesday, subtract one day to get the distribution day
@@ -116,9 +116,9 @@ const SelectItems = ({
       thaaliDate = thaaliDate.subtract(2, "days")
     }
 
-    //const formattedNewDate = thaaliDate.format("MM-DD-YYYY")
+    const formattedNewDate = thaaliDate.format("MM-DD-YYYY")
 
-    return thaaliDate
+    return formattedNewDate
   }
 
   const setUpDistDateMap = () => {
@@ -168,13 +168,13 @@ const SelectItems = ({
         hideRequiredMark={true}
         onValuesChange={changed => onValuesChange(changed)}
       >
-        <Form.Item name="group-toggle" label="View selections by:">
+        {/* <Form.Item name="group-toggle" label="View selections by:">
           <Radio.Group onChange={event => onGroupToggleChange(event)}>
             <Radio value="calendar-date">Calendar Date</Radio>
             <Radio value="distribution-date">Distribution Date</Radio>
           </Radio.Group>
         </Form.Item>
-        <Divider />
+        <Divider /> */}
         <Form.Item name="select-toggle" label="Toggle size (for all items)">
           <Radio.Group onChange={event => onSelectToggleChange(event)}>
             <Radio value="individual">Individual selection</Radio>
@@ -199,7 +199,7 @@ const SelectItems = ({
             if (!item.nothaali) {
               return (
                 <div key={index}>
-                  {groupToggle === "distribution-date" && isFirstItem && (
+                  {/* {groupToggle === "distribution-date" && isFirstItem && (
                     <p
                       style={{
                         marginBottom: ".5rem",
@@ -209,13 +209,15 @@ const SelectItems = ({
                       }}
                     >
                       Distribution on{" "}
-                      {moment(distDate).format("dddd, MMMM Do YYYY")}
+                      {moment(distDate, "MM-DD-YYYY").format(
+                        "dddd, MMMM Do YYYY"
+                      )}
                     </p>
-                  )}
+                  )} */}
                   <div style={{ fontSize: "1.2rem", paddingBottom: ".5rem" }}>
                     {item.name}
                   </div>
-                  {groupToggle === "calendar-date" && (
+                  {groupToggle === "calendar-date" || (
                     <p
                       style={{
                         marginBottom: ".5rem",
