@@ -217,19 +217,19 @@ const SelectItems = ({
                   <div style={{ fontSize: "1.2rem", paddingBottom: ".5rem" }}>
                     {item.name}
                   </div>
-                  {groupToggle === "calendar-date" || (
-                    <p
-                      style={{
-                        marginBottom: ".5rem",
-                        marginTop: "-.5rem",
-                        color: "gray",
-                      }}
-                    >
-                      {moment(item.date, "MM-DD-YYYY").format(
-                        "dddd, MMMM Do YYYY"
-                      )}
-                    </p>
-                  )}
+
+                  <p
+                    style={{
+                      marginBottom: ".5rem",
+                      marginTop: "-.5rem",
+                      color: "gray",
+                    }}
+                  >
+                    {moment(item.date, "MM-DD-YYYY").format(
+                      "dddd, MMMM Do YYYY"
+                    )}
+                  </p>
+
                   <Form.Item
                     key={index}
                     name={["items", item.id]}
