@@ -65,17 +65,19 @@ const ReviewSelections = ({
                     {item.name}
                   </div>
 
-                  <p
-                    style={{
-                      marginBottom: ".2rem",
-                      marginTop: "-.5rem",
-                      color: "gray",
-                    }}
-                  >
-                    {moment(item.date, "MM-DD-YYYY").format(
-                      "dddd, MMMM Do YYYY"
-                    )}
-                  </p>
+                  {!hasGroupedSelectionByDistDate && (
+                    <p
+                      style={{
+                        marginBottom: ".2rem",
+                        marginTop: "-.5rem",
+                        color: "gray",
+                      }}
+                    >
+                      {moment(item.date, "MM-DD-YYYY").format(
+                        "dddd, MMMM Do YYYY"
+                      )}
+                    </p>
+                  )}
 
                   <p style={{ color: "gray", paddingBottom: ".2rem" }}>
                     Size:{" "}
