@@ -168,13 +168,13 @@ const SelectItems = ({
         hideRequiredMark={true}
         onValuesChange={changed => onValuesChange(changed)}
       >
-        {/* <Form.Item name="group-toggle" label="View selections by:">
+        <Form.Item name="group-toggle" label="View selections by:">
           <Radio.Group onChange={event => onGroupToggleChange(event)}>
             <Radio value="calendar-date">Calendar Date</Radio>
             <Radio value="distribution-date">Distribution Date</Radio>
           </Radio.Group>
         </Form.Item>
-        <Divider /> */}
+        <Divider />
         <Form.Item name="select-toggle" label="Toggle size (for all items)">
           <Radio.Group onChange={event => onSelectToggleChange(event)}>
             <Radio value="individual">Individual selection</Radio>
@@ -199,7 +199,7 @@ const SelectItems = ({
             if (!item.nothaali) {
               return (
                 <div key={index}>
-                  {/* {groupToggle === "distribution-date" && isFirstItem && (
+                  {groupToggle === "distribution-date" && isFirstItem && (
                     <p
                       style={{
                         marginBottom: ".5rem",
@@ -213,7 +213,7 @@ const SelectItems = ({
                         "dddd, MMMM Do YYYY"
                       )}
                     </p>
-                  )} */}
+                  )}
                   <div style={{ fontSize: "1.2rem", paddingBottom: ".5rem" }}>
                     {item.name}
                   </div>

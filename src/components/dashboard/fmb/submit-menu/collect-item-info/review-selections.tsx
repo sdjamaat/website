@@ -44,7 +44,7 @@ const ReviewSelections = ({
           if (!item.nothaali) {
             return (
               <>
-                {/* {hasGroupedSelectionByDistDate && isFirstItem && (
+                {hasGroupedSelectionByDistDate && isFirstItem && (
                   <p
                     style={{
                       marginBottom: ".5rem",
@@ -54,9 +54,9 @@ const ReviewSelections = ({
                     }}
                   >
                     Distribution on{" "}
-                    {moment(distDate).format("dddd, MMMM Do YYYY")} ~
+                    {moment(distDate).format("dddd, MMMM Do YYYY")}
                   </p>
-                )} */}
+                )}
                 <div
                   key={index}
                   style={{ borderLeft: "1px solid gray", paddingLeft: "1rem" }}
