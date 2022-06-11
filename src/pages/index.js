@@ -17,7 +17,7 @@ export default () => (
 
       <Row className="content">
         <Divider />
-        <Col lg={6}>
+        <Col>
           <Row>
             <Col>
               <ITSMessage />
@@ -25,7 +25,7 @@ export default () => (
           </Row>
           <Row>
             <Col>
-              <Location />
+              <Contact />
             </Col>
           </Row>
         </Col>
@@ -33,10 +33,6 @@ export default () => (
         {/* <Col lg={4}>
           <LearnMore />
         </Col> */}
-
-        <Col lg={6}>
-          <Contact />
-        </Col>
       </Row>
     </HomeWrapper>
   </Layout>
