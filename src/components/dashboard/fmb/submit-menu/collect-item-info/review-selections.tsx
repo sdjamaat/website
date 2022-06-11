@@ -54,7 +54,9 @@ const ReviewSelections = ({
                     }}
                   >
                     Distribution on{" "}
-                    {moment(distDate).format("dddd, MMMM Do YYYY")}
+                    {moment(distDate, "MM-DD-YYYY").format(
+                      "dddd, MMMM Do YYYY"
+                    )}
                   </p>
                 )}
                 <div
