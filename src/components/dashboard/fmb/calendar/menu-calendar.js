@@ -78,8 +78,17 @@ const FMBCalendar = () => {
   }
   const openMenuDetailsModal = dateValue => {
     let englishDisplay = dateValue.format("dddd, MMMM Do YYYY")
-    let hijriDisplay =
-      dateValue.iDate() + " " + monthIndexToName(getHijriDate().month).long
+    let hijriDisplay
+
+    if (shouldShowNextMonth) {
+      hijriDisplay =
+        dateValue.iDate() +
+        " " +
+        monthIndexToName(getNextMonthIndex(getHijriDate().month)).long
+    } else {
+      hijriDisplay =
+        dateValue.iDate() + " " + monthIndexToName(getHijriDate().month).long
+    }
 
     const matchingItem = getMatchingItemForDate(dateValue)
     setMenuModalDetails({
