@@ -1,6 +1,5 @@
 import React, { createContext, useContext } from "react"
 import firebase, { firestore } from "firebase"
-import { monthIndexToName } from "../functions/calendar"
 import { DateContext } from "./date-context"
 
 const defaultState = {

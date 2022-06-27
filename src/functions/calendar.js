@@ -78,11 +78,10 @@ module.exports = {
   },
 
   getNextMonthIndex: currIndex => {
-    return (currIndex + 1) % 11
+    return (currIndex + 1) % 12
   },
 
   monthIndexToName: index => {
-    index = index % 11
     switch (index) {
       case 0:
         return { short: "moharram", long: "Moharram al-Haraam" }

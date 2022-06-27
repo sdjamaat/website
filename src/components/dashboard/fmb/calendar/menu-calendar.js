@@ -34,7 +34,7 @@ const FMBCalendar = () => {
       const menuDetailsNextMonth = await firebase
         .firestore()
         .collection("fmb")
-        .doc(getHijriDate().year.toString())
+        .doc(getHijriDate().databaseYear.toString())
         .collection("menus")
         .doc(monthIndexToName(getNextMonthIndex(getHijriDate().month)).short)
         .get()
@@ -53,7 +53,7 @@ const FMBCalendar = () => {
 
   useEffect(() => {
     getFirebaseData()
-  }, [getFirebaseData])
+  }, [])
 
   const getMatchingItemForDate = dateValue => {
     let matchingItem = null
