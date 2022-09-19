@@ -207,7 +207,7 @@ const SelectItems = ({
             if (!item.nothaali) {
               return (
                 <div key={item.id}>
-                  {groupToggle === "distribution-date" && isFirstItem && (
+                  {isFirstItem && groupToggle === "distribution-date" && (
                     <p
                       style={{
                         marginBottom: ".5rem",
