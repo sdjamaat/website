@@ -3,9 +3,7 @@ import firebase, { firestore } from "firebase"
 import { DateContext } from "./date-context"
 
 const defaultState = {
-  hijriYearDocRef: (): firestore.DocumentReference => {
-    return
-  },
+  hijriYearDocRef: (): firestore.DocumentReference | any => {},
 }
 
 export const DatabaseContext = createContext(defaultState)

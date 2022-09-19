@@ -114,6 +114,9 @@ const SelectItems = ({
       // if it's Wednesday or Saturday, subtract two days to get the distribution day
     } else if (thaaliDate.day() === 3 || thaaliDate.day() === 6) {
       thaaliDate = thaaliDate.subtract(2, "days")
+    } else if (thaaliDate.day() === 0) {
+      // if it's Sunday, subtract 3 days to get the distribution day
+      thaaliDate = thaaliDate.subtract(3, "days")
     }
 
     const formattedNewDate = thaaliDate.format("MM-DD-YYYY")
@@ -127,7 +130,9 @@ const SelectItems = ({
     let setOfDistributionDates = new Set()
     for (let item of items) {
       const distDate = getDistDate(item.date)
-      const isFirstEntryForDistDate = !setOfDistributionDates.has(distDate)
+      console.log("dist date", distDate)
+      const isFirstEntryForDistDate =
+        setOfDistributionDates.has(distDate) === false
       setOfDistributionDates.add(distDate)
       distDateMap.set(item.id, {
         distDate: distDate,
@@ -135,6 +140,7 @@ const SelectItems = ({
       })
     }
     setDistDateMap(distDateMap)
+    console.log("dist date map", distDateMap)
     setIsLoading(false)
   }
 
