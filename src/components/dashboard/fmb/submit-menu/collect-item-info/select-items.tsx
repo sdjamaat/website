@@ -130,7 +130,6 @@ const SelectItems = ({
     let setOfDistributionDates = new Set()
     for (let item of items) {
       const distDate = getDistDate(item.date)
-      console.log("dist date", distDate)
       const isFirstEntryForDistDate =
         setOfDistributionDates.has(distDate) === false
       setOfDistributionDates.add(distDate)
@@ -140,7 +139,6 @@ const SelectItems = ({
       })
     }
     setDistDateMap(distDateMap)
-    console.log("dist date map", distDateMap)
     setIsLoading(false)
   }
 
@@ -204,9 +202,6 @@ const SelectItems = ({
             const { distDate, isFirstItem } = distDateMap.get(item.id)
             const shouldShowDistDate =
               isFirstItem && groupToggle === "distribution-date"
-            console.log("dist date", distDate)
-            console.log("is first item", isFirstItem)
-            console.log("should show dist date", shouldShowDistDate)
             if (!item.nothaali) {
               return (
                 <div key={item.id}>
