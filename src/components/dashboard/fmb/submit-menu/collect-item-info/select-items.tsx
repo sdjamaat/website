@@ -202,12 +202,15 @@ const SelectItems = ({
         {!isLoading &&
           items.map((item, index) => {
             const { distDate, isFirstItem } = distDateMap.get(item.id)
+            const shouldShowDistDate =
+              isFirstItem && groupToggle === "distribution-date"
             console.log("dist date", distDate)
             console.log("is first item", isFirstItem)
+            console.log("should show dist date", shouldShowDistDate)
             if (!item.nothaali) {
               return (
                 <div key={item.id}>
-                  {isFirstItem && groupToggle === "distribution-date" && (
+                  {shouldShowDistDate && (
                     <p
                       style={{
                         marginBottom: ".5rem",
