@@ -202,9 +202,11 @@ const SelectItems = ({
         {!isLoading &&
           items.map((item, index) => {
             const { distDate, isFirstItem } = distDateMap.get(item.id)
+            console.log("dist date", distDate)
+            console.log("is first item", isFirstItem)
             if (!item.nothaali) {
               return (
-                <div key={index}>
+                <div key={item.id}>
                   {groupToggle === "distribution-date" && isFirstItem && (
                     <p
                       style={{
