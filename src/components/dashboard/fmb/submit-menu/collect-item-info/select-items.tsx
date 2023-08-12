@@ -107,15 +107,15 @@ const SelectItems = ({
 
   const getDistDate = (date: string): string => {
     let thaaliDate = moment(date, "MM-DD-YYYY")
-    // distribution days are on Monday and Thursday (1 and 4 according to momentjs)
-    // if it's Friday or Tuesday, subtract one day to get the distribution day
-    if (thaaliDate.day() === 2 || thaaliDate.day() === 5) {
+    // distribution days are on Wednesday and Saturday (3 and 6 according to momentjs)
+    // if it's Thursday or Sunday, subtract one day to get the distribution day
+    if (thaaliDate.day() === 4 || thaaliDate.day() === 0) {
       thaaliDate = thaaliDate.subtract(1, "days")
-      // if it's Wednesday or Saturday, subtract two days to get the distribution day
-    } else if (thaaliDate.day() === 3 || thaaliDate.day() === 6) {
+      // if it's Friday or Monday, subtract two days to get the distribution day
+    } else if (thaaliDate.day() === 5 || thaaliDate.day() === 1) {
       thaaliDate = thaaliDate.subtract(2, "days")
-    } else if (thaaliDate.day() === 0) {
-      // if it's Sunday, subtract 3 days to get the distribution day
+    } else if (thaaliDate.day() === 2) {
+      // if it's Tuesday, subtract 3 days to get the distribution day
       thaaliDate = thaaliDate.subtract(3, "days")
     }
 
