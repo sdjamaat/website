@@ -42,6 +42,7 @@ export interface DistributionDateMetadata {
 
 export type SelectToggleType =
   | "individual"
+  | "Grand"
   | "Full"
   | "Half"
   | "Quarter"

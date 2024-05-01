@@ -47,8 +47,18 @@ const SelectItems = ({
 
   const userFamilyThaaliSize = currUser.family.fmb.thaaliSize
 
+  console.log(userFamilyThaaliSize)
+
   const canSelectGivenThaaliSize = (thaaliSize: SelectToggleType) => {
     if (
+      userFamilyThaaliSize === "Grand" &&
+      (thaaliSize === "Grand" ||
+        thaaliSize === "Full" ||
+        thaaliSize === "Half" ||
+        thaaliSize === "Quarter")
+    ) {
+      return true
+    } else if (
       userFamilyThaaliSize === "Full" &&
       (thaaliSize === "Full" ||
         thaaliSize === "Half" ||
@@ -182,6 +192,10 @@ const SelectItems = ({
         <Form.Item name="select-toggle" label="Toggle size (for all items)">
           <Radio.Group onChange={event => onSelectToggleChange(event)}>
             <Radio value="individual">Individual selection</Radio>
+            {canSelectGivenThaaliSize("Grand") && (
+              <Radio value="Grand">Grand</Radio>
+            )}
+
             {canSelectGivenThaaliSize("Full") && (
               <Radio value="Full">Full</Radio>
             )}
@@ -246,6 +260,9 @@ const SelectItems = ({
                     ]}
                   >
                     <Select style={{ width: "100%" }}>
+                      {canSelectGivenThaaliSize("Grand") && (
+                        <Option value="Grand">Grand</Option>
+                      )}
                       {canSelectGivenThaaliSize("Full") && (
                         <Option value="Full">Full</Option>
                       )}
