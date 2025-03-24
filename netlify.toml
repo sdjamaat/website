@@ -1,8 +1,9 @@
 [build]
-  command = "npm install --no-optional && NODE_OPTIONS=--openssl-legacy-provider gatsby build"
+  command = "yarn install --ignore-optional && NODE_OPTIONS=--openssl-legacy-provider gatsby build"
   publish = "public"
 
 [build.environment]
   NODE_VERSION = "14.17.0"
   NPM_VERSION = "6.14.13"
-  PYTHON_VERSION = "3.9" 
+  PYTHON_VERSION = "3.9"
+  YARN_VERSION = "1.17.0" 
