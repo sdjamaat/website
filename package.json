@@ -67,6 +67,6 @@
     "url": "https://github.com/gatsbyjs/gatsby/issues"
   },
   "optionalDependencies": {
-    "fsevents": "canary"
+    "fsevents": "^2.3.2"
   }
 }
