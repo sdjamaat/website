@@ -1,5 +1,5 @@
 [build]
-  command = "npm ci --no-optional && NODE_OPTIONS=--openssl-legacy-provider gatsby build"
+  command = "npm install --no-optional && NODE_OPTIONS=--openssl-legacy-provider gatsby build"
   publish = "public"
 
 [build.environment]
