@@ -1,5 +1,5 @@
 [build]
-  command = "npm install --force --no-optional && npm run build"
+  command = "npm install --force --no-optional --no-save && npm rebuild sharp --ignore-scripts && NODE_OPTIONS=--openssl-legacy-provider gatsby build"
   publish = "public"
 
 [build.environment]
