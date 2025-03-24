@@ -1,7 +1,8 @@
 [build]
-  command = "npm run build"
+  command = "npm install --force --no-optional && npm run build"
   publish = "public"
 
 [build.environment]
   NODE_VERSION = "14.17.0"
-  NPM_VERSION = "6.14.13" 
+  NPM_VERSION = "6.14.13"
+  PYTHON_VERSION = "3.9" 
