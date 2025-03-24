@@ -14,13 +14,8 @@ const getMonthArrayValues = month => {
   const start = momentHijri().iMonth(month).startOf("iMonth")
   const end = momentHijri().iMonth(month).endOf("iMonth")
 
-  // adjust start day
-  let startDay = null
-  if (start.day() - 1 < 0) {
-    startDay = 6
-  } else {
-    startDay = start.day()
-  }
+  // Get the day of week for start date (0 = Sunday, 1 = Monday, etc.)
+  const startDay = start.day()
 
   // push back start day to beginning of week (sunday)
   const modifiedStart = start.clone().subtract(startDay, "days")
@@ -45,6 +40,12 @@ const HijriMonth = ({ monthIndex, onClickHandler, dateBoxContent }) => {
   const monthArr = getMonthArrayValues(monthIndex)
 
   const { getHijriDate } = useContext(DateContext)
+
+  // Function to handle date clicks and ensure day consistency
+  const handleDateClick = dateObj => {
+    // Use the dateObj directly without any adjustments
+    onClickHandler(dateObj)
+  }
 
   return (
     <HijriMonthWrapper>
@@ -75,9 +76,8 @@ const HijriMonth = ({ monthIndex, onClickHandler, dateBoxContent }) => {
               {week.map((day, index) => {
                 let isDayToday = false
                 if (
-                  day.dateObj
-                    .clone()
-                    .format("MM-DD-YYYY") === momentHijri().format("MM-DD-YYYY")
+                  day.dateObj.clone().format("MM-DD-YYYY") ===
+                  momentHijri().format("MM-DD-YYYY")
                 ) {
                   isDayToday = true
                 }
@@ -88,21 +88,14 @@ const HijriMonth = ({ monthIndex, onClickHandler, dateBoxContent }) => {
                     key={index}
                     className={`day ${isDayToday ? "active" : ""}
                     }`}
-                    onClick={() =>
-                      onClickHandler(day.dateObj)
-                    }
+                    onClick={() => handleDateClick(day.dateObj)}
                   >
                     <div style={{ cursor: `${day.disabled ? "" : "pointer"}` }}>
                       <DateBox
                         hijriDay={day.dateObj.iDate()}
-                        englishDay={day.dateObj
-                          .clone()
-                          .date()}
+                        englishDay={day.dateObj.clone().date()}
                       >
-                        {!day.disabled &&
-                          dateBoxContent(
-                            day.dateObj
-                          )}
+                        {!day.disabled && dateBoxContent(day.dateObj)}
                       </DateBox>
                     </div>
                   </Disable>

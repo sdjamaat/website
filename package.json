@@ -5,14 +5,14 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "build": "NODE_ENV=production gatsby build",
-    "develop": "gatsby develop",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider gatsby build",
+    "develop": "NODE_OPTIONS=--openssl-legacy-provider gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "npm run develop",
-    "serve": "gatsby serve",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider gatsby develop",
+    "serve": "NODE_OPTIONS=--openssl-legacy-provider gatsby serve",
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
-    "dev": "nodemon --exec 'kill-port --port 8000 && gatsby develop' --watch gatsby-node.js --watch package.json --watch gatsby-config.js"
+    "dev": "NODE_OPTIONS=--openssl-legacy-provider nodemon --exec 'kill-port --port 8000 && NODE_OPTIONS=--openssl-legacy-provider gatsby develop' --watch gatsby-node.js --watch package.json --watch gatsby-config.js"
   },
   "dependencies": {
     "@types/styled-components": "^5.1.25",
