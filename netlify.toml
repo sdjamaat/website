@@ -1,5 +1,5 @@
 [build]
-  command = "yarn install --ignore-optional && NODE_OPTIONS=--openssl-legacy-provider gatsby build"
+  command = "yarn install --ignore-optional && gatsby build"
   publish = "public"
 
 [build.environment]
