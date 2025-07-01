@@ -60,7 +60,7 @@ const SubmitFMBMenu = () => {
       const monthMenuQuery = firebase
         .firestore()
         .collection("fmb")
-        .doc(getHijriDate().year.toString())
+        .doc(getHijriDate().databaseYear.toString())
         .collection("menus")
         .doc(activeMenu.shortMonthName)
 
@@ -162,7 +162,7 @@ const SubmitFMBMenu = () => {
     const fmbYearQuery = firebase
       .firestore()
       .collection("fmb")
-      .doc(getHijriDate().year.toString())
+      .doc(getHijriDate().databaseYear.toString())
 
     fmbYearQuery.onSnapshot(doc => {
       if (doc.exists) {

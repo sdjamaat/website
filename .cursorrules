@@ -1,0 +1,55 @@
+# Instructions
+
+During your interaction with the user, if you find anything reusable in this project (e.g. version of a library, model name), especially about a fix to a mistake you made or a correction you received, you should take note in the `Lessons` section in the `.cursorrules` file so you will not make the same mistake again.
+
+You should also use the `.cursorrules` file as a Scratchpad to organize your thoughts. Especially when you receive a new task, you should first review the content of the Scratchpad, clear old different task if necessary, first explain the task, and plan the steps you need to take to complete the task. You can use todo markers to indicate the progress, e.g.
+[X] Task 1
+[ ] Task 2
+
+Also update the progress of the task in the Scratchpad when you finish a subtask.
+Especially when you finished a milestone, it will help to improve your depth of task accomplishment to use the Scratchpad to reflect and plan.
+The goal is to help you maintain a big picture as well as the progress of the task. Always refer to the Scratchpad when you plan the next step.
+
+# Lessons
+
+## User Specified Lessons
+
+- You have a python venv in ./venv. Use it.
+- Include info useful for debugging in the program output.
+- Read the file before you try to edit it.
+- Due to Cursor's limit, when you use `git` and `gh` and need to submit a multiline commit message, first write the message in a file, and then use `git commit -F <filename>` or similar command to commit. And then remove the file. Include "[Cursor] " in the commit message and PR title.
+
+## FMB Database Year Logic
+
+- For FMB menus, always use `getHijriDate().databaseYear` instead of `getHijriDate().year` when querying Firestore collections
+- Moharram menus are stored in the previous Hijri year's collection (e.g., Moharram 1447 is stored under year 1446)
+- This is because Moharram menus are created during Zil Haj of the previous year
+- The DateContext provides both `year` (actual Hijri year) and `databaseYear` (correct year for database queries)
+
+## Sharp Module Issues
+
+- If you get "Cannot find module '../build/Release/sharp.node'" error when running Gatsby, run `npm rebuild --verbose sharp`
+- The project uses gatsby-image and childImageSharp for image optimization in navbar, layout, committees, and welcome-about components
+- Sharp is required and cannot be removed - it's essential for Gatsby's image processing features
+
+# Scratchpad
+
+## Current Task: Fixed Sharp Module Error
+
+### Problem:
+
+Gatsby development server failing with Sharp module error "Cannot find module '../build/Release/sharp.node'"
+
+### Root Cause:
+
+Sharp native binaries weren't properly installed for the current system architecture
+
+### Fix Applied:
+
+[X] Ran `npm rebuild --verbose sharp` to rebuild the Sharp module
+[X] Confirmed server is running successfully on port 8000 (HTTP 200)
+[X] Documented fix in .cursorrules to prevent future occurrences
+
+### Status: Complete
+
+The Sharp issue has been resolved and Gatsby development server is running successfully.
