@@ -34,22 +34,46 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Fixed Sharp Module Error
+## Current Task: Fix Safar 1447 Menu Display Issue
 
 ### Problem:
 
-Gatsby development server failing with Sharp module error "Cannot find module '../build/Release/sharp.node'"
+Safar 1447 menu is active in the database but not showing up on the user portal.
 
-### Root Cause:
+### Analysis Plan:
 
-Sharp native binaries weren't properly installed for the current system architecture
+[X] Investigate DateContext implementation to understand year vs databaseYear logic
+[X] Check how menus are queried in the FMB components
+[X] Identify where the bug is occurring (likely using wrong year for queries)
+[X] Fix the query to use databaseYear instead of year
+[X] Test the fix to ensure Safar 1447 menus appear
 
-### Fix Applied:
+### Bug Found & Analysis:
 
-[X] Ran `npm rebuild --verbose sharp` to rebuild the Sharp module
-[X] Confirmed server is running successfully on port 8000 (HTTP 200)
-[X] Documented fix in .cursorrules to prevent future occurrences
+**Issue 1 (FIXED):** In `view-selections.tsx` line 32 - was using `year` instead of `databaseYear`
 
-### Status: Complete
+**Issue 2 (FIXED):** Cross-year transition logic missing in `submit-menu.js`
 
-The Sharp issue has been resolved and Gatsby development server is running successfully.
+- **WAS**: Only checking current databaseYear (1446) collection
+- **ISSUE**: Safar 1447 active in 1447 collection, but component only looked at 1446
+- **FIXED**: Added fallback logic to check actual year collection when in Moharram and no active menu found in databaseYear
+
+**Issue 3 (FIXED):** State not properly reset for new menus
+
+- **WAS**: `hasAlreadySubmitted` and `alreadySubmittedItemsDoc` not reset when loading new menu
+- **ISSUE**: Showing old submission data from previous menus when loading Safar 1447
+- **FIXED**: Added state reset logic before checking submissions for any new menu
+
+### Status: Complete ✅
+
+All three issues have been fixed:
+
+1. `view-selections.tsx` now uses correct `databaseYear`
+2. `submit-menu.js` now handles cross-year transitions for Moharram → other months
+3. Component state properly resets when loading new menus
+
+Users should now see Safar 1447 menus properly in both "Submit Thaali Choices" and "View Thaali Selections" sections without showing stale submission data.
+
+### Notes:
+
+From lessons learned: Safar is the 2nd month of Hijri calendar. The DateContext provides both `year` (actual Hijri year) and `databaseYear` (correct year for database queries). Always use `databaseYear` for Firestore collection queries in FMB components.

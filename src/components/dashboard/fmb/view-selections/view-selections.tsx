@@ -30,7 +30,7 @@ const ViewSelections = (props: ViewSelectionsProps) => {
   const { currUser } = useContext(AuthContext)
   const [menuList, setMenuList] = useState<MenuListItem[]>(null)
   const [isLoading, setIsLoading] = useState<Boolean>(false)
-  const hijriYear = getHijriDate().year
+  const hijriYear = getHijriDate().databaseYear
   const getData = async () => {
     // query where we look for all menus that have submissions from the current users families
     // for each of those menus get submissions data

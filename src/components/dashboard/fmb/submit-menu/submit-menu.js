@@ -159,57 +159,168 @@ const SubmitFMBMenu = () => {
   }
 
   useEffect(() => {
-    const fmbYearQuery = firebase
-      .firestore()
-      .collection("fmb")
-      .doc(getHijriDate().databaseYear.toString())
+    const currentHijriDate = getHijriDate()
 
-    fmbYearQuery.onSnapshot(doc => {
-      if (doc.exists) {
-        let activeMenuMonth = doc.data().activeMenu
-        let isUsingLastActiveMenu = false
-        if (!activeMenuMonth) {
-          activeMenuMonth = doc.data().lastActiveMenu
-          isUsingLastActiveMenu = true
-        }
-        if (activeMenuMonth !== null) {
-          fmbYearQuery
-            .collection("menus")
-            .doc(activeMenuMonth)
-            .onSnapshot(async doc => {
-              const activeMenu = doc.data()
-              const completedSubmissions = activeMenu.submissions
+    // If we're in Moharram, we should check the actual year collection (1447) for active menus
+    // because other months like Safar are stored in the actual year, not databaseYear
+    if (currentHijriDate.month === 0) {
+      // First check the actual year collection (1447) for active menus
+      const actualYearQuery = firebase
+        .firestore()
+        .collection("fmb")
+        .doc(currentHijriDate.year.toString())
 
-              // check if user has already submitted current menu
-              if (completedSubmissions.includes(currUser.familyid)) {
-                const alreadySubmittedItemsDoc = await fmbYearQuery
-                  .collection("menus")
-                  .doc(activeMenuMonth)
-                  .collection("submissions")
-                  .doc(currUser.familyid)
-                  .get()
-                setAlreadySubmittedItemsDoc(alreadySubmittedItemsDoc.data())
-                setHasAlreadySubmitted(true)
-              }
-              // only set active menu if the user has already submitted something or the we're not using the LAST active menu
-              // don't want to let users who have not submitted anything see anything when we're using the last active menu
-              // setting an active menu means 1) if no submissions than you can submit 2) if submissions you can see your submissions
-              if (hasAlreadySubmitted || !isUsingLastActiveMenu) {
+      actualYearQuery.onSnapshot(doc => {
+        if (doc.exists) {
+          let activeMenuMonth = doc.data().activeMenu
+
+          if (activeMenuMonth !== null) {
+            // Found an active menu in actual year collection
+            actualYearQuery
+              .collection("menus")
+              .doc(activeMenuMonth)
+              .onSnapshot(async doc => {
+                const activeMenu = doc.data()
+
+                const completedSubmissions = activeMenu.submissions
+
+                // Reset submission state for new menu
+                setHasAlreadySubmitted(false)
+                setAlreadySubmittedItemsDoc({})
+
+                // check if user has already submitted current menu
+                if (completedSubmissions.includes(currUser.familyid)) {
+                  const alreadySubmittedItemsDoc = await actualYearQuery
+                    .collection("menus")
+                    .doc(activeMenuMonth)
+                    .collection("submissions")
+                    .doc(currUser.familyid)
+                    .get()
+                  setAlreadySubmittedItemsDoc(alreadySubmittedItemsDoc.data())
+                  setHasAlreadySubmitted(true)
+                }
+
                 setActiveMenu({
                   ...activeMenu,
                   shortMonthName: activeMenuMonth,
                 })
-              } else {
-                setActiveMenu(-1)
-              }
-            })
+              })
+            return // Don't check database year collection if we found an active menu
+          }
+        }
+
+        // If no active menu in actual year, fall back to database year collection
+        const fmbYearQuery = firebase
+          .firestore()
+          .collection("fmb")
+          .doc(currentHijriDate.databaseYear.toString())
+
+        fmbYearQuery.onSnapshot(doc => {
+          if (doc.exists) {
+            let activeMenuMonth = doc.data().activeMenu
+            let isUsingLastActiveMenu = false
+            if (!activeMenuMonth) {
+              activeMenuMonth = doc.data().lastActiveMenu
+              isUsingLastActiveMenu = true
+            }
+
+            if (activeMenuMonth !== null) {
+              fmbYearQuery
+                .collection("menus")
+                .doc(activeMenuMonth)
+                .onSnapshot(async doc => {
+                  const activeMenu = doc.data()
+                  const completedSubmissions = activeMenu.submissions
+
+                  // Reset submission state for new menu
+                  setHasAlreadySubmitted(false)
+                  setAlreadySubmittedItemsDoc({})
+
+                  // check if user has already submitted current menu
+                  if (completedSubmissions.includes(currUser.familyid)) {
+                    const alreadySubmittedItemsDoc = await fmbYearQuery
+                      .collection("menus")
+                      .doc(activeMenuMonth)
+                      .collection("submissions")
+                      .doc(currUser.familyid)
+                      .get()
+                    setAlreadySubmittedItemsDoc(alreadySubmittedItemsDoc.data())
+                    setHasAlreadySubmitted(true)
+                  }
+                  // only set active menu if the user has already submitted something or the we're not using the LAST active menu
+                  if (hasAlreadySubmitted || !isUsingLastActiveMenu) {
+                    setActiveMenu({
+                      ...activeMenu,
+                      shortMonthName: activeMenuMonth,
+                    })
+                  } else {
+                    setActiveMenu(-1)
+                  }
+                })
+            } else {
+              setActiveMenu(-1)
+            }
+          } else {
+            setActiveMenu(-1)
+          }
+        })
+      })
+    } else {
+      // For non-Moharram months, use normal logic
+      const fmbYearQuery = firebase
+        .firestore()
+        .collection("fmb")
+        .doc(currentHijriDate.databaseYear.toString())
+
+      fmbYearQuery.onSnapshot(doc => {
+        if (doc.exists) {
+          let activeMenuMonth = doc.data().activeMenu
+          let isUsingLastActiveMenu = false
+          if (!activeMenuMonth) {
+            activeMenuMonth = doc.data().lastActiveMenu
+            isUsingLastActiveMenu = true
+          }
+          if (activeMenuMonth !== null) {
+            fmbYearQuery
+              .collection("menus")
+              .doc(activeMenuMonth)
+              .onSnapshot(async doc => {
+                const activeMenu = doc.data()
+                const completedSubmissions = activeMenu.submissions
+
+                // Reset submission state for new menu
+                setHasAlreadySubmitted(false)
+                setAlreadySubmittedItemsDoc({})
+
+                // check if user has already submitted current menu
+                if (completedSubmissions.includes(currUser.familyid)) {
+                  const alreadySubmittedItemsDoc = await fmbYearQuery
+                    .collection("menus")
+                    .doc(activeMenuMonth)
+                    .collection("submissions")
+                    .doc(currUser.familyid)
+                    .get()
+                  setAlreadySubmittedItemsDoc(alreadySubmittedItemsDoc.data())
+                  setHasAlreadySubmitted(true)
+                }
+                // only set active menu if the user has already submitted something or the we're not using the LAST active menu
+                if (hasAlreadySubmitted || !isUsingLastActiveMenu) {
+                  setActiveMenu({
+                    ...activeMenu,
+                    shortMonthName: activeMenuMonth,
+                  })
+                } else {
+                  setActiveMenu(-1)
+                }
+              })
+          } else {
+            setActiveMenu(-1)
+          }
         } else {
           setActiveMenu(-1)
         }
-      } else {
-        setActiveMenu(-1)
-      }
-    })
+      })
+    }
   }, [])
 
   return (
