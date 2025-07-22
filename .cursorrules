@@ -64,15 +64,22 @@ Safar 1447 menu is active in the database but not showing up on the user portal.
 - **ISSUE**: Showing old submission data from previous menus when loading Safar 1447
 - **FIXED**: Added state reset logic before checking submissions for any new menu
 
+**Issue 4 (FIXED):** Submission saving to wrong database collection
+
+- **WAS**: Submission function using `databaseYear` (1446) for all submissions
+- **ISSUE**: Safar 1447 menu loads from 1447 collection but submissions tried to save to 1446 collection
+- **FIXED**: Added `activeMenuYear` state to track which year collection the active menu came from, use that for submissions
+
 ### Status: Complete ✅
 
-All three issues have been fixed:
+All four issues have been fixed:
 
 1. `view-selections.tsx` now uses correct `databaseYear`
 2. `submit-menu.js` now handles cross-year transitions for Moharram → other months
 3. Component state properly resets when loading new menus
+4. Submissions now save to the correct database collection matching where the menu was loaded from
 
-Users should now see Safar 1447 menus properly in both "Submit Thaali Choices" and "View Thaali Selections" sections without showing stale submission data.
+Users should now be able to fully view and submit Safar 1447 menus successfully.
 
 ### Notes:
 

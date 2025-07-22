@@ -17,6 +17,7 @@ const SubmitFMBMenu = () => {
   const { getHijriDate } = useContext(DateContext)
   const { currUser } = useContext(AuthContext)
   const [activeMenu, setActiveMenu] = useState(null)
+  const [activeMenuYear, setActiveMenuYear] = useState(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [selections, setSelections] = useState({
     "select-toggle": "individual",
@@ -60,7 +61,7 @@ const SubmitFMBMenu = () => {
       const monthMenuQuery = firebase
         .firestore()
         .collection("fmb")
-        .doc(getHijriDate().databaseYear.toString())
+        .doc(activeMenuYear.toString())
         .collection("menus")
         .doc(activeMenu.shortMonthName)
 
@@ -204,6 +205,7 @@ const SubmitFMBMenu = () => {
                   ...activeMenu,
                   shortMonthName: activeMenuMonth,
                 })
+                setActiveMenuYear(currentHijriDate.year)
               })
             return // Don't check database year collection if we found an active menu
           }
@@ -253,6 +255,7 @@ const SubmitFMBMenu = () => {
                       ...activeMenu,
                       shortMonthName: activeMenuMonth,
                     })
+                    setActiveMenuYear(currentHijriDate.databaseYear)
                   } else {
                     setActiveMenu(-1)
                   }
@@ -309,6 +312,7 @@ const SubmitFMBMenu = () => {
                     ...activeMenu,
                     shortMonthName: activeMenuMonth,
                   })
+                  setActiveMenuYear(currentHijriDate.databaseYear)
                 } else {
                   setActiveMenu(-1)
                 }
