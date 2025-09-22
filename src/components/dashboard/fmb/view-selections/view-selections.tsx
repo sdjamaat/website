@@ -56,10 +56,13 @@ const ViewSelections = (props: ViewSelectionsProps) => {
         .get()) as firestore.DocumentSnapshot<FamilySubmissionData>
       const familySubmissionsDataForMenu = familySubmission.data()
 
-      menuListBuilder.push({
-        menuData: menuData,
-        submissionData: familySubmissionsDataForMenu,
-      })
+      // Only add to menuListBuilder if submission data exists
+      if (familySubmissionsDataForMenu) {
+        menuListBuilder.push({
+          menuData: menuData,
+          submissionData: familySubmissionsDataForMenu,
+        })
+      }
     }
     setMenuList(menuListBuilder)
     setIsLoading(false)
@@ -79,6 +82,11 @@ const ViewSelections = (props: ViewSelectionsProps) => {
             </Divider>
             {menuList.length > 0 &&
               menuList.map(({ menuData, submissionData }) => {
+                // Additional defensive check
+                if (!submissionData?.submittedBy) {
+                  console.error(`Missing submission data for menu ${menuData.displayMonthName}`)
+                  return null
+                }
                 return (
                   <ItemListDisplay
                     key={menuData.displayMonthName}
