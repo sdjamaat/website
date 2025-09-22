@@ -53,10 +53,20 @@ at view-selections.tsx:86:52
 
 ### Implementation Plan:
 
-1. Check if submission data exists before adding to menuListBuilder
-2. Only render menu items that have valid submission data
-3. Add appropriate error handling for missing submissions
+[X] Check if submission data exists before adding to menuListBuilder
+[X] Only render menu items that have valid submission data
+[X] Add appropriate error handling for missing submissions
+
+### Status: Complete ✅
+
+Fixed the issue by:
+1. Adding null check after fetching submission data (line 60)
+2. Adding defensive check with error logging in render (line 86-89)
+3. Created branch fix/view-selections-undefined-error
+4. Pushed changes to GitHub
 
 ### Notes:
 
 The bug happens because the code assumes all menus with submissions will have valid submission documents, but this isn't always the case. Need to add defensive checks.
+
+PR can be created at: https://github.com/sdjamaat/website/pull/new/fix/view-selections-undefined-error
