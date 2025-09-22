@@ -34,53 +34,29 @@ The goal is to help you maintain a big picture as well as the progress of the ta
 
 # Scratchpad
 
-## Current Task: Fix Safar 1447 Menu Display Issue
+## Current Task: Fix View Selections TypeError
 
 ### Problem:
 
-Safar 1447 menu is active in the database but not showing up on the user portal.
+User is getting a TypeError when viewing past selections:
+```
+Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'submittedBy')
+at view-selections.tsx:86:52
+```
 
-### Analysis Plan:
+### Analysis:
 
-[X] Investigate DateContext implementation to understand year vs databaseYear logic
-[X] Check how menus are queried in the FMB components
-[X] Identify where the bug is occurring (likely using wrong year for queries)
-[X] Fix the query to use databaseYear instead of year
-[X] Test the fix to ensure Safar 1447 menus appear
+[X] Located the error in view-selections.tsx at line 86
+[X] Issue: Code tries to access `submissionData.submittedBy.firstname` but `submissionData` is undefined
+[X] Root cause: When fetching submission data, if document doesn't exist, `familySubmission.data()` returns undefined
+[X] Fix: Add null checking before using submission data
 
-### Bug Found & Analysis:
+### Implementation Plan:
 
-**Issue 1 (FIXED):** In `view-selections.tsx` line 32 - was using `year` instead of `databaseYear`
-
-**Issue 2 (FIXED):** Cross-year transition logic missing in `submit-menu.js`
-
-- **WAS**: Only checking current databaseYear (1446) collection
-- **ISSUE**: Safar 1447 active in 1447 collection, but component only looked at 1446
-- **FIXED**: Added fallback logic to check actual year collection when in Moharram and no active menu found in databaseYear
-
-**Issue 3 (FIXED):** State not properly reset for new menus
-
-- **WAS**: `hasAlreadySubmitted` and `alreadySubmittedItemsDoc` not reset when loading new menu
-- **ISSUE**: Showing old submission data from previous menus when loading Safar 1447
-- **FIXED**: Added state reset logic before checking submissions for any new menu
-
-**Issue 4 (FIXED):** Submission saving to wrong database collection
-
-- **WAS**: Submission function using `databaseYear` (1446) for all submissions
-- **ISSUE**: Safar 1447 menu loads from 1447 collection but submissions tried to save to 1446 collection
-- **FIXED**: Added `activeMenuYear` state to track which year collection the active menu came from, use that for submissions
-
-### Status: Complete ✅
-
-All four issues have been fixed:
-
-1. `view-selections.tsx` now uses correct `databaseYear`
-2. `submit-menu.js` now handles cross-year transitions for Moharram → other months
-3. Component state properly resets when loading new menus
-4. Submissions now save to the correct database collection matching where the menu was loaded from
-
-Users should now be able to fully view and submit Safar 1447 menus successfully.
+1. Check if submission data exists before adding to menuListBuilder
+2. Only render menu items that have valid submission data
+3. Add appropriate error handling for missing submissions
 
 ### Notes:
 
-From lessons learned: Safar is the 2nd month of Hijri calendar. The DateContext provides both `year` (actual Hijri year) and `databaseYear` (correct year for database queries). Always use `databaseYear` for Firestore collection queries in FMB components.
+The bug happens because the code assumes all menus with submissions will have valid submission documents, but this isn't always the case. Need to add defensive checks.
