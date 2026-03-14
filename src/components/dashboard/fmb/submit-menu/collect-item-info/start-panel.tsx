@@ -7,16 +7,17 @@ const StartPanel = ({ setPanel, hijriMonth, hijriYear, disabled }: any) => {
     <div>
       <Card bodyStyle={{ padding: "1rem" }}>
         <div style={disabled ? { pointerEvents: "none", opacity: 0.5 } : {}}>
-          <Row>
+          <Row className="align-items-center">
             <Col sm={12} md={9}>
               <div style={{ fontSize: "1.3rem" }}>{hijriMonth}</div>
               <p style={{ marginBottom: ".3rem", color: "gray" }}>{hijriYear}</p>
             </Col>
-            <Col sm={12} md={3} className="d-flex align-items-center justify-content-end">
+            <Col sm={12} md={3}>
               <Button
                 onClick={() => setPanel("select-items")}
                 className="next-btn"
                 type="primary"
+                style={{ width: "100%" }}
               >
                 Start
               </Button>

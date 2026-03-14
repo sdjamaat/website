@@ -161,8 +161,9 @@ const Dashboard = () => {
 }
 
 const DashboardWrapper = styled.div`
-  ul.ant-menu {
-    background-color: white;
+  .ant-menu,
+  .ant-menu-submenu > .ant-menu {
+    background-color: white !important;
   }
   .divider-header-content {
     margin-top: 1rem;
