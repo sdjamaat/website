@@ -11,6 +11,7 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons"
 const FMBCalendar = () => {
   const [menu, setMenu] = useState<any>(null)
   const [nextMonthMenu, setNextMonthMenu] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const [shouldShowNextMonth, setShouldShowNextMonth] = useState(false)
   const { getHijriDate } = useContext(DateContext)
   const [menuModalDetails, setMenuModalDetails] = useState<any>({
@@ -36,6 +37,8 @@ const FMBCalendar = () => {
       setMenu(null)
       setNextMonthMenu(null)
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -98,7 +101,7 @@ const FMBCalendar = () => {
         Faiz-ul-Mawaid il-Burhaniyah Calendar
       </div>
 
-      {menu === null ? (
+      {isLoading ? (
         <div>Loading...</div>
       ) : (
         <div className="cont">
@@ -110,7 +113,6 @@ const FMBCalendar = () => {
                 disabled={!shouldShowNextMonth}
               />
               <Button
-                className="float-right"
                 onClick={() => setShouldShowNextMonth(!shouldShowNextMonth)}
                 icon={<RightOutlined />}
                 disabled={shouldShowNextMonth}
@@ -165,8 +167,7 @@ const FMBCalendarWrapper = styled.div`
   max-width: 1000px;
   margin: auto;
   .next-btn {
-    padding-top: 0.2rem;
-    padding-bottom: 2.2rem;
+    height: 2.8rem;
     font-size: 1.2rem;
     margin-top: 1rem;
   }
@@ -195,10 +196,11 @@ const FMBCalendarWrapper = styled.div`
     position: absolute;
     top: 0.5rem;
     left: 0;
+    display: flex;
+    justify-content: space-between;
   }
   div.box1 > button {
-    padding-bottom: 2.4rem;
-    padding-top: -5rem;
+    height: 2.8rem;
   }
 `
 
