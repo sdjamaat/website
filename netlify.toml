@@ -1,9 +1,11 @@
 [build]
-  command = "yarn install --ignore-optional && gatsby build"
-  publish = "public"
+  command = "npm install && npm run build"
+  publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "14.17.0"
-  NPM_VERSION = "6.14.13"
-  PYTHON_VERSION = "3.9"
-  YARN_VERSION = "1.17.0" 
+  NODE_VERSION = "20"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

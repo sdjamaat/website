@@ -1,17 +1,9 @@
 import React, { createContext } from "react"
 import { monthIndexToName } from "../functions/calendar"
-const moment = require("moment-timezone")
-moment().tz("America/Los_Angeles").format()
-const momentHijri = require("moment-hijri")
+import momentTimezone from "moment-timezone"
+import momentHijri from "moment-hijri"
 
-const defaultState = {
-  momentHijri: null,
-  getHijriDate: (): HijriDateReturn => {
-    return
-  },
-}
-
-export const DateContext = createContext(defaultState)
+momentTimezone().tz("America/Los_Angeles").format()
 
 interface HijriDateReturn {
   day: any
@@ -22,13 +14,19 @@ interface HijriDateReturn {
   longMonthName: string
 }
 
-export const DateProvider = ({ children }) => {
+const defaultState = {
+  momentHijri: null as any,
+  getHijriDate: (): HijriDateReturn => {
+    return {} as HijriDateReturn
+  },
+}
+
+export const DateContext = createContext(defaultState)
+
+export const DateProvider = ({ children }: { children: React.ReactNode }) => {
   const getHijriDate = (): HijriDateReturn => {
-    const newDate = momentHijri().add(1, "days")
+    const newDate = (momentHijri as any)().add(1, "days")
     let databaseYear = newDate.iYear()
-    // for moharram, the "year" in terms of the database is last year
-    // Ex: the menu for Moharram 1443 is created in Zil Haj 1442, the year prior
-    // In the database, the collection we first query is the hijri year, then it's the month
     if (newDate.iMonth() === 0) {
       databaseYear = newDate.iYear() - 1
     }
