@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, useCallback } from "react"
 import styled from "styled-components"
 import { Badge, Modal, Alert, Button } from "antd"
-import { monthIndexToName, getNextMonthIndex } from "../../../../functions/calendar"
+import { monthIndexToName } from "../../../../functions/calendar"
 import HijriMonth from "../../../hijri-calendar/hijri-month"
 import { DateContext } from "../../../../provider/date-context"
 import { doc, getDoc } from "firebase/firestore"
@@ -9,47 +9,54 @@ import { db } from "../../../../lib/firebase"
 import { LeftOutlined, RightOutlined } from "@ant-design/icons"
 
 const FMBCalendar = () => {
-  const [menu, setMenu] = useState<any>(null)
-  const [nextMonthMenu, setNextMonthMenu] = useState<any>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [shouldShowNextMonth, setShouldShowNextMonth] = useState(false)
   const { getHijriDate } = useContext(DateContext)
+  const [displayMonthIndex, setDisplayMonthIndex] = useState(getHijriDate().month)
+  const [menuCache, setMenuCache] = useState<Record<number, any>>({})
+  const [isLoading, setIsLoading] = useState(true)
   const [menuModalDetails, setMenuModalDetails] = useState<any>({
     open: false,
     item: [],
     dateObj: null,
   })
 
-  const getFirebaseData = async () => {
+  const fetchMenuForMonth = useCallback(async (monthIndex: number) => {
+    if (menuCache[monthIndex] !== undefined) return
     try {
+      const monthName = monthIndexToName(monthIndex).short
       const menuDoc = await getDoc(
-        doc(db, "fmb", getHijriDate().databaseYear.toString(), "menus", monthIndexToName(getHijriDate().month).short)
+        doc(db, "fmb", getHijriDate().databaseYear.toString(), "menus", monthName)
       )
-      const nextMonthDoc = await getDoc(
-        doc(db, "fmb", getHijriDate().databaseYear.toString(), "menus", monthIndexToName(getNextMonthIndex(getHijriDate().month)).short)
-      )
-
-      setMenu(menuDoc.data() || null)
-      if (nextMonthDoc.exists()) {
-        setNextMonthMenu(nextMonthDoc.data())
-      }
+      setMenuCache((prev) => ({
+        ...prev,
+        [monthIndex]: menuDoc.exists() ? menuDoc.data() : null,
+      }))
     } catch (error) {
-      setMenu(null)
-      setNextMonthMenu(null)
       console.log(error)
-    } finally {
-      setIsLoading(false)
+      setMenuCache((prev) => ({ ...prev, [monthIndex]: null }))
+    }
+  }, [menuCache, getHijriDate])
+
+  useEffect(() => {
+    fetchMenuForMonth(displayMonthIndex).then(() => setIsLoading(false))
+  }, [displayMonthIndex])
+
+  const currentMenu = menuCache[displayMonthIndex] || null
+
+  const goToPrevMonth = () => {
+    if (displayMonthIndex > 0) {
+      setDisplayMonthIndex(displayMonthIndex - 1)
     }
   }
 
-  useEffect(() => {
-    getFirebaseData()
-  }, [])
+  const goToNextMonth = () => {
+    if (displayMonthIndex < 11) {
+      setDisplayMonthIndex(displayMonthIndex + 1)
+    }
+  }
 
   const getMatchingItemForDate = (dateValue: any) => {
-    let currMenu = shouldShowNextMonth ? nextMonthMenu : menu
-    if (currMenu && currMenu !== null) {
-      let getMatchingItemArr = currMenu.items.filter(
+    if (currentMenu && currentMenu !== null) {
+      const getMatchingItemArr = currentMenu.items.filter(
         (x: any) => x.date === dateValue.format("MM-DD-YYYY")
       )
       if (getMatchingItemArr.length > 0) {
@@ -60,13 +67,8 @@ const FMBCalendar = () => {
   }
 
   const openMenuDetailsModal = (dateValue: any) => {
-    let englishDisplay = dateValue.format("dddd, MMMM Do YYYY")
-    let hijriDisplay
-    if (shouldShowNextMonth) {
-      hijriDisplay = dateValue.iDate() + " " + monthIndexToName(getNextMonthIndex(getHijriDate().month)).long
-    } else {
-      hijriDisplay = dateValue.iDate() + " " + monthIndexToName(getHijriDate().month).long
-    }
+    const englishDisplay = dateValue.format("dddd, MMMM Do YYYY")
+    const hijriDisplay = dateValue.iDate() + " " + monthIndexToName(displayMonthIndex).long
     const matchingItem = getMatchingItemForDate(dateValue)
     setMenuModalDetails({
       ...menuModalDetails,
@@ -105,27 +107,21 @@ const FMBCalendar = () => {
         <div>Loading...</div>
       ) : (
         <div className="cont">
-          {nextMonthMenu && (
-            <div className="box1">
-              <Button
-                onClick={() => setShouldShowNextMonth(!shouldShowNextMonth)}
-                icon={<LeftOutlined />}
-                disabled={!shouldShowNextMonth}
-              />
-              <Button
-                onClick={() => setShouldShowNextMonth(!shouldShowNextMonth)}
-                icon={<RightOutlined />}
-                disabled={shouldShowNextMonth}
-              />
-            </div>
-          )}
+          <div className="box1">
+            <Button
+              onClick={goToPrevMonth}
+              icon={<LeftOutlined />}
+              disabled={displayMonthIndex <= 0}
+            />
+            <Button
+              onClick={goToNextMonth}
+              icon={<RightOutlined />}
+              disabled={displayMonthIndex >= 11}
+            />
+          </div>
           <div className="box2">
             <HijriMonth
-              monthIndex={
-                shouldShowNextMonth
-                  ? getNextMonthIndex(getHijriDate().month)
-                  : getHijriDate().month
-              }
+              monthIndex={displayMonthIndex}
               onClickHandler={openMenuDetailsModal}
               dateBoxContent={getDateBoxContent}
             />
