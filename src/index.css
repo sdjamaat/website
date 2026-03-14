@@ -68,9 +68,11 @@ img {
 }
 
 /* Clearfix for containers with floated buttons */
-.ant-card-body > div,
-.ant-spin-container > div {
-  overflow: hidden;
+.ant-card-body::after,
+.ant-spin-container::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 /* Bootstrap 4 → 5 compatibility: these classes were renamed */

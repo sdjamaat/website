@@ -15,9 +15,8 @@ const StartPanel = ({ setPanel, hijriMonth, hijriYear, disabled }: any) => {
             <Col sm={12} md={3}>
               <Button
                 onClick={() => setPanel("select-items")}
-                className="next-btn"
                 type="primary"
-                style={{ width: "100%" }}
+                style={{ width: "100%", height: "2.8rem", fontSize: "1.2rem" }}
               >
                 Start
               </Button>
