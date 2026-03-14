@@ -1,0 +1,20 @@
+name: Track Netlify Deploy
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  track-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Wait for Netlify deploy
+        uses: probots-io/wait-for-netlify-action@v1
+        with:
+          site_id: "5788d2b5-c62c-45bb-8b93-dad8c1c18ce5"
+          max_timeout: 300
+        env:
+          NETLIFY_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
