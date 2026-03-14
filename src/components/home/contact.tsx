@@ -103,8 +103,7 @@ const Contact = () => {
 const ContactWrapper = styled.div`
   .submit-btn {
     width: 100%;
-    padding-top: 0.5rem;
-    padding-bottom: 1.8rem;
+    height: 2.5rem;
   }
 `
 

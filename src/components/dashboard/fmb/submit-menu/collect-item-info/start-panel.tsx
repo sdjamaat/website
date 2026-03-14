@@ -12,11 +12,10 @@ const StartPanel = ({ setPanel, hijriMonth, hijriYear, disabled }: any) => {
               <div style={{ fontSize: "1.3rem" }}>{hijriMonth}</div>
               <p style={{ marginBottom: ".3rem", color: "gray" }}>{hijriYear}</p>
             </Col>
-            <Col sm={12} md={3}>
+            <Col sm={12} md={3} className="d-flex align-items-center justify-content-end">
               <Button
-                style={{ marginTop: ".7rem" }}
                 onClick={() => setPanel("select-items")}
-                className="btn-block next-btn"
+                className="next-btn"
                 type="primary"
               >
                 Start

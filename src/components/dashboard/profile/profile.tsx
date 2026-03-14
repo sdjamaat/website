@@ -99,8 +99,7 @@ const ProfileWrapper = styled.div`
     padding-left: 0.2rem;
   }
   .next-btn {
-    padding-top: 0.2rem;
-    padding-bottom: 2.2rem;
+    height: 2.8rem;
     font-size: 1.2rem;
     margin-top: 1rem;
   }

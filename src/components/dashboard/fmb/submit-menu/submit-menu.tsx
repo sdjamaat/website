@@ -256,8 +256,7 @@ const SubmitFMBMenuWrapper = styled.div`
     padding-bottom: 0.3rem;
   }
   .next-btn {
-    padding-top: 0.2rem;
-    padding-bottom: 2.2rem;
+    height: 2.8rem;
     font-size: 1.2rem;
     margin-top: 1rem;
   }

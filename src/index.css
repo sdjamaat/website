@@ -67,6 +67,12 @@ img {
   justify-content: center;
 }
 
+/* Clearfix for containers with floated buttons */
+.ant-card-body > div,
+.ant-spin-container > div {
+  overflow: hidden;
+}
+
 /* Bootstrap 4 → 5 compatibility: these classes were renamed */
 .float-left {
   float: left !important;

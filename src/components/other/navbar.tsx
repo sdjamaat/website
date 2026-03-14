@@ -100,11 +100,14 @@ const Navigation = () => {
 }
 
 const NavbarWrapper = styled.div`
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
   .dropdown:active {
     background-color: transparent;
   }
   .logo {
-    margin-bottom: -0.6rem;
+    vertical-align: middle;
   }
   .navlink {
     font-size: 1.3rem;
