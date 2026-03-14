@@ -36,10 +36,13 @@ const ViewSelections = () => {
       )
       const familySubmissionsDataForMenu = submissionDoc.data() as FamilySubmissionData
 
-      menuListBuilder.push({
-        menuData,
-        submissionData: familySubmissionsDataForMenu,
-      })
+      // Only add to menuListBuilder if submission data exists
+      if (familySubmissionsDataForMenu) {
+        menuListBuilder.push({
+          menuData,
+          submissionData: familySubmissionsDataForMenu,
+        })
+      }
     }
     setMenuList(menuListBuilder)
     setIsLoading(false)
@@ -60,15 +63,20 @@ const ViewSelections = () => {
               Submissions for Hijri Year {hijriYear}
             </Divider>
             {menuList.length > 0 &&
-              menuList.map(({ menuData, submissionData }) => (
-                <ItemListDisplay
-                  key={menuData.displayMonthName}
-                  title={menuData.displayMonthName}
-                  submittedBy={`${submissionData.submittedBy.firstname} ${submissionData.submittedBy.lastname}`}
-                  items={menuData.items}
-                  selections={submissionData.selections}
-                />
-              ))}
+              menuList.map(({ menuData, submissionData }) => {
+                if (!submissionData?.submittedBy) {
+                  return null
+                }
+                return (
+                  <ItemListDisplay
+                    key={menuData.displayMonthName}
+                    title={menuData.displayMonthName}
+                    submittedBy={`${submissionData.submittedBy.firstname} ${submissionData.submittedBy.lastname}`}
+                    items={menuData.items}
+                    selections={submissionData.selections}
+                  />
+                )
+              })}
             {menuList.length === 0 && (
               <Alert type="warning" message="No submissions found for the current hijri year" />
             )}
