@@ -92,8 +92,7 @@ const QHFormsWrapper = styled.div`
     padding-bottom: 0.3rem;
   }
   .qh-form-button {
-    padding-bottom: 0.15rem;
-    padding-top: 0.15rem;
+    height: 2.2rem;
     width: 100%;
     @media only screen and (max-width: 575px) {
       margin-top: 1rem;
