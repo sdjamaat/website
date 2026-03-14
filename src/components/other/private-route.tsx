@@ -1,4 +1,5 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
+import { Navigate } from "react-router-dom"
 import { AuthContext } from "../../provider/auth-context"
 import useQueryParam from "../../custom-hooks/use-query-params"
 import Layout from "./layout"
@@ -8,15 +9,20 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
 
   const [tab] = useQueryParam("tab", "")
 
-  let verifUser = verifyAuthUser()
-  if (!isLoggedIn || verifUser === null) {
-    if (verifUser === null) {
-      signOut(window.location.pathname, tab)
-    } else {
-      signOut()
-    }
+  const verifUser = verifyAuthUser()
+  const isAuthenticated = isLoggedIn && verifUser !== null
 
-    return null
+  useEffect(() => {
+    if (!isAuthenticated && verifUser === null) {
+      signOut(window.location.pathname, tab)
+    }
+  }, [isAuthenticated])
+
+  if (!isAuthenticated) {
+    if (verifUser === null) {
+      return null // useEffect will handle signOut + redirect
+    }
+    return <Navigate to="/login" replace />
   }
 
   return <Layout>{children}</Layout>

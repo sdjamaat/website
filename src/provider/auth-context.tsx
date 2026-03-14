@@ -74,56 +74,69 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           navigate("/login")
         }
       })
+      .catch(() => {
+        localStorage.removeItem("authUser")
+        localStorage.removeItem("_secure__ls__metadata")
+        navigate("/login")
+      })
   }
 
   useEffect(() => {
-    if (currUser !== null && isLoggedIn) {
-      try {
-        // onSnapshot for family information
-        onSnapshot(doc(db, "families", currUser.familyid), (docSnap) => {
-          localEncryptedStore.set("authUser", {
-            ...currUser,
-            timestamp: Date.now(),
-            family: {
-              ...docSnap.data(),
-            },
-          })
-          setCurrUser(localEncryptedStore.get("authUser"))
+    if (currUser === null || !isLoggedIn) return
+
+    let unsubFamily: (() => void) | undefined
+    let unsubUser: (() => void) | undefined
+
+    try {
+      // onSnapshot for family information
+      unsubFamily = onSnapshot(doc(db, "families", currUser.familyid), (docSnap) => {
+        localEncryptedStore.set("authUser", {
+          ...currUser,
+          timestamp: Date.now(),
+          family: {
+            ...docSnap.data(),
+          },
         })
+        setCurrUser(localEncryptedStore.get("authUser"))
+      })
 
-        // onSnapshot for user information
-        onSnapshot(doc(db, "users", currUser.uid), async (docSnap) => {
-          if (docSnap.exists()) {
-            const userInfo = docSnap.data()
-            if (!userInfo.admin) {
-              const familyDoc = await getDoc(doc(db, "families", userInfo.familyid))
+      // onSnapshot for user information
+      unsubUser = onSnapshot(doc(db, "users", currUser.uid), async (docSnap) => {
+        if (docSnap.exists()) {
+          const userInfo = docSnap.data()
+          if (!userInfo.admin) {
+            const familyDoc = await getDoc(doc(db, "families", userInfo.familyid))
 
-              localEncryptedStore.set("authUser", {
-                uid: userInfo.uid,
-                firstname: userInfo.firstname,
-                lastname: userInfo.lastname,
-                email: userInfo.email,
-                familyid: userInfo.familyid,
-                its: userInfo.its,
-                phone: userInfo.phone,
-                title: userInfo.title,
-                yob: userInfo.yob,
-                family: {
-                  ...familyDoc.data(),
-                },
-                timestamp: Date.now(),
-              })
-              setCurrUser(localEncryptedStore.get("authUser"))
-            } else {
-              signOut()
-            }
+            localEncryptedStore.set("authUser", {
+              uid: userInfo.uid,
+              firstname: userInfo.firstname,
+              lastname: userInfo.lastname,
+              email: userInfo.email,
+              familyid: userInfo.familyid,
+              its: userInfo.its,
+              phone: userInfo.phone,
+              title: userInfo.title,
+              yob: userInfo.yob,
+              family: {
+                ...familyDoc.data(),
+              },
+              timestamp: Date.now(),
+            })
+            setCurrUser(localEncryptedStore.get("authUser"))
           } else {
             signOut()
           }
-        })
-      } catch {
-        signOut()
-      }
+        } else {
+          signOut()
+        }
+      })
+    } catch {
+      signOut()
+    }
+
+    return () => {
+      unsubFamily?.()
+      unsubUser?.()
     }
   }, [])
 

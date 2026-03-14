@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import Layout from "../components/other/layout"
 import styled from "styled-components"
 import { Form, Input, Button, Card, Spin } from "antd"
@@ -9,7 +9,6 @@ import { doc, getDoc } from "firebase/firestore"
 import { auth, db } from "../lib/firebase"
 import { AuthContext } from "../provider/auth-context"
 import CustomMessage from "../components/other/custom-message"
-import useComponentWillMount from "../custom-hooks/component-will-mount"
 import useQueryParam from "../custom-hooks/use-query-params"
 
 const layout = {
@@ -62,11 +61,11 @@ const LoginForm = () => {
     setCurrUser,
   } = useContext(AuthContext)
 
-  useComponentWillMount(() => {
+  useEffect(() => {
     if (isLoggedIn) {
       navigate("/auth/dashboard?tab=profile")
     }
-  })
+  }, [])
   const [form] = Form.useForm()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [path] = useQueryParam("path", "")

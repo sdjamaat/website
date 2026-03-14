@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useRef, useContext } from "react"
 import { Card, Alert, Spin, Collapse, Divider } from "antd"
 import { DateContext } from "../../../../provider/date-context"
 import { AuthContext } from "../../../../provider/auth-context"
@@ -26,6 +26,7 @@ const SubmitFMBMenu = () => {
   const [panel, setPanel] = useState("start")
   const [refreshComponent, setRefreshComponent] = useState(false)
   const [hasAlreadySubmitted, setHasAlreadySubmitted] = useState(false)
+  const hasAlreadySubmittedRef = useRef(false)
   const [alreadySubmittedItemsDoc, setAlreadySubmittedItemsDoc] = useState<any>({})
 
   const thaaliSubmitEmailTest = (userSelectionsMap: any, menuItems: any[]) => {
@@ -134,9 +135,40 @@ const SubmitFMBMenu = () => {
 
   useEffect(() => {
     const currentHijriDate = getHijriDate()
+    const unsubscribes: (() => void)[] = []
+
+    const checkSubmissionAndSetMenu = async (
+      menuRef: any,
+      menuData: any,
+      activeMenuMonth: string,
+      year: number,
+      isUsingLastActiveMenu: boolean
+    ) => {
+      const completedSubmissions = menuData.submissions
+
+      hasAlreadySubmittedRef.current = false
+      setHasAlreadySubmitted(false)
+      setAlreadySubmittedItemsDoc({})
+
+      if (completedSubmissions.includes(currUser.familyid)) {
+        const submissionDoc = await getDoc(
+          doc(collection(menuRef, "submissions"), currUser.familyid)
+        )
+        setAlreadySubmittedItemsDoc(submissionDoc.data())
+        setHasAlreadySubmitted(true)
+        hasAlreadySubmittedRef.current = true
+      }
+
+      if (hasAlreadySubmittedRef.current || !isUsingLastActiveMenu) {
+        setActiveMenu({ ...menuData, shortMonthName: activeMenuMonth })
+        setActiveMenuYear(year)
+      } else {
+        setActiveMenu(-1)
+      }
+    }
 
     const setupMenuListener = (yearDocRef: any, year: number) => {
-      onSnapshot(yearDocRef, async (docSnap: any) => {
+      const unsubYear = onSnapshot(yearDocRef, async (docSnap: any) => {
         if (docSnap.exists()) {
           let activeMenuMonth = docSnap.data().activeMenu
           let isUsingLastActiveMenu = false
@@ -146,28 +178,11 @@ const SubmitFMBMenu = () => {
           }
           if (activeMenuMonth !== null) {
             const menuRef = doc(collection(yearDocRef, "menus"), activeMenuMonth)
-            onSnapshot(menuRef, async (menuSnap: any) => {
+            const unsubMenu = onSnapshot(menuRef, async (menuSnap: any) => {
               const menuData = menuSnap.data()
-              const completedSubmissions = menuData.submissions
-
-              setHasAlreadySubmitted(false)
-              setAlreadySubmittedItemsDoc({})
-
-              if (completedSubmissions.includes(currUser.familyid)) {
-                const submissionDoc = await getDoc(
-                  doc(collection(menuRef, "submissions"), currUser.familyid)
-                )
-                setAlreadySubmittedItemsDoc(submissionDoc.data())
-                setHasAlreadySubmitted(true)
-              }
-
-              if (hasAlreadySubmitted || !isUsingLastActiveMenu) {
-                setActiveMenu({ ...menuData, shortMonthName: activeMenuMonth })
-                setActiveMenuYear(year)
-              } else {
-                setActiveMenu(-1)
-              }
+              await checkSubmissionAndSetMenu(menuRef, menuData, activeMenuMonth, year, isUsingLastActiveMenu)
             })
+            unsubscribes.push(unsubMenu)
           } else {
             setActiveMenu(-1)
           }
@@ -175,40 +190,33 @@ const SubmitFMBMenu = () => {
           setActiveMenu(-1)
         }
       })
+      unsubscribes.push(unsubYear)
     }
 
     if (currentHijriDate.month === 0) {
       const actualYearRef = doc(db, "fmb", currentHijriDate.year.toString())
-      onSnapshot(actualYearRef, (docSnap) => {
+      const unsubActualYear = onSnapshot(actualYearRef, (docSnap) => {
         if (docSnap.exists()) {
           let activeMenuMonth = docSnap.data().activeMenu
           if (activeMenuMonth !== null) {
             const menuRef = doc(collection(actualYearRef, "menus"), activeMenuMonth)
-            onSnapshot(menuRef, async (menuSnap) => {
+            const unsubMenu = onSnapshot(menuRef, async (menuSnap) => {
               const menuData = menuSnap.data()
-              const completedSubmissions = menuData!.submissions
-
-              setHasAlreadySubmitted(false)
-              setAlreadySubmittedItemsDoc({})
-
-              if (completedSubmissions.includes(currUser.familyid)) {
-                const submissionDoc = await getDoc(
-                  doc(collection(menuRef, "submissions"), currUser.familyid)
-                )
-                setAlreadySubmittedItemsDoc(submissionDoc.data())
-                setHasAlreadySubmitted(true)
-              }
-
-              setActiveMenu({ ...menuData, shortMonthName: activeMenuMonth })
-              setActiveMenuYear(currentHijriDate.year)
+              await checkSubmissionAndSetMenu(menuRef, menuData!, activeMenuMonth, currentHijriDate.year, false)
             })
+            unsubscribes.push(unsubMenu)
             return
           }
         }
         setupMenuListener(doc(db, "fmb", currentHijriDate.databaseYear.toString()), currentHijriDate.databaseYear)
       })
+      unsubscribes.push(unsubActualYear)
     } else {
       setupMenuListener(doc(db, "fmb", currentHijriDate.databaseYear.toString()), currentHijriDate.databaseYear)
+    }
+
+    return () => {
+      unsubscribes.forEach((unsub) => unsub())
     }
   }, [])
 
