@@ -44,7 +44,11 @@ const ITSMessage = () => {
 }
 
 const ITSMessageWrapper = styled.div`
+  height: 100%;
   padding-bottom: 15px;
+  .ant-card {
+    height: 100%;
+  }
   .location-card {
     padding: -4rem;
   }

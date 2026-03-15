@@ -101,6 +101,10 @@ const Contact = () => {
 }
 
 const ContactWrapper = styled.div`
+  height: 100%;
+  .ant-card {
+    height: 100%;
+  }
   .submit-btn {
     width: 100%;
     height: 2.5rem;
