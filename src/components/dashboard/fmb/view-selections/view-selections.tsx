@@ -21,7 +21,7 @@ const ViewSelections = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const hijriYear = getHijriDate().databaseYear
 
-  const getData = async () => {
+  const getData = async (retries = 3): Promise<void> => {
     setIsLoading(true)
     try {
       let menuListBuilder: MenuListItem[] = []
@@ -48,6 +48,10 @@ const ViewSelections = () => {
       setMenuList(menuListBuilder)
     } catch (error) {
       console.error("Failed to load selections:", error)
+      if (retries > 1) {
+        await new Promise((r) => setTimeout(r, 1000))
+        return getData(retries - 1)
+      }
       setMenuList([])
     } finally {
       setIsLoading(false)

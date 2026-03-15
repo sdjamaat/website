@@ -137,6 +137,11 @@ const SubmitFMBMenu = () => {
     const currentHijriDate = getHijriDate()
     const unsubscribes: (() => void)[] = []
 
+    // If activeMenu is still null after 10s, stop waiting
+    const timeout = setTimeout(() => {
+      setActiveMenu((prev: any) => (prev === null ? -1 : prev))
+    }, 10000)
+
     const checkSubmissionAndSetMenu = async (
       menuRef: any,
       menuData: any,
@@ -241,6 +246,7 @@ const SubmitFMBMenu = () => {
     }
 
     return () => {
+      clearTimeout(timeout)
       unsubscribes.forEach((unsub) => unsub())
     }
   }, [])

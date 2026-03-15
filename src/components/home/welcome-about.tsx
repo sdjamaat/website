@@ -148,14 +148,19 @@ const WelcomeAboutWrapper = styled.div`
   .welcome-to-text {
     color: gray;
   }
+  .welcome-text-col {
+    display: flex;
+    align-items: center;
+  }
   .logo-img {
     @media only screen and (min-width: 990px) {
       max-width: 123px;
     }
     max-width: 150px;
-    min-width: 70px;
-    @media only screen and (max-width: 380px) {
-      min-width: 60px;
+    min-width: 0;
+    @media only screen and (max-width: 767px) {
+      max-height: 80px;
+      width: auto;
     }
     margin: auto;
     display: block;
