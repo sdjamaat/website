@@ -148,6 +148,11 @@ const WelcomeAboutWrapper = styled.div`
   .welcome-to-text {
     color: gray;
   }
+  .welcome-card > .row {
+    @media only screen and (max-width: 991px) {
+      justify-content: center;
+    }
+  }
   .welcome-text-col {
     display: flex;
     align-items: center;
