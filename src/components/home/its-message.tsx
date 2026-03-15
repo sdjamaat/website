@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { Card } from "antd"
 import { GlobalOutlined, MailOutlined } from "@ant-design/icons"
+import communityImg from "../../images/community.avif"
 
 const ITSMessage = () => {
   return (
@@ -42,6 +43,10 @@ const ITSMessage = () => {
             <p>sandiego.ca@usa.thedawoodibohras.com</p>
           </div>
         </a>
+
+        <div className="community-img-container">
+          <img src={communityImg} alt="San Diego Dawoodi Bohra Community" />
+        </div>
       </Card>
     </ITSMessageWrapper>
   )
@@ -58,10 +63,7 @@ const ITSMessageWrapper = styled.div`
     text-decoration: none;
     color: inherit;
     transition: background-color 0.2s;
-
-    &:first-child {
-      border-bottom: 1px solid #f0f0f0;
-    }
+    border-bottom: 1px solid #f0f0f0;
 
     &:hover {
       background-color: #f8f9ff;
@@ -94,6 +96,15 @@ const ITSMessageWrapper = styled.div`
       font-size: 0.95rem;
       color: #555;
       line-height: 1.45;
+    }
+  }
+
+  .community-img-container {
+    img {
+      width: 100%;
+      display: block;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
     }
   }
 `
