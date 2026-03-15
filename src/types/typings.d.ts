@@ -21,6 +21,8 @@ export interface ThaaliItem {
   nothaali: boolean
   date: string
   name: string
+  sizeRestrictionEnabled?: boolean
+  maxSize?: string
 }
 
 export interface MenuData {

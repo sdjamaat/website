@@ -11,6 +11,7 @@ import {
   ThaaliItem,
   ValuesFromSelectItems,
 } from "../../../../../types/typings"
+import { getEffectiveMaxSize, canSelectSize } from "../../../../../utils/thaali-sizes"
 import moment from "moment"
 const { Option } = Select
 
@@ -34,13 +35,24 @@ const SelectItems = ({ setPanel, items, values, setValues }: SelectItemsProps) =
   const { currUser } = useContext(AuthContext)
   const userFamilyThaaliSize = currUser.family.fmb.thaaliSize
 
-  const canSelectGivenThaaliSize = (thaaliSize: SelectToggleType) => {
-    if (userFamilyThaaliSize === "Grand" && (thaaliSize === "Grand" || thaaliSize === "Full" || thaaliSize === "Half" || thaaliSize === "Quarter")) return true
-    if (userFamilyThaaliSize === "Full" && (thaaliSize === "Full" || thaaliSize === "Half" || thaaliSize === "Quarter")) return true
-    if (userFamilyThaaliSize === "Half" && (thaaliSize === "Half" || thaaliSize === "Quarter")) return true
-    if (userFamilyThaaliSize === "Quarter" && thaaliSize === "Quarter") return true
-    return false
+  const canSelectGivenThaaliSize = (thaaliSize: SelectToggleType, itemMaxSize?: string | null) => {
+    if (thaaliSize === "No Thaali" || thaaliSize === "individual") return true
+    const effectiveMax = getEffectiveMaxSize(userFamilyThaaliSize, itemMaxSize)
+    return canSelectSize(thaaliSize, effectiveMax)
   }
+
+  // For the bulk toggle, compute the most restrictive max across all non-nothaali items
+  const getMostRestrictiveMax = (): string => {
+    let mostRestrictive = userFamilyThaaliSize
+    for (const item of items) {
+      if (!item.nothaali && item.sizeRestrictionEnabled && item.maxSize) {
+        mostRestrictive = getEffectiveMaxSize(mostRestrictive, item.maxSize)
+      }
+    }
+    return mostRestrictive
+  }
+
+  const bulkMaxSize = getMostRestrictiveMax()
 
   const onFinish = (formValues: FormValues) => {
     setValues({ ...formValues, distDateMap })
@@ -55,8 +67,18 @@ const SelectItems = ({ setPanel, items, values, setValues }: SelectItemsProps) =
     const toggleValue = event.target.value as SelectToggleType
     if (toggleValue !== "individual") {
       let newItemPreferences: FormValues = selectItemsForm.getFieldsValue()
-      for (let key in newItemPreferences.items) {
-        (newItemPreferences.items as any)[key] = toggleValue
+      for (const item of items) {
+        if (!item.nothaali && newItemPreferences.items) {
+          if (toggleValue === "No Thaali") {
+            (newItemPreferences.items as any)[item.id] = toggleValue
+          } else {
+            // Auto-clamp to item's effective max if the selected size exceeds it
+            const itemMax = item.sizeRestrictionEnabled ? item.maxSize : undefined
+            const effectiveMax = getEffectiveMaxSize(userFamilyThaaliSize, itemMax)
+            const allowed = canSelectSize(toggleValue, effectiveMax)
+            ;(newItemPreferences.items as any)[item.id] = allowed ? toggleValue : effectiveMax
+          }
+        }
       }
       selectItemsForm.setFieldsValue(newItemPreferences)
     }
@@ -125,10 +147,10 @@ const SelectItems = ({ setPanel, items, values, setValues }: SelectItemsProps) =
         <Form.Item name="select-toggle" label="Toggle size (for all items)">
           <Radio.Group onChange={onSelectToggleChange}>
             <Radio value="individual">Individual selection</Radio>
-            {canSelectGivenThaaliSize("Grand") && <Radio value="Grand">Grand</Radio>}
-            {canSelectGivenThaaliSize("Full") && <Radio value="Full">Full</Radio>}
-            {canSelectGivenThaaliSize("Half") && <Radio value="Half">Half</Radio>}
-            {canSelectGivenThaaliSize("Quarter") && <Radio value="Quarter">Quarter</Radio>}
+            {canSelectSize("Grand", bulkMaxSize) && <Radio value="Grand">Grand</Radio>}
+            {canSelectSize("Full", bulkMaxSize) && <Radio value="Full">Full</Radio>}
+            {canSelectSize("Half", bulkMaxSize) && <Radio value="Half">Half</Radio>}
+            {canSelectSize("Quarter", bulkMaxSize) && <Radio value="Quarter">Quarter</Radio>}
             <Radio value="No Thaali">No Thaali</Radio>
           </Radio.Group>
         </Form.Item>
@@ -155,10 +177,10 @@ const SelectItems = ({ setPanel, items, values, setValues }: SelectItemsProps) =
                 )}
                 <Form.Item key={index} name={["items", item.id]} rules={[{ required: true, message: "Please input thaali size" }]}>
                   <Select style={{ width: "100%" }}>
-                    {canSelectGivenThaaliSize("Grand") && <Option value="Grand">Grand</Option>}
-                    {canSelectGivenThaaliSize("Full") && <Option value="Full">Full</Option>}
-                    {canSelectGivenThaaliSize("Half") && <Option value="Half">Half</Option>}
-                    {canSelectGivenThaaliSize("Quarter") && <Option value="Quarter">Quarter</Option>}
+                    {canSelectGivenThaaliSize("Grand", item.sizeRestrictionEnabled ? item.maxSize : undefined) && <Option value="Grand">Grand</Option>}
+                    {canSelectGivenThaaliSize("Full", item.sizeRestrictionEnabled ? item.maxSize : undefined) && <Option value="Full">Full</Option>}
+                    {canSelectGivenThaaliSize("Half", item.sizeRestrictionEnabled ? item.maxSize : undefined) && <Option value="Half">Half</Option>}
+                    {canSelectGivenThaaliSize("Quarter", item.sizeRestrictionEnabled ? item.maxSize : undefined) && <Option value="Quarter">Quarter</Option>}
                     <Option value="No Thaali">No Thaali</Option>
                   </Select>
                 </Form.Item>
