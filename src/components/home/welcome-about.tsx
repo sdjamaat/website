@@ -11,15 +11,15 @@ const WelcomeAbout = () => {
         <Row className="welcome-and-about-us">
           <Col lg={6} className="logo-and-welcome-col">
             <div className="welcome-card">
-              <Row className="logo-and-text-row">
-                <Col xs={12} sm={3} className="logo-img-container">
+              <Row>
+                <Col xs={3} className="logo-img-container">
                   <img
                     src={logoImg}
                     className="logo-img"
                     alt="Logo"
                   />
                 </Col>
-                <Col xs={12} sm={9} className="welcome-text-col">
+                <Col xs={9} className="welcome-text-col">
                   <div className="welcome-text">
                     <h4 className="welcome-to-text">Welcome to</h4>
                     <h1>
@@ -148,27 +148,12 @@ const WelcomeAboutWrapper = styled.div`
   .welcome-to-text {
     color: gray;
   }
-  .logo-and-text-row {
-    @media only screen and (max-width: 575px) {
-      text-align: center;
-    }
-  }
-  .logo-img-container {
-    @media only screen and (max-width: 575px) {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 0.5rem;
-    }
-  }
   .logo-img {
     @media only screen and (min-width: 990px) {
       max-width: 123px;
     }
     max-width: 150px;
     min-width: 70px;
-    @media only screen and (max-width: 575px) {
-      max-width: 100px;
-    }
     @media only screen and (max-width: 380px) {
       min-width: 60px;
     }
