@@ -86,7 +86,7 @@ const Contact = () => {
               label="Message"
               rules={[{ required: true, message: "Please input your message" }]}
             >
-              <Input.TextArea rows={5} />
+              <Input.TextArea rows={10} />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" className="submit-btn">
@@ -105,52 +105,6 @@ const ContactWrapper = styled.div`
   padding-bottom: 15px;
   .ant-card {
     height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-  .ant-card-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  .ant-card-body > .ant-spin-nested-loading {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  .ant-spin-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  .ant-form {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  .ant-form-item:has(textarea) {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    .ant-form-item-control {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .ant-form-item-control-input {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .ant-form-item-control-input-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    textarea {
-      flex: 1 !important;
-      resize: none;
-    }
   }
   .submit-btn {
     width: 100%;

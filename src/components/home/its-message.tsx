@@ -60,6 +60,8 @@ const ITSMessageWrapper = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
   }
 
   .ant-card-body {
@@ -137,8 +139,6 @@ const ITSMessageWrapper = styled.div`
       height: 100%;
       display: block;
       object-fit: cover;
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
     }
   }
 `
