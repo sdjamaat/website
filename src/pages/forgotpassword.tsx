@@ -1,0 +1,107 @@
+import React, { useState } from "react"
+import Layout from "../components/other/layout"
+import styled from "styled-components"
+import { Form, Input, Button, Card, Spin } from "antd"
+import { onFinishFailed } from "../functions/forms"
+import { sendPasswordResetEmail } from "firebase/auth"
+import { auth } from "../lib/firebase"
+import { useNavigate } from "react-router-dom"
+import CustomMessage from "../components/other/custom-message"
+
+const layout = {
+  labelCol: { span: 16 },
+  wrapperCol: { span: 24 },
+}
+
+const ForgotPasswordForm = () => {
+  const navigate = useNavigate()
+  const [form] = Form.useForm()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const onSubmit = (values: any) => {
+    setIsSubmitting(true)
+    sendPasswordResetEmail(auth, values.email)
+      .then(() => {
+        CustomMessage(
+          "success",
+          "Password reset email sent! Check your inbox for further instructions"
+        )
+      })
+      .catch((error) => {
+        CustomMessage("error", error.message)
+      })
+      .finally(() => setIsSubmitting(false))
+  }
+
+  return (
+    <Card
+      title="Reset Password"
+      headStyle={{ fontSize: "1.7rem", textAlign: "center" }}
+    >
+      <Spin spinning={isSubmitting}>
+        <Form
+          {...layout}
+          form={form}
+          onFinish={onSubmit}
+          initialValues={{ email: null }}
+          onFinishFailed={() => onFinishFailed(form)}
+          layout="vertical"
+        >
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: "Please input your email" },
+              { type: "email", message: "Email is not valid" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit" className="submit mod-btn">
+              Submit
+            </Button>
+          </Form.Item>
+
+          <Form.Item>
+            <Button className="mod-btn" onClick={() => navigate("/login")}>
+              Back to Login
+            </Button>
+          </Form.Item>
+        </Form>
+      </Spin>
+    </Card>
+  )
+}
+
+const ForgotPassword = () => {
+  return (
+    <Layout>
+      <ForgotPasswordWrapper>
+        <div className="content">
+          <ForgotPasswordForm />
+        </div>
+      </ForgotPasswordWrapper>
+    </Layout>
+  )
+}
+
+const ForgotPasswordWrapper = styled.div`
+  .content {
+    max-width: 500px;
+    margin: auto;
+    padding-top: 5%;
+  }
+
+  .mod-btn {
+    width: 100%;
+    height: 2.8rem;
+    font-size: 1.3rem;
+  }
+
+  .submit {
+    margin-top: 1rem;
+  }
+`
+
+export default ForgotPassword

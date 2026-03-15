@@ -52,8 +52,8 @@ export type GroupToggle = "distribution-date" | "calendar-date"
 
 export interface FormValues {
   items?: Map<string, SelectToggleType>
-  [`select-toggle`]?: SelectToggleType
-  [`group-toggle`]?: GroupToggle
+  ["select-toggle"]?: SelectToggleType
+  ["group-toggle"]?: GroupToggle
 }
 
 export interface ValuesFromSelectItems extends FormValues {

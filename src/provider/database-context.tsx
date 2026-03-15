@@ -1,21 +1,18 @@
 import React, { createContext, useContext } from "react"
-import firebase, { firestore } from "firebase"
+import { doc, DocumentReference } from "firebase/firestore"
+import { db } from "../lib/firebase"
 import { DateContext } from "./date-context"
 
 const defaultState = {
-  hijriYearDocRef: (): firestore.DocumentReference | any => {},
+  hijriYearDocRef: (): DocumentReference | any => {},
 }
 
 export const DatabaseContext = createContext(defaultState)
 
-export const DatabaseProvider = ({ children }) => {
+export const DatabaseProvider = ({ children }: { children: React.ReactNode }) => {
   const { getHijriDate } = useContext(DateContext)
-  const hijriYearDocRef = (): firestore.DocumentReference => {
-    const fmbYearQuery = firebase
-      .firestore()
-      .collection("fmb")
-      .doc(getHijriDate().year.toString())
-    return fmbYearQuery
+  const hijriYearDocRef = (): DocumentReference => {
+    return doc(db, "fmb", getHijriDate().year.toString())
   }
   return (
     <DatabaseContext.Provider
