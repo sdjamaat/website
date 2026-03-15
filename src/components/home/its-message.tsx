@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
-import { Card } from "antd"
+import { Card, Divider } from "antd"
+import { GlobalOutlined, MailOutlined } from "@ant-design/icons"
 
 const ITSMessage = () => {
   return (
@@ -12,32 +13,40 @@ const ITSMessage = () => {
         bodyStyle={{
           textAlign: "center",
           fontSize: "1rem",
-          paddingBottom: "0",
-          paddingTop: ".8rem",
+          padding: "1.5rem 2rem",
         }}
       >
-        <p>
-          For more information on the local Dawoodi Bohra community of San
-          Diego, California, please visit our page:
-          <br />
-          <a
-            style={{ color: "#4169e1" }}
-            href="https://www.usa.thedawoodibohras.com/san-diego/"
-            target="__blank"
-          >
-            www.usa.thedawoodibohras.com/san-diego
-          </a>
-        </p>
-        <p>
-          Or email us: <br />
-          <a
-            style={{ color: "#4169e1" }}
-            href="mailto:sandiego.ca@usa.thedawoodibohras.com"
-            target="__blank"
-          >
-            sandiego.ca@usa.thedawoodibohras.com
-          </a>
-        </p>
+        <div className="info-section">
+          <div className="info-block">
+            <GlobalOutlined className="info-icon" />
+            <p className="info-label">Visit our page</p>
+            <p className="info-description">
+              For more information on the local Dawoodi Bohra community of San
+              Diego, California
+            </p>
+            <a
+              className="info-link"
+              href="https://www.usa.thedawoodibohras.com/san-diego/"
+              target="__blank"
+            >
+              www.usa.thedawoodibohras.com/san-diego
+            </a>
+          </div>
+
+          <Divider className="section-divider" />
+
+          <div className="info-block">
+            <MailOutlined className="info-icon" />
+            <p className="info-label">Email us</p>
+            <a
+              className="info-link"
+              href="mailto:sandiego.ca@usa.thedawoodibohras.com"
+              target="__blank"
+            >
+              sandiego.ca@usa.thedawoodibohras.com
+            </a>
+          </div>
+        </div>
       </Card>
     </ITSMessageWrapper>
   )
@@ -57,16 +66,42 @@ const ITSMessageWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
   }
-  .location-card {
-    padding: -4rem;
+  .info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
   }
-  .divider {
-    @media (max-width: 990px) and (min-width: 767px) {
-      height: 100%;
-    }
+  .info-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
   }
-  .address {
+  .info-icon {
+    font-size: 1.8rem;
     color: #4169e1;
+    margin-bottom: 0.25rem;
+  }
+  .info-label {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+  }
+  .info-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
+    max-width: 340px;
+  }
+  .info-link {
+    color: #4169e1;
+    font-size: 0.95rem;
+    word-break: break-all;
+  }
+  .section-divider {
+    margin: 0.75rem 0;
   }
 `
 
