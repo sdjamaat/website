@@ -144,25 +144,30 @@ const SubmitFMBMenu = () => {
       year: number,
       isUsingLastActiveMenu: boolean
     ) => {
-      const completedSubmissions = menuData.submissions
+      try {
+        const completedSubmissions = menuData.submissions || []
 
-      hasAlreadySubmittedRef.current = false
-      setHasAlreadySubmitted(false)
-      setAlreadySubmittedItemsDoc({})
+        hasAlreadySubmittedRef.current = false
+        setHasAlreadySubmitted(false)
+        setAlreadySubmittedItemsDoc({})
 
-      if (completedSubmissions.includes(currUser.familyid)) {
-        const submissionDoc = await getDoc(
-          doc(collection(menuRef, "submissions"), currUser.familyid)
-        )
-        setAlreadySubmittedItemsDoc(submissionDoc.data())
-        setHasAlreadySubmitted(true)
-        hasAlreadySubmittedRef.current = true
-      }
+        if (completedSubmissions.includes(currUser.familyid)) {
+          const submissionDoc = await getDoc(
+            doc(collection(menuRef, "submissions"), currUser.familyid)
+          )
+          setAlreadySubmittedItemsDoc(submissionDoc.data())
+          setHasAlreadySubmitted(true)
+          hasAlreadySubmittedRef.current = true
+        }
 
-      if (hasAlreadySubmittedRef.current || !isUsingLastActiveMenu) {
-        setActiveMenu({ ...menuData, shortMonthName: activeMenuMonth })
-        setActiveMenuYear(year)
-      } else {
+        if (hasAlreadySubmittedRef.current || !isUsingLastActiveMenu) {
+          setActiveMenu({ ...menuData, shortMonthName: activeMenuMonth })
+          setActiveMenuYear(year)
+        } else {
+          setActiveMenu(-1)
+        }
+      } catch (error) {
+        console.error("Error checking submission:", error)
         setActiveMenu(-1)
       }
     }
@@ -180,7 +185,14 @@ const SubmitFMBMenu = () => {
             const menuRef = doc(collection(yearDocRef, "menus"), activeMenuMonth)
             const unsubMenu = onSnapshot(menuRef, async (menuSnap: any) => {
               const menuData = menuSnap.data()
+              if (!menuData) {
+                setActiveMenu(-1)
+                return
+              }
               await checkSubmissionAndSetMenu(menuRef, menuData, activeMenuMonth, year, isUsingLastActiveMenu)
+            }, (error) => {
+              console.error("Menu listener error:", error)
+              setActiveMenu(-1)
             })
             unsubscribes.push(unsubMenu)
           } else {
@@ -189,6 +201,9 @@ const SubmitFMBMenu = () => {
         } else {
           setActiveMenu(-1)
         }
+      }, (error) => {
+        console.error("Year listener error:", error)
+        setActiveMenu(-1)
       })
       unsubscribes.push(unsubYear)
     }
@@ -202,13 +217,23 @@ const SubmitFMBMenu = () => {
             const menuRef = doc(collection(actualYearRef, "menus"), activeMenuMonth)
             const unsubMenu = onSnapshot(menuRef, async (menuSnap) => {
               const menuData = menuSnap.data()
-              await checkSubmissionAndSetMenu(menuRef, menuData!, activeMenuMonth, currentHijriDate.year, false)
+              if (!menuData) {
+                setActiveMenu(-1)
+                return
+              }
+              await checkSubmissionAndSetMenu(menuRef, menuData, activeMenuMonth, currentHijriDate.year, false)
+            }, (error) => {
+              console.error("Menu listener error:", error)
+              setActiveMenu(-1)
             })
             unsubscribes.push(unsubMenu)
             return
           }
         }
         setupMenuListener(doc(db, "fmb", currentHijriDate.databaseYear.toString()), currentHijriDate.databaseYear)
+      }, (error) => {
+        console.error("Year listener error:", error)
+        setActiveMenu(-1)
       })
       unsubscribes.push(unsubActualYear)
     } else {
