@@ -14,17 +14,11 @@ const Home = () => (
 
       <Row className="content">
         <Divider style={{ marginTop: "1.5rem" }} />
-        <Col>
-          <Row>
-            <Col>
-              <ITSMessage />
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Contact />
-            </Col>
-          </Row>
+        <Col lg={6}>
+          <ITSMessage />
+        </Col>
+        <Col lg={6}>
+          <Contact />
         </Col>
       </Row>
     </HomeWrapper>
