@@ -25,7 +25,7 @@ const ITSMessage = () => {
             <h5>Visit our page</h5>
             <p>
               Learn more about the local Dawoodi Bohra community of San Diego,
-              California
+              CA
             </p>
           </div>
         </a>
