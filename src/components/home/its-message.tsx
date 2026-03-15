@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { Card } from "antd"
 import { GlobalOutlined, MailOutlined } from "@ant-design/icons"
-import communityImg from "../../images/community.avif"
+import communityImg from "../../images/community.jpeg"
 
 const ITSMessage = () => {
   return (

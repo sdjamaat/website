@@ -102,6 +102,7 @@ const Contact = () => {
 
 const ContactWrapper = styled.div`
   height: 100%;
+  padding-bottom: 15px;
   .ant-card {
     height: 100%;
   }
