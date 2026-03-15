@@ -34,7 +34,12 @@ const ReviewSelections = ({ setPanel, items, selections, distDateMap, submitSele
                   </p>
                 )}
                 <div style={{ borderLeft: "1px solid gray", paddingLeft: "1rem" }}>
-                  <div style={{ fontSize: "1.2rem", paddingBottom: ".7rem" }}>{item.name}</div>
+                  <div style={{ fontSize: "1.2rem", paddingBottom: ".7rem" }}>
+                    {item.name}
+                    {item.sizeRestrictionEnabled && item.maxSize && (
+                      <span style={{ fontSize: "0.8rem", color: "#faad14", marginLeft: "0.5rem" }}>(max: {item.maxSize})</span>
+                    )}
+                  </div>
                   {!hasGroupedSelectionByDistDate && (
                     <p style={{ marginBottom: ".2rem", marginTop: "-.5rem", color: "gray" }}>
                       {moment(item.date, "MM-DD-YYYY").format("dddd, MMMM Do YYYY")}

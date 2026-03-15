@@ -157,7 +157,12 @@ const SelectItems = ({ setPanel, items, values, setValues }: SelectItemsProps) =
                     Distribution on {moment(distDate, "MM-DD-YYYY").format("dddd, MMMM Do YYYY")}
                   </p>
                 )}
-                <div style={{ fontSize: "1.2rem", paddingBottom: ".5rem" }}>{item.name}</div>
+                <div style={{ fontSize: "1.2rem", paddingBottom: ".5rem" }}>
+                  {item.name}
+                  {item.sizeRestrictionEnabled && item.maxSize && (
+                    <span style={{ fontSize: "0.8rem", color: "#faad14", marginLeft: "0.5rem" }}>(max: {item.maxSize})</span>
+                  )}
+                </div>
                 {groupToggle === "calendar-date" && (
                   <p style={{ marginBottom: ".5rem", marginTop: "-.5rem", color: "gray" }}>
                     {moment(item.date, "MM-DD-YYYY").format("dddd, MMMM Do YYYY")}
