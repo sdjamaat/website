@@ -13,7 +13,7 @@ const Home = () => (
       <WelcomeAbout />
 
       <Row className="content">
-        <Divider />
+        <Divider style={{ marginTop: "1.5rem" }} />
         <Col>
           <Row>
             <Col>

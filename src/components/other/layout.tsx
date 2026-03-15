@@ -24,7 +24,9 @@ const Layout = ({ children, displayBanner }: { children: React.ReactNode; displa
           </div>
         )}
 
-        {children}
+        <div className="main-content">
+          {children}
+        </div>
       </main>
       <Footer />
     </LayoutWrapper>
@@ -74,6 +76,11 @@ const LayoutWrapper = styled.div`
 
   .moula-img.loaded {
     opacity: 1;
+  }
+
+  .main-content {
+    position: relative;
+    z-index: 1;
   }
 
   main {
