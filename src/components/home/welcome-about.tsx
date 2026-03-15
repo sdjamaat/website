@@ -12,14 +12,14 @@ const WelcomeAbout = () => {
           <Col lg={6} className="logo-and-welcome-col">
             <div className="welcome-card">
               <Row>
-                <Col xs={3} className="logo-img-container">
+                <Col xs="auto" sm={3} className="logo-img-container">
                   <img
                     src={logoImg}
                     className="logo-img"
                     alt="Logo"
                   />
                 </Col>
-                <Col xs={9} className="welcome-text-col">
+                <Col xs="auto" sm={9} className="welcome-text-col">
                   <div className="welcome-text">
                     <h4 className="welcome-to-text">Welcome to</h4>
                     <h1>

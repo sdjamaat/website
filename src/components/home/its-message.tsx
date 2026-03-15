@@ -84,6 +84,11 @@ const ITSMessageWrapper = styled.div`
     &:hover {
       background-color: #f8f9ff;
     }
+
+    @media only screen and (max-width: 767px) {
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+    }
   }
 
   .icon-circle {
@@ -97,6 +102,12 @@ const ITSMessageWrapper = styled.div`
     justify-content: center;
     font-size: 1.4rem;
     color: #4169e1;
+
+    @media only screen and (max-width: 767px) {
+      width: 36px;
+      height: 36px;
+      font-size: 1rem;
+    }
   }
 
   .info-text {
