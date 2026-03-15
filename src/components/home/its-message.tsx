@@ -48,6 +48,14 @@ const ITSMessageWrapper = styled.div`
   padding-bottom: 15px;
   .ant-card {
     height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .ant-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .location-card {
     padding: -4rem;
