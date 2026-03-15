@@ -112,6 +112,11 @@ const NavbarWrapper = styled.div`
   .navlink {
     font-size: 1.3rem;
   }
+  .dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.19);
 `
 
