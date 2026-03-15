@@ -77,7 +77,9 @@ const ITSMessageWrapper = styled.div`
     text-decoration: none;
     color: inherit;
     transition: background-color 0.2s;
-    border-bottom: 1px solid #f0f0f0;
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #f0f0f0;
+    }
 
     &:hover {
       background-color: #f8f9ff;
@@ -117,7 +119,7 @@ const ITSMessageWrapper = styled.div`
     flex: 1;
     min-height: 0;
     overflow: hidden;
-    margin-top: 0.75rem;
+    margin-top: 0;
 
     img {
       width: 100%;
