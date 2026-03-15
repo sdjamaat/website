@@ -53,21 +53,7 @@ const ITSMessage = () => {
 }
 
 const ITSMessageWrapper = styled.div`
-  height: 100%;
   padding-bottom: 15px;
-
-  .ant-card {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .ant-card-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
 
   .info-block {
     display: flex;
@@ -114,15 +100,9 @@ const ITSMessageWrapper = styled.div`
   }
 
   .community-img-container {
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
-
     img {
       width: 100%;
-      height: 100%;
       display: block;
-      object-fit: cover;
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
     }

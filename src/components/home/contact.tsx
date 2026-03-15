@@ -104,6 +104,29 @@ const ContactWrapper = styled.div`
   height: 100%;
   .ant-card {
     height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .ant-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .ant-card-body > .ant-spin-nested-loading,
+  .ant-spin-container,
+  .ant-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .ant-form-item:has(textarea) {
+    flex: 1;
+    .ant-form-item-control,
+    .ant-form-item-control-input,
+    .ant-form-item-control-input-content,
+    textarea {
+      height: 100% !important;
+    }
   }
   .submit-btn {
     width: 100%;
