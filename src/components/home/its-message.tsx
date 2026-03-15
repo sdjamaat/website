@@ -100,6 +100,8 @@ const ITSMessageWrapper = styled.div`
   }
 
   .community-img-container {
+    padding-top: 0.75rem;
+
     img {
       width: 100%;
       display: block;
