@@ -27,6 +27,11 @@ const madrasah = {
   name: "Madrasah Jamaliyah",
   members: [
     { name: AMIL_SAHEB, role: "President" },
+    { name: "Mulla Aliasghar Bhai Darugar", role: "Secretary" },
+    { name: "Mustafa Bhai Lukmani", role: "Joint Secretary" },
+    { name: "Murtuza Bhai Chhatriwala", role: "Treasurer" },
+    { name: "Mohammed Bhai Kurawadwala", role: "Member" },
+    { name: "Mulla Adnan Bhai Ghadiali", role: "Member" },
     { name: "Umaima Bhen Darugar", role: "Head Teacher" },
     { name: "Shk Qutbuddin Bhai Doctor", role: "Teacher" },
     { name: "Fatema Bhen Doctor", role: "Teacher" },
@@ -34,11 +39,6 @@ const madrasah = {
     { name: "Munira Bhen Suterwala", role: "Teacher" },
     { name: "Rashida Bhen Zakir", role: "Teacher" },
     { name: "Munira Bhen Darugar", role: "Teacher" },
-    { name: "Mulla Aliasghar Bhai Darugar", role: "Secretary" },
-    { name: "Mustafa Bhai Lukmani", role: "Joint Secretary" },
-    { name: "Murtuza Bhai Chhatriwala", role: "Treasurer" },
-    { name: "Mohammed Bhai Kurawadwala", role: "Member" },
-    { name: "Mulla Adnan Bhai Ghadiali", role: "Member" },
   ],
 }
 
