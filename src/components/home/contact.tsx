@@ -86,7 +86,7 @@ const Contact = () => {
               label="Message"
               rules={[{ required: true, message: "Please input your message" }]}
             >
-              <Input.TextArea rows={5} />
+              <Input.TextArea rows={10} />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" className="submit-btn">
@@ -101,6 +101,11 @@ const Contact = () => {
 }
 
 const ContactWrapper = styled.div`
+  height: 100%;
+  padding-bottom: 15px;
+  .ant-card {
+    height: 100%;
+  }
   .submit-btn {
     width: 100%;
     height: 2.5rem;

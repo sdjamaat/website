@@ -21,31 +21,41 @@ const ViewSelections = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const hijriYear = getHijriDate().databaseYear
 
-  const getData = async () => {
+  const getData = async (retries = 3): Promise<void> => {
     setIsLoading(true)
-    let menuListBuilder: MenuListItem[] = []
+    try {
+      let menuListBuilder: MenuListItem[] = []
 
-    const menusRef = collection(db, "fmb", hijriYear.toString(), "menus")
-    const q = query(menusRef, where("submissions", "array-contains", currUser.familyid))
-    const querySnapshot = await getDocs(q)
+      const menusRef = collection(db, "fmb", hijriYear.toString(), "menus")
+      const q = query(menusRef, where("submissions", "array-contains", currUser.familyid))
+      const querySnapshot = await getDocs(q)
 
-    for (let menuDoc of querySnapshot.docs) {
-      const menuData = menuDoc.data() as MenuData
-      const submissionDoc = await getDoc(
-        doc(collection(menuDoc.ref, "submissions"), currUser.familyid)
-      )
-      const familySubmissionsDataForMenu = submissionDoc.data() as FamilySubmissionData
+      for (let menuDoc of querySnapshot.docs) {
+        const menuData = menuDoc.data() as MenuData
+        const submissionDoc = await getDoc(
+          doc(collection(menuDoc.ref, "submissions"), currUser.familyid)
+        )
+        const familySubmissionsDataForMenu = submissionDoc.data() as FamilySubmissionData
 
-      // Only add to menuListBuilder if submission data exists
-      if (familySubmissionsDataForMenu) {
-        menuListBuilder.push({
-          menuData,
-          submissionData: familySubmissionsDataForMenu,
-        })
+        // Only add to menuListBuilder if submission data exists
+        if (familySubmissionsDataForMenu) {
+          menuListBuilder.push({
+            menuData,
+            submissionData: familySubmissionsDataForMenu,
+          })
+        }
       }
+      setMenuList(menuListBuilder)
+    } catch (error) {
+      console.error("Failed to load selections:", error)
+      if (retries > 1) {
+        await new Promise((r) => setTimeout(r, 1000))
+        return getData(retries - 1)
+      }
+      setMenuList([])
+    } finally {
+      setIsLoading(false)
     }
-    setMenuList(menuListBuilder)
-    setIsLoading(false)
   }
 
   useEffect(() => {
