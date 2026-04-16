@@ -444,9 +444,9 @@ const SuccessAlert = styled(Alert)`
 `
 
 const ResendPanel = styled.div`
-  background: #ffffff;
+  background: #f6ffed;
   border: 1px solid #b7eb8f;
-  border-top: none;
+  border-top: 1px solid #d4eebf;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   padding: 0 0.85rem;
