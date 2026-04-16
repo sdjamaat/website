@@ -478,13 +478,12 @@ const ResendCollapseLabel = styled.span`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 500;
 `
 
 const ResendContents = styled.div`
-  max-width: 560px;
-  margin: 0 auto;
+  padding: 0 0.25rem 0.25rem;
 `
 
 const ResendDefaultRow = styled.div`
@@ -522,8 +521,8 @@ const ResendForm = styled(Form)`
 `
 
 const ResendLabel = styled.div`
-  color: rgba(0, 0, 0, 0.6);
-  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 0.95rem;
   word-break: break-all;
 `
 
