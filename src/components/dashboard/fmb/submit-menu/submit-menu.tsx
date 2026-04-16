@@ -462,6 +462,12 @@ const ResendCollapse = styled(Collapse)`
   }
   &.ant-collapse-ghost
     > .ant-collapse-item
+    > .ant-collapse-header
+    .ant-collapse-arrow {
+    font-size: 10px;
+  }
+  &.ant-collapse-ghost
+    > .ant-collapse-item
     > .ant-collapse-content
     > .ant-collapse-content-box {
     padding: 0.25rem 0 0.85rem;
