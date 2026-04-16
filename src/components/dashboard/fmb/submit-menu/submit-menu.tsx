@@ -81,9 +81,8 @@ const SubmitFMBMenu = () => {
     if (!activeMenu || !alreadySubmittedItemsDoc?.selections) return
     setIsResendingDefault(true)
     try {
-      const recipients = getEmailsToSendItTo()
       await sendConfirmationEmail(
-        recipients,
+        [currUser.email],
         alreadySubmittedItemsDoc.selections,
         activeMenu.items,
         activeMenu.displayMonthName,
@@ -92,7 +91,7 @@ const SubmitFMBMenu = () => {
       )
       CustomMessage(
         "success",
-        `Confirmation email resent to ${recipients.join(", ")}`
+        `Confirmation email resent to ${currUser.email}`
       )
     } catch (err) {
       console.log(err)
@@ -340,26 +339,22 @@ const SubmitFMBMenu = () => {
                 <MailOutlined />
                 <span>Didn't receive the confirmation email?</span>
               </ResendHeader>
-              <ResendRow>
-                <ResendLabel>
-                  Resend to {getEmailsToSendItTo().join(", ")}
-                </ResendLabel>
-                <Button
-                  onClick={handleResendDefault}
-                  loading={isResendingDefault}
-                  disabled={isResendingOther}
-                >
-                  Resend
-                </Button>
-              </ResendRow>
-              <Divider style={{ margin: "0.75rem 0" }} dashed plain>
-                or send to a different email
-              </Divider>
+              <ResendLabel>
+                Resend to <ResendEmail>{currUser.email}</ResendEmail>
+              </ResendLabel>
+              <Button
+                block
+                onClick={handleResendDefault}
+                loading={isResendingDefault}
+                disabled={isResendingOther}
+              >
+                Resend confirmation
+              </Button>
+              <ResendDivider plain>or send to a different email</ResendDivider>
               <Form
                 form={otherEmailForm}
                 onFinish={handleResendToOther}
-                layout="inline"
-                style={{ flexWrap: "nowrap", gap: "0.5rem" }}
+                layout="vertical"
               >
                 <Form.Item
                   name="email"
@@ -367,18 +362,21 @@ const SubmitFMBMenu = () => {
                     { required: true, message: "Enter an email address" },
                     { type: "email", message: "Enter a valid email address" },
                   ]}
-                  style={{ flex: 1, marginRight: 0, marginBottom: 0 }}
+                  style={{ marginBottom: "0.5rem" }}
                 >
                   <Input placeholder="name@example.com" type="email" />
                 </Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  loading={isResendingOther}
-                  disabled={isResendingDefault}
-                >
-                  Send
-                </Button>
+                <Form.Item style={{ marginBottom: 0 }}>
+                  <Button
+                    block
+                    type="primary"
+                    htmlType="submit"
+                    loading={isResendingOther}
+                    disabled={isResendingDefault}
+                  >
+                    Send
+                  </Button>
+                </Form.Item>
               </Form>
             </ResendBox>
             <ItemListDisplay
@@ -422,7 +420,7 @@ const ResendBox = styled.div`
   background: #fafafa;
   border: 1px solid #f0f0f0;
   border-radius: 6px;
-  padding: 0.85rem 1rem;
+  padding: 1rem;
   margin-bottom: 1rem;
 `
 
@@ -431,24 +429,32 @@ const ResendHeader = styled.div`
   align-items: center;
   gap: 0.5rem;
   font-weight: 500;
-  margin-bottom: 0.6rem;
-  color: rgba(0, 0, 0, 0.75);
+  margin-bottom: 0.75rem;
+  color: rgba(0, 0, 0, 0.78);
+  font-size: 0.95rem;
 `
 
-const ResendRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+const ResendLabel = styled.div`
+  color: rgba(0, 0, 0, 0.55);
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+  word-break: break-all;
 `
 
-const ResendLabel = styled.span`
-  color: rgba(0, 0, 0, 0.6);
-  font-size: 0.9rem;
-  word-break: break-word;
-  flex: 1;
-  min-width: 0;
+const ResendEmail = styled.span`
+  color: rgba(0, 0, 0, 0.78);
+  font-weight: 500;
+`
+
+const ResendDivider = styled(Divider)`
+  margin: 1rem 0 0.75rem !important;
+  color: rgba(0, 0, 0, 0.45) !important;
+  font-size: 0.8rem !important;
+  font-weight: normal !important;
+  &::before,
+  &::after {
+    border-block-start-color: #e8e8e8 !important;
+  }
 `
 
 export default SubmitFMBMenu
