@@ -346,21 +346,22 @@ const SubmitFMBMenu = () => {
                       ),
                       children: (
                         <ResendContents>
-                          <ResendLabel>
-                            Resend to <ResendEmail>{currUser.email}</ResendEmail>
-                          </ResendLabel>
-                          <Button
-                            block
-                            onClick={handleResendDefault}
-                            loading={isResendingDefault}
-                            disabled={isResendingOther}
-                          >
-                            Resend confirmation
-                          </Button>
+                          <ResendDefaultRow>
+                            <ResendLabel>
+                              Resend to <ResendEmail>{currUser.email}</ResendEmail>
+                            </ResendLabel>
+                            <ResendActionButton
+                              onClick={handleResendDefault}
+                              loading={isResendingDefault}
+                              disabled={isResendingOther}
+                            >
+                              Resend confirmation
+                            </ResendActionButton>
+                          </ResendDefaultRow>
                           <ResendDivider plain>
                             or send to a different email
                           </ResendDivider>
-                          <Form
+                          <ResendForm
                             form={otherEmailForm}
                             onFinish={handleResendToOther}
                             layout="vertical"
@@ -371,22 +372,21 @@ const SubmitFMBMenu = () => {
                                 { required: true, message: "Enter an email address" },
                                 { type: "email", message: "Enter a valid email address" },
                               ]}
-                              style={{ marginBottom: "0.5rem" }}
+                              style={{ marginBottom: 0, flex: 1 }}
                             >
                               <Input placeholder="name@example.com" type="email" />
                             </Form.Item>
                             <Form.Item style={{ marginBottom: 0 }}>
-                              <Button
-                                block
+                              <ResendActionButton
                                 type="primary"
                                 htmlType="submit"
                                 loading={isResendingOther}
                                 disabled={isResendingDefault}
                               >
                                 Send
-                              </Button>
+                              </ResendActionButton>
                             </Form.Item>
-                          </Form>
+                          </ResendForm>
                         </ResendContents>
                       ),
                     },
@@ -476,12 +476,48 @@ const ResendCollapseLabel = styled.span`
   font-weight: 500;
 `
 
-const ResendContents = styled.div``
+const ResendContents = styled.div`
+  max-width: 560px;
+  margin: 0 auto;
+`
+
+const ResendDefaultRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+`
+
+const ResendActionButton = styled(Button)`
+  width: 100%;
+
+  @media (min-width: 640px) {
+    width: auto;
+    min-width: 140px;
+  }
+`
+
+const ResendForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+`
 
 const ResendLabel = styled.div`
-  color: rgba(0, 0, 0, 0.55);
-  font-size: 0.85rem;
-  margin-bottom: 0.5rem;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.9rem;
   word-break: break-all;
 `
 
