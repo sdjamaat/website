@@ -329,11 +329,12 @@ const SubmitFMBMenu = () => {
       >
         {hasAlreadySubmitted && activeMenu !== null && activeMenu !== -1 && !isSubmitting && (
           <>
-            <Alert
-              style={{ marginBottom: "1rem" }}
-              type="success"
-              message="Your family's thaali preferences have been recorded. Check your inbox for a confirmation email."
-              description={
+            <SuccessGroup>
+              <SuccessAlert
+                type="success"
+                message="Your family's thaali preferences have been recorded. Check your inbox for a confirmation email."
+              />
+              <ResendPanel>
                 <ResendCollapse
                   ghost
                   items={[
@@ -393,8 +394,8 @@ const SubmitFMBMenu = () => {
                     },
                   ]}
                 />
-              }
-            />
+              </ResendPanel>
+            </SuccessGroup>
             <ItemListDisplay
               title="Selections"
               items={activeMenu.items}
@@ -432,18 +433,40 @@ const SubmitFMBMenuWrapper = styled.div`
   }
 `
 
+const SuccessGroup = styled.div`
+  margin-bottom: 1rem;
+`
+
+const SuccessAlert = styled(Alert)`
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: none;
+`
+
+const ResendPanel = styled.div`
+  background: #ffffff;
+  border: 1px solid #b7eb8f;
+  border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 0 0.85rem;
+`
+
 const ResendCollapse = styled(Collapse)`
-  margin-top: 0.5rem;
   background: transparent;
+  &.ant-collapse-ghost > .ant-collapse-item {
+    border-bottom: none;
+  }
   &.ant-collapse-ghost > .ant-collapse-item > .ant-collapse-header {
-    padding: 0.35rem 0;
-    color: rgba(0, 0, 0, 0.7);
+    padding: 0.6rem 0;
+    color: rgba(0, 0, 0, 0.72);
+    align-items: center;
   }
   &.ant-collapse-ghost
     > .ant-collapse-item
     > .ant-collapse-content
     > .ant-collapse-content-box {
-    padding: 0.5rem 0 0.25rem;
+    padding: 0.25rem 0 0.85rem;
   }
 `
 
@@ -455,12 +478,7 @@ const ResendCollapseLabel = styled.span`
   font-weight: 500;
 `
 
-const ResendContents = styled.div`
-  background: #ffffff;
-  border: 1px solid #e8e8e8;
-  border-radius: 6px;
-  padding: 0.85rem 1rem;
-`
+const ResendContents = styled.div``
 
 const ResendLabel = styled.div`
   color: rgba(0, 0, 0, 0.55);
