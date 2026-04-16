@@ -333,52 +333,68 @@ const SubmitFMBMenu = () => {
               style={{ marginBottom: "1rem" }}
               type="success"
               message="Your family's thaali preferences have been recorded. Check your inbox for a confirmation email."
-            />
-            <ResendBox>
-              <ResendHeader>
-                <MailOutlined />
-                <span>Didn't receive the confirmation email?</span>
-              </ResendHeader>
-              <ResendLabel>
-                Resend to <ResendEmail>{currUser.email}</ResendEmail>
-              </ResendLabel>
-              <Button
-                block
-                onClick={handleResendDefault}
-                loading={isResendingDefault}
-                disabled={isResendingOther}
-              >
-                Resend confirmation
-              </Button>
-              <ResendDivider plain>or send to a different email</ResendDivider>
-              <Form
-                form={otherEmailForm}
-                onFinish={handleResendToOther}
-                layout="vertical"
-              >
-                <Form.Item
-                  name="email"
-                  rules={[
-                    { required: true, message: "Enter an email address" },
-                    { type: "email", message: "Enter a valid email address" },
+              description={
+                <ResendCollapse
+                  ghost
+                  items={[
+                    {
+                      key: "resend",
+                      label: (
+                        <ResendCollapseLabel>
+                          <MailOutlined />
+                          <span>Didn't receive the email?</span>
+                        </ResendCollapseLabel>
+                      ),
+                      children: (
+                        <ResendContents>
+                          <ResendLabel>
+                            Resend to <ResendEmail>{currUser.email}</ResendEmail>
+                          </ResendLabel>
+                          <Button
+                            block
+                            onClick={handleResendDefault}
+                            loading={isResendingDefault}
+                            disabled={isResendingOther}
+                          >
+                            Resend confirmation
+                          </Button>
+                          <ResendDivider plain>
+                            or send to a different email
+                          </ResendDivider>
+                          <Form
+                            form={otherEmailForm}
+                            onFinish={handleResendToOther}
+                            layout="vertical"
+                          >
+                            <Form.Item
+                              name="email"
+                              rules={[
+                                { required: true, message: "Enter an email address" },
+                                { type: "email", message: "Enter a valid email address" },
+                              ]}
+                              style={{ marginBottom: "0.5rem" }}
+                            >
+                              <Input placeholder="name@example.com" type="email" />
+                            </Form.Item>
+                            <Form.Item style={{ marginBottom: 0 }}>
+                              <Button
+                                block
+                                type="primary"
+                                htmlType="submit"
+                                loading={isResendingOther}
+                                disabled={isResendingDefault}
+                              >
+                                Send
+                              </Button>
+                            </Form.Item>
+                          </Form>
+                        </ResendContents>
+                      ),
+                    },
                   ]}
-                  style={{ marginBottom: "0.5rem" }}
-                >
-                  <Input placeholder="name@example.com" type="email" />
-                </Form.Item>
-                <Form.Item style={{ marginBottom: 0 }}>
-                  <Button
-                    block
-                    type="primary"
-                    htmlType="submit"
-                    loading={isResendingOther}
-                    disabled={isResendingDefault}
-                  >
-                    Send
-                  </Button>
-                </Form.Item>
-              </Form>
-            </ResendBox>
+                />
+              }
+            />
             <ItemListDisplay
               title="Selections"
               items={activeMenu.items}
@@ -416,22 +432,34 @@ const SubmitFMBMenuWrapper = styled.div`
   }
 `
 
-const ResendBox = styled.div`
-  background: #fafafa;
-  border: 1px solid #f0f0f0;
-  border-radius: 6px;
-  padding: 1rem;
-  margin-bottom: 1rem;
+const ResendCollapse = styled(Collapse)`
+  margin-top: 0.5rem;
+  background: transparent;
+  &.ant-collapse-ghost > .ant-collapse-item > .ant-collapse-header {
+    padding: 0.35rem 0;
+    color: rgba(0, 0, 0, 0.7);
+  }
+  &.ant-collapse-ghost
+    > .ant-collapse-item
+    > .ant-collapse-content
+    > .ant-collapse-content-box {
+    padding: 0.5rem 0 0.25rem;
+  }
 `
 
-const ResendHeader = styled.div`
-  display: flex;
+const ResendCollapseLabel = styled.span`
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  margin-bottom: 0.75rem;
-  color: rgba(0, 0, 0, 0.78);
-  font-size: 0.95rem;
+`
+
+const ResendContents = styled.div`
+  background: #ffffff;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
 `
 
 const ResendLabel = styled.div`
