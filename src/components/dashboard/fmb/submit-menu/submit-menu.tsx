@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react"
-import { Card, Alert, Spin, Collapse, Divider } from "antd"
+import { Card, Alert, Spin, Collapse, Divider, Button, Form, Input } from "antd"
 import { DateContext } from "../../../../provider/date-context"
 import { AuthContext } from "../../../../provider/auth-context"
 import CustomMessage from "../../../other/custom-message"
@@ -28,6 +28,9 @@ const SubmitFMBMenu = () => {
   const [hasAlreadySubmitted, setHasAlreadySubmitted] = useState(false)
   const hasAlreadySubmittedRef = useRef(false)
   const [alreadySubmittedItemsDoc, setAlreadySubmittedItemsDoc] = useState<any>({})
+  const [isResendingDefault, setIsResendingDefault] = useState(false)
+  const [isResendingOther, setIsResendingOther] = useState(false)
+  const [otherEmailForm] = Form.useForm()
 
   const thaaliSubmitEmailTest = (userSelectionsMap: any, menuItems: any[]) => {
     let itemsArray: any[] = []
@@ -51,6 +54,74 @@ const SubmitFMBMenu = () => {
     return listOfEmails
   }
 
+  const sendConfirmationEmail = async (
+    emails: string[],
+    selectionsMap: any,
+    menuItems: any[],
+    hijriMonthName: string,
+    hijriYear: string | number,
+    familyDisplayName: string
+  ) => {
+    const itemSelections = thaaliSubmitEmailTest(selectionsMap, menuItems)
+    const sendEmailAfterThaaliSubmission = httpsCallable(
+      functions,
+      "sendEmailAfterThaaliSubmission"
+    )
+    await sendEmailAfterThaaliSubmission({
+      itemSelections,
+      hijriMonthName,
+      hijriYear,
+      userEmails: emails,
+      familyDisplayName,
+    })
+  }
+
+  const handleResendDefault = async () => {
+    if (!activeMenu || !alreadySubmittedItemsDoc?.selections) return
+    setIsResendingDefault(true)
+    try {
+      await sendConfirmationEmail(
+        [currUser.email],
+        alreadySubmittedItemsDoc.selections,
+        activeMenu.items,
+        activeMenu.displayMonthName,
+        activeMenu.displayYear,
+        alreadySubmittedItemsDoc.familyDisplayName || currUser.family.displayname
+      )
+      CustomMessage(
+        "success",
+        `Confirmation email resent to ${currUser.email}`
+      )
+    } catch (err) {
+      console.log(err)
+      CustomMessage("error", "Could not resend confirmation email")
+    } finally {
+      setIsResendingDefault(false)
+    }
+  }
+
+  const handleResendToOther = async ({ email }: { email: string }) => {
+    if (!activeMenu || !alreadySubmittedItemsDoc?.selections) return
+    setIsResendingOther(true)
+    try {
+      await sendConfirmationEmail(
+        [email],
+        alreadySubmittedItemsDoc.selections,
+        activeMenu.items,
+        activeMenu.displayMonthName,
+        activeMenu.displayYear,
+        alreadySubmittedItemsDoc.familyDisplayName || currUser.family.displayname
+      )
+      CustomMessage("success", `Confirmation email sent to ${email}`)
+      otherEmailForm.resetFields()
+    } catch (err) {
+      console.log(err)
+      CustomMessage("error", "Could not send confirmation email")
+    } finally {
+      setIsResendingOther(false)
+    }
+  }
+
   const submitSelections = async () => {
     setIsSubmitting(true)
     try {
@@ -71,17 +142,15 @@ const SubmitFMBMenu = () => {
         submissions: arrayUnion(currUser.familyid),
       })
 
-      const emailItemSelectionData = thaaliSubmitEmailTest(selections.items, activeMenu.items)
-      const sendEmailAfterThaaliSubmission = httpsCallable(functions, "sendEmailAfterThaaliSubmission")
-
       try {
-        await sendEmailAfterThaaliSubmission({
-          itemSelections: [...emailItemSelectionData],
-          hijriMonthName: activeMenu.displayMonthName,
-          hijriYear: activeMenu.displayYear,
-          userEmails: getEmailsToSendItTo(),
-          familyDisplayName: currUser.family.displayname,
-        })
+        await sendConfirmationEmail(
+          getEmailsToSendItTo(),
+          selections.items,
+          activeMenu.items,
+          activeMenu.displayMonthName,
+          activeMenu.displayYear,
+          currUser.family.displayname
+        )
       } catch (err) {
         console.log(err)
       }
@@ -259,11 +328,72 @@ const SubmitFMBMenu = () => {
       >
         {hasAlreadySubmitted && activeMenu !== null && activeMenu !== -1 && !isSubmitting && (
           <>
-            <Alert
-              style={{ marginBottom: "1rem" }}
-              type="success"
-              message="Your family's thaali preferences have been recorded. Check your inbox for a confirmation email."
-            />
+            <SuccessGroup>
+              <SuccessAlert
+                type="success"
+                message="Your family's thaali preferences have been recorded. Check your inbox for a confirmation email."
+              />
+              <ResendPanel>
+                <ResendCollapse
+                  ghost
+                  items={[
+                    {
+                      key: "resend",
+                      label: (
+                        <ResendCollapseLabel>
+                          Didn't receive the email?
+                        </ResendCollapseLabel>
+                      ),
+                      children: (
+                        <ResendContents>
+                          <ResendDefaultRow>
+                            <ResendLabel>
+                              Resend to <ResendEmail>{currUser.email}</ResendEmail>
+                            </ResendLabel>
+                            <ResendActionButton
+                              onClick={handleResendDefault}
+                              loading={isResendingDefault}
+                              disabled={isResendingOther}
+                            >
+                              Resend confirmation
+                            </ResendActionButton>
+                          </ResendDefaultRow>
+                          <ResendDivider plain>
+                            or send to a different email
+                          </ResendDivider>
+                          <ResendForm
+                            form={otherEmailForm}
+                            onFinish={handleResendToOther}
+                            layout="vertical"
+                          >
+                            <Form.Item
+                              name="email"
+                              rules={[
+                                { required: true, message: "Enter an email address" },
+                                { type: "email", message: "Enter a valid email address" },
+                              ]}
+                              style={{ marginBottom: 0, flex: 1 }}
+                            >
+                              <Input placeholder="name@example.com" type="email" />
+                            </Form.Item>
+                            <Form.Item style={{ marginBottom: 0 }}>
+                              <ResendActionButton
+                                type="primary"
+                                htmlType="submit"
+                                loading={isResendingOther}
+                                disabled={isResendingDefault}
+                              >
+                                Send
+                              </ResendActionButton>
+                            </Form.Item>
+                          </ResendForm>
+                        </ResendContents>
+                      ),
+                    },
+                  ]}
+                />
+              </ResendPanel>
+            </SuccessGroup>
             <ItemListDisplay
               title="Selections"
               items={activeMenu.items}
@@ -298,6 +428,118 @@ const SubmitFMBMenuWrapper = styled.div`
     height: 2.8rem;
     font-size: 1.2rem;
     margin-top: 1rem;
+  }
+`
+
+const SuccessGroup = styled.div`
+  margin-bottom: 1rem;
+`
+
+const SuccessAlert = styled(Alert)`
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: none;
+`
+
+const ResendPanel = styled.div`
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+  border-top: 1px solid #d4eebf;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 0 0.85rem;
+`
+
+const ResendCollapse = styled(Collapse)`
+  background: transparent;
+  &.ant-collapse-ghost > .ant-collapse-item {
+    border-bottom: none;
+  }
+  &.ant-collapse-ghost > .ant-collapse-item > .ant-collapse-header {
+    padding: 0.6rem 0;
+    color: rgba(0, 0, 0, 0.72);
+    align-items: center;
+  }
+  &.ant-collapse-ghost
+    > .ant-collapse-item
+    > .ant-collapse-header
+    .ant-collapse-arrow {
+    font-size: 10px;
+  }
+  &.ant-collapse-ghost
+    > .ant-collapse-item
+    > .ant-collapse-content
+    > .ant-collapse-content-box {
+    padding: 0.25rem 0 0.85rem;
+  }
+`
+
+const ResendCollapseLabel = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+`
+
+const ResendContents = styled.div`
+  max-width: 560px;
+  margin: 0 auto;
+`
+
+const ResendDefaultRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+`
+
+const ResendActionButton = styled(Button)`
+  width: 100%;
+
+  @media (min-width: 640px) {
+    width: auto;
+    min-width: 140px;
+  }
+`
+
+const ResendForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+`
+
+const ResendLabel = styled.div`
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 1rem;
+  word-break: break-all;
+`
+
+const ResendEmail = styled.span`
+  color: rgba(0, 0, 0, 0.78);
+  font-weight: 500;
+`
+
+const ResendDivider = styled(Divider)`
+  margin: 1rem 0 0.75rem !important;
+  color: rgba(0, 0, 0, 0.45) !important;
+  font-size: 0.8rem !important;
+  font-weight: normal !important;
+  &::before,
+  &::after {
+    border-block-start-color: #e8e8e8 !important;
   }
 `
 
