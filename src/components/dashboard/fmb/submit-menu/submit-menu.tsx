@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react"
 import { Card, Alert, Spin, Collapse, Divider, Button, Form, Input } from "antd"
-import { MailOutlined } from "@ant-design/icons"
 import { DateContext } from "../../../../provider/date-context"
 import { AuthContext } from "../../../../provider/auth-context"
 import CustomMessage from "../../../other/custom-message"
@@ -342,8 +341,7 @@ const SubmitFMBMenu = () => {
                       key: "resend",
                       label: (
                         <ResendCollapseLabel>
-                          <MailOutlined />
-                          <span>Didn't receive the email?</span>
+                          Didn't receive the email?
                         </ResendCollapseLabel>
                       ),
                       children: (
