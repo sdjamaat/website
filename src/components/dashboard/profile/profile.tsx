@@ -390,6 +390,7 @@ const Profile = () => {
                 <Card
                   size="small"
                   title="Manage Family Members"
+                  headStyle={{ borderBottom: "none" }}
                   extra={
                     <Button
                       type="primary"
@@ -509,6 +510,45 @@ const ProfileWrapper = styled.div`
     align-items: center;
     justify-content: center;
     color: #595959;
+  }
+
+  @media (max-width: 575px) {
+    .manage-section .ant-card-head {
+      padding: 0 0.75rem;
+    }
+    .manage-section .ant-card-head-title,
+    .manage-section .ant-card-extra {
+      padding: 0.5rem 0;
+    }
+    .manage-section .ant-card-body {
+      padding: 0.75rem;
+    }
+    .manage-section .ant-list-item {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
+      padding: 0.75rem 0;
+    }
+    .manage-section .ant-list-item-meta {
+      margin-bottom: 0 !important;
+    }
+    .manage-section .ant-list-item-action {
+      margin-left: 0 !important;
+      margin-top: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .manage-section .ant-list-item-action > li {
+      padding: 0;
+      margin: 0;
+    }
+    .manage-section .ant-list-item-action > li .ant-list-item-action-split {
+      display: none;
+    }
+    .manage-section .ant-list-item-action > li .ant-btn {
+      min-width: 0;
+    }
   }
 `
 
