@@ -390,7 +390,7 @@ const Profile = () => {
                 <Card
                   size="small"
                   title="Manage Family Members"
-                  headStyle={{ borderBottom: "none" }}
+                  headStyle={{ borderBottom: "none", paddingTop: "0.75rem", paddingBottom: "0.25rem" }}
                   extra={
                     <Button
                       type="primary"
@@ -514,7 +514,7 @@ const ProfileWrapper = styled.div`
 
   @media (max-width: 575px) {
     .manage-section .ant-card-head {
-      padding: 0 0.75rem;
+      padding: 0.5rem 0.75rem 0.25rem;
     }
     .manage-section .ant-card-head-title,
     .manage-section .ant-card-extra {
