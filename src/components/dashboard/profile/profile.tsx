@@ -1,5 +1,19 @@
 import React, { useContext, useState } from "react"
-import { Card, Divider, Timeline, Descriptions, Button, Input, Alert, Space, Modal, Form } from "antd"
+import {
+  Card,
+  Divider,
+  Timeline,
+  Descriptions,
+  Button,
+  Input,
+  Alert,
+  Modal,
+  Form,
+  List,
+  Tag,
+  Popconfirm,
+  Tooltip,
+} from "antd"
 import { Row, Col } from "react-bootstrap"
 import styled from "styled-components"
 import { AuthContext } from "../../../provider/auth-context"
@@ -9,8 +23,22 @@ import {
   LinkOutlined,
   CopyOutlined,
   UserAddOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  CheckOutlined,
 } from "@ant-design/icons"
-import { doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore"
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+  where,
+  writeBatch,
+} from "firebase/firestore"
 import { db } from "../../../lib/firebase"
 import CustomMessage from "../../other/custom-message"
 
@@ -24,15 +52,23 @@ const makeToken = () => {
 const inviteUrl = (token: string) =>
   `${window.location.origin}/register?invite=${token}`
 
+const placeholderName = (index: number) => `Member ${index + 2}`
+
 const Profile = () => {
   const { currUser } = useContext(AuthContext)
   const isHead = currUser.family?.head?.uid === currUser.uid
 
   const [inviteLinks, setInviteLinks] = useState<Record<number, string>>({})
   const [generating, setGenerating] = useState<number | null>(null)
+  const [deletingIndex, setDeletingIndex] = useState<number | null>(null)
+
   const [addOpen, setAddOpen] = useState(false)
   const [adding, setAdding] = useState(false)
   const [addForm] = Form.useForm()
+
+  const [editIndex, setEditIndex] = useState<number | null>(null)
+  const [editing, setEditing] = useState(false)
+  const [editForm] = Form.useForm()
 
   const handleGenerate = async (memberindex: number) => {
     setGenerating(memberindex)
@@ -82,6 +118,87 @@ const Profile = () => {
     }
   }
 
+  const openEdit = (index: number) => {
+    const m = currUser.family.members[index]
+    editForm.setFieldsValue({
+      firstname: m.firstname?.startsWith("Member ") ? "" : m.firstname,
+      lastname: m.lastname || "",
+    })
+    setEditIndex(index)
+  }
+
+  const handleEditMember = async (values: { firstname?: string; lastname?: string }) => {
+    if (editIndex === null) return
+    setEditing(true)
+    try {
+      const nextMembers = currUser.family.members.map((m: any, i: number) =>
+        i === editIndex
+          ? {
+              ...m,
+              firstname: values.firstname?.trim() || placeholderName(editIndex),
+              lastname: values.lastname?.trim() || "",
+            }
+          : m
+      )
+      await updateDoc(doc(db, "families", currUser.familyid), { members: nextMembers })
+      CustomMessage("success", "Family member updated")
+      setEditIndex(null)
+      editForm.resetFields()
+    } catch (e: any) {
+      console.log(e)
+      CustomMessage("error", "Could not update family member")
+    } finally {
+      setEditing(false)
+    }
+  }
+
+  const handleDeleteMember = async (index: number) => {
+    setDeletingIndex(index)
+    try {
+      const nextMembers = currUser.family.members.filter((_: any, i: number) => i !== index)
+
+      // Clean up any pending invites for this family: delete invites pointing at the removed
+      // slot, and decrement memberindex for invites pointing at higher slots so they still
+      // land on the right person after the splice.
+      const invitesSnap = await getDocs(
+        query(collection(db, "familyInvites"), where("familyid", "==", currUser.familyid))
+      )
+      const batch = writeBatch(db)
+      invitesSnap.forEach((d) => {
+        const data = d.data() as any
+        if (data.usedAt) return
+        if (data.memberindex === index) {
+          batch.delete(d.ref)
+        } else if (data.memberindex > index) {
+          batch.update(d.ref, { memberindex: data.memberindex - 1 })
+        }
+      })
+      batch.update(doc(db, "families", currUser.familyid), {
+        members: nextMembers,
+        size: Math.max(1, currUser.family.size - 1),
+      })
+      await batch.commit()
+
+      // Drop any locally-cached invite links that pointed at shifted indices to avoid confusion
+      setInviteLinks((prev) => {
+        const next: Record<number, string> = {}
+        for (const [k, v] of Object.entries(prev)) {
+          const idx = Number(k)
+          if (idx === index) continue
+          next[idx > index ? idx - 1 : idx] = v
+        }
+        return next
+      })
+
+      CustomMessage("success", "Family member removed")
+    } catch (e: any) {
+      console.log(e)
+      CustomMessage("error", "Could not remove family member")
+    } finally {
+      setDeletingIndex(null)
+    }
+  }
+
   const handleCopy = async (link: string) => {
     try {
       await navigator.clipboard.writeText(link)
@@ -89,6 +206,99 @@ const Profile = () => {
     } catch {
       CustomMessage("error", "Copy failed — select the text manually")
     }
+  }
+
+  const renderMemberItem = (member: any, index: number) => {
+    const registered = !!member.uid
+    const displayName =
+      [member.firstname, member.lastname].filter(Boolean).join(" ").trim() ||
+      placeholderName(index)
+    const link = inviteLinks[index]
+
+    const actions: React.ReactNode[] = []
+    if (!registered) {
+      actions.push(
+        link ? (
+          <Tooltip key="copy" title={link}>
+            <Button size="small" icon={<CopyOutlined />} onClick={() => handleCopy(link)}>
+              Copy link
+            </Button>
+          </Tooltip>
+        ) : (
+          <Button
+            key="invite"
+            size="small"
+            icon={<LinkOutlined />}
+            loading={generating === index}
+            onClick={() => handleGenerate(index)}
+          >
+            Invite
+          </Button>
+        )
+      )
+      actions.push(
+        <Button
+          key="edit"
+          size="small"
+          icon={<EditOutlined />}
+          onClick={() => openEdit(index)}
+        />
+      )
+      actions.push(
+        <Popconfirm
+          key="delete"
+          title="Remove this family member?"
+          description="Pending invite links for this person will be revoked."
+          okText="Remove"
+          okButtonProps={{ danger: true }}
+          onConfirm={() => handleDeleteMember(index)}
+        >
+          <Button
+            size="small"
+            danger
+            icon={<DeleteOutlined />}
+            loading={deletingIndex === index}
+          />
+        </Popconfirm>
+      )
+    }
+
+    return (
+      <List.Item key={index} actions={actions}>
+        <List.Item.Meta
+          avatar={
+            <div className="member-avatar">
+              <UserOutlined />
+            </div>
+          }
+          title={
+            <span>
+              {displayName}{" "}
+              {registered ? (
+                <Tag color="green" icon={<CheckOutlined />} style={{ marginLeft: ".25rem" }}>
+                  Registered
+                </Tag>
+              ) : (
+                <Tag color="default" style={{ marginLeft: ".25rem" }}>
+                  Not registered
+                </Tag>
+              )}
+            </span>
+          }
+          description={
+            registered ? (
+              <span style={{ color: "gray" }}>
+                ITS #: {member.its || "n/a"} · YOB: {member.yob || "n/a"}
+              </span>
+            ) : (
+              <span style={{ color: "gray" }}>
+                Send an invite link so they can register themselves.
+              </span>
+            )
+          }
+        />
+      </List.Item>
+    )
   }
 
   return (
@@ -162,54 +372,40 @@ const Profile = () => {
             </Row>
 
             {isHead && (
-              <>
-                <Divider orientation="left" style={{ marginTop: "1.5rem" }}>
-                  Manage Family Members
-                </Divider>
-                <Alert
-                  type="info"
-                  style={{ marginBottom: ".75rem" }}
-                  message="Add family members, then share an invite link with each one. The link preloads their family and slot so they only fill in their own details."
-                />
-                {currUser.family.members.map((member: any, index: number) => {
-                  if (member.uid) return null
-                  const link = inviteLinks[index]
-                  return (
-                    <div key={index} className="invite-row">
-                      <div className="invite-row-label">
-                        <strong>{member.firstname || `Member ${index + 2}`}</strong>
-                      </div>
-                      {link ? (
-                        <Space.Compact style={{ width: "100%" }}>
-                          <Input value={link} readOnly />
-                          <Button
-                            type="primary"
-                            icon={<CopyOutlined />}
-                            onClick={() => handleCopy(link)}
-                          >
-                            Copy
-                          </Button>
-                        </Space.Compact>
-                      ) : (
-                        <Button
-                          icon={<LinkOutlined />}
-                          loading={generating === index}
-                          onClick={() => handleGenerate(index)}
-                        >
-                          Generate invite link
-                        </Button>
-                      )}
-                    </div>
-                  )
-                })}
-                <Button
-                  type="dashed"
-                  icon={<UserAddOutlined />}
-                  onClick={() => setAddOpen(true)}
-                  style={{ marginTop: ".5rem" }}
+              <div className="manage-section">
+                <Card
+                  size="small"
+                  title="Manage Family Members"
+                  extra={
+                    <Button
+                      type="primary"
+                      icon={<UserAddOutlined />}
+                      onClick={() => setAddOpen(true)}
+                    >
+                      Add member
+                    </Button>
+                  }
+                  style={{ marginTop: "1.5rem" }}
                 >
-                  Add family member
-                </Button>
+                  <Alert
+                    type="info"
+                    showIcon
+                    style={{ marginBottom: ".75rem" }}
+                    message="Add family members, then share an invite link with each one. The link preloads their family and slot so they only fill in their own details."
+                  />
+                  {currUser.family.members.length === 0 ? (
+                    <div style={{ color: "gray", textAlign: "center", padding: "1rem" }}>
+                      No family members yet. Click <strong>Add member</strong> to get started.
+                    </div>
+                  ) : (
+                    <List
+                      itemLayout="horizontal"
+                      dataSource={currUser.family.members}
+                      renderItem={(m: any, i: number) => renderMemberItem(m, i)}
+                    />
+                  )}
+                </Card>
+
                 <Modal
                   title="Add family member"
                   open={addOpen}
@@ -220,7 +416,7 @@ const Profile = () => {
                 >
                   <Form form={addForm} layout="vertical" onFinish={handleAddMember}>
                     <Form.Item
-                      label="First name (optional):"
+                      label="First name (optional)"
                       name="firstname"
                       extra="They'll fill in the rest when they register via your invite link."
                     >
@@ -228,7 +424,32 @@ const Profile = () => {
                     </Form.Item>
                   </Form>
                 </Modal>
-              </>
+
+                <Modal
+                  title="Edit family member"
+                  open={editIndex !== null}
+                  onCancel={() => {
+                    setEditIndex(null)
+                    editForm.resetFields()
+                  }}
+                  onOk={() => editForm.submit()}
+                  confirmLoading={editing}
+                  okText="Save"
+                >
+                  <Form form={editForm} layout="vertical" onFinish={handleEditMember}>
+                    <Form.Item label="First name" name="firstname">
+                      <Input
+                        placeholder={
+                          editIndex !== null ? placeholderName(editIndex) : undefined
+                        }
+                      />
+                    </Form.Item>
+                    <Form.Item label="Last name" name="lastname">
+                      <Input />
+                    </Form.Item>
+                  </Form>
+                </Modal>
+              </div>
             )}
           </Col>
         </Row>
@@ -254,11 +475,18 @@ const ProfileWrapper = styled.div`
     font-size: 1.2rem;
     margin-top: 1rem;
   }
-  .invite-row {
-    margin-bottom: 0.75rem;
+  .manage-section .ant-list-item {
+    padding: 0.75rem 0;
   }
-  .invite-row-label {
-    margin-bottom: 0.25rem;
+  .member-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f0f2f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #595959;
   }
 `
 
