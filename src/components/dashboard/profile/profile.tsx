@@ -6,11 +6,13 @@ import {
   Descriptions,
   Button,
   Input,
+  InputNumber,
   Alert,
   Modal,
   Form,
   List,
   Tag,
+  Select,
   Popconfirm,
   Tooltip,
 } from "antd"
@@ -69,6 +71,14 @@ const Profile = () => {
   const [editIndex, setEditIndex] = useState<number | null>(null)
   const [editing, setEditing] = useState(false)
   const [editForm] = Form.useForm()
+
+  const [accountOpen, setAccountOpen] = useState(false)
+  const [accountSaving, setAccountSaving] = useState(false)
+  const [accountForm] = Form.useForm()
+
+  const [familyOpen, setFamilyOpen] = useState(false)
+  const [familySaving, setFamilySaving] = useState(false)
+  const [familyForm] = Form.useForm()
 
   const handleGenerate = async (memberindex: number) => {
     setGenerating(memberindex)
@@ -213,6 +223,68 @@ const Profile = () => {
     }
   }
 
+  const handleEditAccount = async (values: any) => {
+    setAccountSaving(true)
+    try {
+      const firstname = values.firstname.trim()
+      const lastname = values.lastname.trim()
+      const phone = values.phone
+      const its = values.its
+      const yob = String(values.yob)
+
+      await updateDoc(doc(db, "users", currUser.uid), {
+        firstname,
+        lastname,
+        phone,
+        its,
+        yob,
+      })
+
+      if (isHead) {
+        await updateDoc(doc(db, "families", currUser.familyid), {
+          "head.firstname": firstname,
+          "head.lastname": lastname,
+          "head.its": its,
+          "head.yob": yob,
+          displayname: `${lastname} Family (${firstname})`,
+        })
+      }
+
+      CustomMessage("success", "Account details updated")
+      setAccountOpen(false)
+    } catch (e: any) {
+      console.log(e)
+      CustomMessage(
+        "error",
+        `Could not update account: ${e?.code || ""} ${e?.message || e}`.trim()
+      )
+    } finally {
+      setAccountSaving(false)
+    }
+  }
+
+  const handleEditFamily = async (values: any) => {
+    setFamilySaving(true)
+    try {
+      await updateDoc(doc(db, "families", currUser.familyid), {
+        "address.street": values.address.street.trim(),
+        "address.city": values.address.city.trim(),
+        "address.zip": values.address.zip,
+        registrationStatus: values.registrationStatus,
+      })
+      CustomMessage("success", "Family details updated")
+      setFamilyOpen(false)
+    } catch (e: any) {
+      console.log(e)
+      CustomMessage(
+        "error",
+        `Could not update family: ${e?.code || ""} ${e?.message || e}`.trim()
+      )
+    } finally {
+      setFamilySaving(false)
+    }
+  }
+
   const handleCopy = async (link: string) => {
     try {
       await navigator.clipboard.writeText(link)
@@ -320,9 +392,19 @@ const Profile = () => {
       <Card title="Profile" headStyle={{ fontSize: "1.5rem", textAlign: "center" }}>
         <Row>
           <Col md={12} lg={12}>
-            <Divider orientation="left" style={{ marginTop: "0" }}>
-              Account Details
-            </Divider>
+            <div className="section-header">
+              <Divider orientation="left" style={{ marginTop: "0", marginBottom: 0 }}>
+                Account Details
+              </Divider>
+              <Button
+                type="link"
+                size="small"
+                icon={<EditOutlined />}
+                onClick={() => setAccountOpen(true)}
+              >
+                Edit
+              </Button>
+            </div>
             <Descriptions layout="vertical" size="small" bordered>
               <Descriptions.Item label="First name">{currUser.firstname}</Descriptions.Item>
               <Descriptions.Item label="Last name">{currUser.lastname}</Descriptions.Item>
@@ -334,7 +416,21 @@ const Profile = () => {
           </Col>
 
           <Col md={12} lg={12} style={{ marginTop: ".5rem" }}>
-            <Divider orientation="left">Family Details</Divider>
+            <div className="section-header">
+              <Divider orientation="left" style={{ marginBottom: 0 }}>
+                Family Details
+              </Divider>
+              {isHead && (
+                <Button
+                  type="link"
+                  size="small"
+                  icon={<EditOutlined />}
+                  onClick={() => setFamilyOpen(true)}
+                >
+                  Edit
+                </Button>
+              )}
+            </div>
             <Row>
               <Col sm={12} md={4}>
                 <Timeline
@@ -476,6 +572,129 @@ const Profile = () => {
             )}
           </Col>
         </Row>
+
+        <Modal
+          title="Edit account details"
+          open={accountOpen}
+          onCancel={() => setAccountOpen(false)}
+          onOk={() => accountForm.submit()}
+          confirmLoading={accountSaving}
+          okText="Save"
+          afterOpenChange={(open) => {
+            if (open) {
+              accountForm.setFieldsValue({
+                firstname: currUser.firstname || "",
+                lastname: currUser.lastname || "",
+                phone: currUser.phone,
+                its: currUser.its,
+                yob: currUser.yob ? Number(currUser.yob) : undefined,
+              })
+            }
+          }}
+        >
+          <Form form={accountForm} layout="vertical" onFinish={handleEditAccount}>
+            <Form.Item
+              label="First name"
+              name="firstname"
+              rules={[{ required: true, message: "First name is required" }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Last name"
+              name="lastname"
+              rules={[{ required: true, message: "Last name is required" }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="ITS #"
+              name="its"
+              rules={[{ required: true, message: "ITS number is required" }]}
+            >
+              <InputNumber style={{ width: "100%" }} />
+            </Form.Item>
+            <Form.Item
+              label="Phone number"
+              name="phone"
+              rules={[{ required: true, message: "Phone number is required" }]}
+            >
+              <InputNumber style={{ width: "100%" }} />
+            </Form.Item>
+            <Form.Item
+              label="Year of birth"
+              name="yob"
+              rules={[{ required: true, message: "Year of birth is required" }]}
+            >
+              <InputNumber
+                style={{ width: "100%" }}
+                min={1900}
+                max={new Date().getFullYear()}
+                controls={false}
+              />
+            </Form.Item>
+            <div style={{ color: "gray", fontSize: ".85rem" }}>
+              Email can't be changed here — contact a jamaat admin if you need to update it.
+            </div>
+          </Form>
+        </Modal>
+
+        {isHead && (
+          <Modal
+            title="Edit family details"
+            open={familyOpen}
+            onCancel={() => setFamilyOpen(false)}
+            onOk={() => familyForm.submit()}
+            confirmLoading={familySaving}
+            okText="Save"
+            afterOpenChange={(open) => {
+              if (open) {
+                familyForm.setFieldsValue({
+                  address: {
+                    street: currUser.family.address?.street || "",
+                    city: currUser.family.address?.city || "",
+                    zip: currUser.family.address?.zip,
+                  },
+                  registrationStatus: currUser.family.registrationStatus,
+                })
+              }
+            }}
+          >
+            <Form form={familyForm} layout="vertical" onFinish={handleEditFamily}>
+              <Form.Item
+                label="Address (number & street)"
+                name={["address", "street"]}
+                rules={[{ required: true, message: "Street is required" }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="City"
+                name={["address", "city"]}
+                rules={[{ required: true, message: "City is required" }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Zip code"
+                name={["address", "zip"]}
+                rules={[{ required: true, message: "Zip code is required" }]}
+              >
+                <InputNumber style={{ width: "100%" }} />
+              </Form.Item>
+              <Form.Item
+                label="Jamaat registration status"
+                name="registrationStatus"
+                rules={[{ required: true, message: "Registration status is required" }]}
+              >
+                <Select>
+                  <Select.Option value="Resident">Resident</Select.Option>
+                  <Select.Option value="Visitor">Visitor</Select.Option>
+                </Select>
+              </Form.Item>
+            </Form>
+          </Modal>
+        )}
       </Card>
     </ProfileWrapper>
   )
@@ -497,6 +716,15 @@ const ProfileWrapper = styled.div`
     height: 2.8rem;
     font-size: 1.2rem;
     margin-top: 1rem;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .section-header .ant-divider {
+    flex: 1;
   }
   .manage-section .ant-list-item {
     padding: 0.75rem 0;
