@@ -605,28 +605,28 @@ const Profile = () => {
               name="firstname"
               rules={[{ required: true, message: "First name is required" }]}
             >
-              <Input />
+              <Input autoComplete="given-name" />
             </Form.Item>
             <Form.Item
               label="Last name"
               name="lastname"
               rules={[{ required: true, message: "Last name is required" }]}
             >
-              <Input />
+              <Input autoComplete="family-name" />
             </Form.Item>
             <Form.Item
               label="ITS #"
               name="its"
               rules={[{ required: true, message: "ITS number is required" }]}
             >
-              <InputNumber style={{ width: "100%" }} />
+              <InputNumber style={{ width: "100%" }} inputMode="numeric" />
             </Form.Item>
             <Form.Item
               label="Phone number"
               name="phone"
               rules={[{ required: true, message: "Phone number is required" }]}
             >
-              <InputNumber style={{ width: "100%" }} />
+              <InputNumber style={{ width: "100%" }} autoComplete="tel" inputMode="tel" />
             </Form.Item>
             <Form.Item
               label="Year of birth"
@@ -638,6 +638,8 @@ const Profile = () => {
                 min={1900}
                 max={new Date().getFullYear()}
                 controls={false}
+                autoComplete="bday-year"
+                inputMode="numeric"
               />
             </Form.Item>
             <div style={{ color: "gray", fontSize: ".85rem" }}>
@@ -673,21 +675,21 @@ const Profile = () => {
                 name={["address", "street"]}
                 rules={[{ required: true, message: "Street is required" }]}
               >
-                <Input />
+                <Input autoComplete="street-address" />
               </Form.Item>
               <Form.Item
                 label="City"
                 name={["address", "city"]}
                 rules={[{ required: true, message: "City is required" }]}
               >
-                <Input />
+                <Input autoComplete="address-level2" />
               </Form.Item>
               <Form.Item
                 label="Zip code"
                 name={["address", "zip"]}
                 rules={[{ required: true, message: "Zip code is required" }]}
               >
-                <InputNumber style={{ width: "100%" }} />
+                <InputNumber style={{ width: "100%" }} autoComplete="postal-code" inputMode="numeric" />
               </Form.Item>
               <Form.Item
                 label="Jamaat registration status"

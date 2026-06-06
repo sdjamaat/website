@@ -130,7 +130,7 @@ const LoginForm = () => {
               { type: "email", message: "Email is not valid" },
             ]}
           >
-            <Input />
+            <Input autoComplete="email" inputMode="email" />
           </Form.Item>
 
           <Form.Item
@@ -138,7 +138,7 @@ const LoginForm = () => {
             name="password"
             rules={[{ required: true, message: "Please input your password" }]}
           >
-            <Input.Password />
+            <Input.Password autoComplete="current-password" />
           </Form.Item>
 
           <Form.Item>

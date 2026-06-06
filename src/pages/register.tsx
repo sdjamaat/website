@@ -314,7 +314,7 @@ const Register = () => {
                     type="info"
                     style={{ marginBottom: "1rem" }}
                     message="Only the head of family can register here"
-                    description="Ask your head of family to send you an invite link from their profile. The link will let you register against your family without picking it from a list."
+                    description="Ask your head of family to send you an invite link from their profile. Opening that link will let you finish registering on your own."
                   />
                 )}
 
@@ -332,7 +332,7 @@ const Register = () => {
                   name="firstname"
                   rules={[{ required: true, message: "Please input your first name" }]}
                 >
-                  <Input />
+                  <Input autoComplete="given-name" />
                 </Form.Item>
 
                 <Form.Item
@@ -340,7 +340,7 @@ const Register = () => {
                   name="lastname"
                   rules={[{ required: true, message: "Please input your last name" }]}
                 >
-                  <Input />
+                  <Input autoComplete="family-name" />
                 </Form.Item>
 
                 <Form.Item
@@ -351,7 +351,7 @@ const Register = () => {
                     { type: "email", message: "Email is invalid" },
                   ]}
                 >
-                  <Input />
+                  <Input autoComplete="email" inputMode="email" />
                 </Form.Item>
 
                 <Form.Item
@@ -372,7 +372,7 @@ const Register = () => {
                     }),
                   ]}
                 >
-                  <Input.Password />
+                  <Input.Password autoComplete="new-password" />
                 </Form.Item>
 
                 <Form.Item
@@ -388,7 +388,7 @@ const Register = () => {
                   name="phone"
                   rules={[{ required: true, message: "Please input your phone number" }]}
                 >
-                  <InputNumber style={{ width: "100%" }} />
+                  <InputNumber style={{ width: "100%" }} autoComplete="tel" inputMode="tel" />
                 </Form.Item>
 
                 {familyhead && (
@@ -431,7 +431,7 @@ const Register = () => {
                       name={["address", "street"]}
                       rules={[{ required: true, message: "Please input your address street" }]}
                     >
-                      <Input />
+                      <Input autoComplete="street-address" />
                     </Form.Item>
 
                     <Form.Item
@@ -439,7 +439,7 @@ const Register = () => {
                       name={["address", "city"]}
                       rules={[{ required: true, message: "Please input your address city" }]}
                     >
-                      <Input />
+                      <Input autoComplete="address-level2" />
                     </Form.Item>
 
                     <Form.Item
@@ -447,7 +447,7 @@ const Register = () => {
                       name={["address", "zip"]}
                       rules={[{ required: true, message: "Please input your address zip code" }]}
                     >
-                      <InputNumber style={{ width: "100%" }} />
+                      <InputNumber style={{ width: "100%" }} autoComplete="postal-code" inputMode="numeric" />
                     </Form.Item>
 
                     {memberNameInputs.length > 0 && (
