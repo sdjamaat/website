@@ -312,7 +312,6 @@ const Register = () => {
                 {familyhead === false && !invite && (
                   <Alert
                     type="info"
-                    showIcon
                     style={{ marginBottom: "1rem" }}
                     message="Only the head of family can register here"
                     description="Ask your head of family to send you an invite link from their profile. The link will let you register against your family without picking it from a list."
