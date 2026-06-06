@@ -403,7 +403,6 @@ const Profile = () => {
                 >
                   <Alert
                     type="info"
-                    showIcon
                     style={{ marginBottom: ".75rem" }}
                     message="Add family members, then share an invite link with each one. The link preloads their family and slot so they only fill in their own details."
                   />
