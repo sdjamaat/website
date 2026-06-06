@@ -83,7 +83,14 @@ const Profile = () => {
         usedAt: null,
         usedBy: null,
       })
-      setInviteLinks((prev) => ({ ...prev, [memberindex]: inviteUrl(token) }))
+      const link = inviteUrl(token)
+      setInviteLinks((prev) => ({ ...prev, [memberindex]: link }))
+      try {
+        await navigator.clipboard.writeText(link)
+        CustomMessage("success", "Invite link created and copied to clipboard")
+      } catch {
+        CustomMessage("success", "Invite link created — tap Copy link to copy it")
+      }
     } catch (e: any) {
       console.log(e)
       CustomMessage(
