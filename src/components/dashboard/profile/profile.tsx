@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react"
 import {
   Card,
-  Divider,
   Timeline,
   Descriptions,
   Button,
@@ -392,46 +391,53 @@ const Profile = () => {
       <Card title="Profile" headStyle={{ fontSize: "1.5rem", textAlign: "center" }}>
         <Row>
           <Col md={12} lg={12}>
-            <div className="section-header">
-              <Divider orientation="left" style={{ marginTop: "0", marginBottom: 0 }}>
-                Account Details
-              </Divider>
-              <Button
-                type="link"
-                size="small"
-                icon={<EditOutlined />}
-                onClick={() => setAccountOpen(true)}
-              >
-                Edit
-              </Button>
-            </div>
-            <Descriptions layout="vertical" size="small" bordered>
-              <Descriptions.Item label="First name">{currUser.firstname}</Descriptions.Item>
-              <Descriptions.Item label="Last name">{currUser.lastname}</Descriptions.Item>
-              <Descriptions.Item label="Email">{currUser.email}</Descriptions.Item>
-              <Descriptions.Item label="Phone">{currUser.phone}</Descriptions.Item>
-              <Descriptions.Item label="ITS #">{currUser.its}</Descriptions.Item>
-              <Descriptions.Item label="Year of Birth">{currUser.yob}</Descriptions.Item>
-            </Descriptions>
-          </Col>
-
-          <Col md={12} lg={12} style={{ marginTop: ".5rem" }}>
-            <div className="section-header">
-              <Divider orientation="left" style={{ marginBottom: 0 }}>
-                Family Details
-              </Divider>
-              {isHead && (
+            <Card
+              size="small"
+              className="section-card"
+              title="Account Details"
+              headStyle={{ borderBottom: "none", paddingTop: "0.75rem", paddingBottom: "0.25rem" }}
+              extra={
                 <Button
                   type="link"
                   size="small"
                   icon={<EditOutlined />}
-                  onClick={() => setFamilyOpen(true)}
+                  onClick={() => setAccountOpen(true)}
                 >
                   Edit
                 </Button>
-              )}
-            </div>
-            <Row>
+              }
+            >
+              <Descriptions layout="vertical" size="small" bordered>
+                <Descriptions.Item label="First name">{currUser.firstname}</Descriptions.Item>
+                <Descriptions.Item label="Last name">{currUser.lastname}</Descriptions.Item>
+                <Descriptions.Item label="Email">{currUser.email}</Descriptions.Item>
+                <Descriptions.Item label="Phone">{currUser.phone}</Descriptions.Item>
+                <Descriptions.Item label="ITS #">{currUser.its}</Descriptions.Item>
+                <Descriptions.Item label="Year of Birth">{currUser.yob}</Descriptions.Item>
+              </Descriptions>
+            </Card>
+          </Col>
+
+          <Col md={12} lg={12} style={{ marginTop: ".5rem" }}>
+            <Card
+              size="small"
+              className="section-card"
+              title="Family Details"
+              headStyle={{ borderBottom: "none", paddingTop: "0.75rem", paddingBottom: "0.25rem" }}
+              extra={
+                isHead && (
+                  <Button
+                    type="link"
+                    size="small"
+                    icon={<EditOutlined />}
+                    onClick={() => setFamilyOpen(true)}
+                  >
+                    Edit
+                  </Button>
+                )
+              }
+            >
+              <Row>
               <Col sm={12} md={4}>
                 <Timeline
                   style={{ marginTop: ".6rem", paddingLeft: ".5rem" }}
@@ -480,6 +486,7 @@ const Profile = () => {
                 </Descriptions>
               </Col>
             </Row>
+            </Card>
 
             {isHead && (
               <div className="manage-section">
@@ -717,14 +724,11 @@ const ProfileWrapper = styled.div`
     font-size: 1.2rem;
     margin-top: 1rem;
   }
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+  .section-card {
+    margin-bottom: 0.5rem;
   }
-  .section-header .ant-divider {
-    flex: 1;
+  .section-card .ant-card-body {
+    padding-top: 0.5rem;
   }
   .manage-section .ant-list-item {
     padding: 0.75rem 0;
