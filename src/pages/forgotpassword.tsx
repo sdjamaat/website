@@ -54,7 +54,7 @@ const ForgotPasswordForm = () => {
               { type: "email", message: "Email is not valid" },
             ]}
           >
-            <Input />
+            <Input autoComplete="email" inputMode="email" />
           </Form.Item>
 
           <Form.Item>
