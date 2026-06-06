@@ -1,10 +1,16 @@
 import React, { useContext, useState } from "react"
-import { Card, Divider, Timeline, Descriptions, Button, Input, Alert, Space } from "antd"
+import { Card, Divider, Timeline, Descriptions, Button, Input, Alert, Space, Modal, Form } from "antd"
 import { Row, Col } from "react-bootstrap"
 import styled from "styled-components"
 import { AuthContext } from "../../../provider/auth-context"
-import { HomeOutlined, UserOutlined, LinkOutlined, CopyOutlined } from "@ant-design/icons"
-import { doc, serverTimestamp, setDoc } from "firebase/firestore"
+import {
+  HomeOutlined,
+  UserOutlined,
+  LinkOutlined,
+  CopyOutlined,
+  UserAddOutlined,
+} from "@ant-design/icons"
+import { doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore"
 import { db } from "../../../lib/firebase"
 import CustomMessage from "../../other/custom-message"
 
@@ -24,6 +30,9 @@ const Profile = () => {
 
   const [inviteLinks, setInviteLinks] = useState<Record<number, string>>({})
   const [generating, setGenerating] = useState<number | null>(null)
+  const [addOpen, setAddOpen] = useState(false)
+  const [adding, setAdding] = useState(false)
+  const [addForm] = Form.useForm()
 
   const handleGenerate = async (memberindex: number) => {
     setGenerating(memberindex)
@@ -44,6 +53,32 @@ const Profile = () => {
       CustomMessage("error", "Could not create invite link")
     } finally {
       setGenerating(null)
+    }
+  }
+
+  const handleAddMember = async (values: { firstname?: string }) => {
+    setAdding(true)
+    try {
+      const newSlot = {
+        firstname: values.firstname?.trim() || `Member ${currUser.family.size + 1}`,
+        lastname: "",
+        yob: null,
+        its: null,
+        uid: null,
+      }
+      const nextMembers = [...currUser.family.members, newSlot]
+      await updateDoc(doc(db, "families", currUser.familyid), {
+        members: nextMembers,
+        size: currUser.family.size + 1,
+      })
+      CustomMessage("success", "Family member added")
+      addForm.resetFields()
+      setAddOpen(false)
+    } catch (e: any) {
+      console.log(e)
+      CustomMessage("error", "Could not add family member")
+    } finally {
+      setAdding(false)
     }
   }
 
@@ -126,15 +161,15 @@ const Profile = () => {
               </Col>
             </Row>
 
-            {isHead && currUser.family.members.some((m: any) => !m.uid) && (
+            {isHead && (
               <>
                 <Divider orientation="left" style={{ marginTop: "1.5rem" }}>
-                  Invite Family Members
+                  Manage Family Members
                 </Divider>
                 <Alert
                   type="info"
                   style={{ marginBottom: ".75rem" }}
-                  message="Share an invite link with each unregistered family member. The link preloads their family and slot so they only fill in their own details."
+                  message="Add family members, then share an invite link with each one. The link preloads their family and slot so they only fill in their own details."
                 />
                 {currUser.family.members.map((member: any, index: number) => {
                   if (member.uid) return null
@@ -167,6 +202,32 @@ const Profile = () => {
                     </div>
                   )
                 })}
+                <Button
+                  type="dashed"
+                  icon={<UserAddOutlined />}
+                  onClick={() => setAddOpen(true)}
+                  style={{ marginTop: ".5rem" }}
+                >
+                  Add family member
+                </Button>
+                <Modal
+                  title="Add family member"
+                  open={addOpen}
+                  onCancel={() => setAddOpen(false)}
+                  onOk={() => addForm.submit()}
+                  confirmLoading={adding}
+                  okText="Add"
+                >
+                  <Form form={addForm} layout="vertical" onFinish={handleAddMember}>
+                    <Form.Item
+                      label="First name (optional):"
+                      name="firstname"
+                      extra="They'll fill in the rest when they register via your invite link."
+                    >
+                      <Input placeholder={`Member ${currUser.family.size + 1}`} />
+                    </Form.Item>
+                  </Form>
+                </Modal>
               </>
             )}
           </Col>
