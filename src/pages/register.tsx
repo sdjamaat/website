@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import styled from "styled-components"
 import {
@@ -19,10 +19,8 @@ import CustomMessage from "../components/other/custom-message"
 import { onFinishFailed } from "../functions/forms"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import {
-  collection,
   doc,
   getDoc,
-  getDocs,
   serverTimestamp,
   setDoc,
   updateDoc,
@@ -38,12 +36,6 @@ type InviteData = {
   memberindex: number
   displayname?: string
   memberFirstname?: string
-}
-
-type FamilyOption = {
-  familyid: string
-  displayname: string
-  members: any[]
 }
 
 const makeFamilyId = (firstname: string, lastname: string) =>
@@ -65,8 +57,6 @@ const Register = () => {
 
   const [familyhead, setFamilyhead] = useState<boolean | null>(null)
   const [familySize, setFamilySize] = useState<number>(1)
-  const [families, setFamilies] = useState<FamilyOption[] | null>(null)
-  const [familyIndex, setFamilyIndex] = useState<number | null>(null)
 
   // Load invite token if provided
   useEffect(() => {
@@ -109,37 +99,6 @@ const Register = () => {
     load()
   }, [inviteToken])
 
-  // Lazy-load families for non-head picker (only when needed)
-  useEffect(() => {
-    if (familyhead === false && !invite && families === null) {
-      const loadFamilies = async () => {
-        try {
-          const snap = await getDocs(collection(db, "families"))
-          const all: FamilyOption[] = []
-          snap.forEach((d) => {
-            all.push({
-              familyid: d.id,
-              displayname: d.data().displayname,
-              members: d.data().members,
-            })
-          })
-          setFamilies(all)
-        } catch (e) {
-          console.log(e)
-          CustomMessage("error", "Cannot connect to database")
-        }
-      }
-      loadFamilies()
-    }
-  }, [familyhead, invite, families])
-
-  const eligibleMembers = useMemo(() => {
-    if (familyIndex === null || families === null) return []
-    return families[familyIndex].members
-      .map((m, i) => ({ ...m, index: i }))
-      .filter((m) => m.uid === null)
-  }, [familyIndex, families])
-
   const onFinish = async (values: any) => {
     setIsSubmitting(true)
     try {
@@ -159,8 +118,7 @@ const Register = () => {
         familyid = invite.familyid
         memberindex = invite.memberindex
       } else {
-        familyid = families![values.familyindex].familyid
-        memberindex = values.memberindex
+        throw new Error("Only the head of family can register here. Ask your head to send you an invite link.")
       }
 
       const cred = await createUserWithEmailAndPassword(auth, email, values.password)
@@ -343,24 +301,25 @@ const Register = () => {
                     rules={[
                       { required: true, message: "Please select if head of family" },
                     ]}
-                    extra={
-                      familyhead === false
-                        ? "You can only register if your head of family is already registered, or you have an invite link."
-                        : undefined
-                    }
                   >
-                    <Select
-                      onChange={(v: boolean) => {
-                        setFamilyhead(v)
-                        setFamilyIndex(null)
-                      }}
-                    >
+                    <Select onChange={(v: boolean) => setFamilyhead(v)}>
                       <Option value={true}>Yes</Option>
                       <Option value={false}>No</Option>
                     </Select>
                   </Form.Item>
                 )}
 
+                {familyhead === false && !invite && (
+                  <Alert
+                    type="info"
+                    showIcon
+                    style={{ marginBottom: "1rem" }}
+                    message="Only the head of family can register here"
+                    description="Ask your head of family to send you an invite link from their profile. The link will let you register against your family without picking it from a list."
+                  />
+                )}
+
+                {(familyhead === true || !!invite) && (<>
                 <Form.Item
                   label="ITS #"
                   name="its"
@@ -507,63 +466,9 @@ const Register = () => {
                   </>
                 )}
 
-                {familyhead === false && !invite && (
-                  <>
-                    {families === null ? (
-                      <div style={{ paddingBottom: "1rem" }}>Loading families...</div>
-                    ) : (
-                      <>
-                        <Form.Item
-                          label="Family affiliation"
-                          name="familyindex"
-                          rules={[
-                            { required: true, message: "Please input family affiliation" },
-                          ]}
-                        >
-                          <Select
-                            onChange={(v: number) => {
-                              setFamilyIndex(v)
-                              form.setFieldsValue({ memberindex: undefined })
-                            }}
-                          >
-                            {families.map((f, i) => (
-                              <Option key={i} value={i}>
-                                {f.displayname}
-                              </Option>
-                            ))}
-                          </Select>
-                        </Form.Item>
+                </>)}
 
-                        {familyIndex !== null && eligibleMembers.length === 0 && (
-                          <Alert
-                            type="warning"
-                            message="All eligible members are already registered for this family"
-                            style={{ marginBottom: ".75rem" }}
-                          />
-                        )}
-
-                        {familyIndex !== null && eligibleMembers.length > 0 && (
-                          <Form.Item
-                            label="Member"
-                            name="memberindex"
-                            rules={[
-                              { required: true, message: "Please select your family member slot" },
-                            ]}
-                          >
-                            <Select>
-                              {eligibleMembers.map((m: any) => (
-                                <Option key={m.index} value={m.index}>
-                                  {m.firstname}
-                                </Option>
-                              ))}
-                            </Select>
-                          </Form.Item>
-                        )}
-                      </>
-                    )}
-                  </>
-                )}
-
+                {(familyhead === true || !!invite) && (
                 <Form.Item>
                   <Button
                     type="primary"
@@ -574,6 +479,7 @@ const Register = () => {
                     Register
                   </Button>
                 </Form.Item>
+                )}
               </Form>
             </Spin>
           </Card>
