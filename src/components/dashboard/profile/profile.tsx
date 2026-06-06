@@ -86,7 +86,10 @@ const Profile = () => {
       setInviteLinks((prev) => ({ ...prev, [memberindex]: inviteUrl(token) }))
     } catch (e: any) {
       console.log(e)
-      CustomMessage("error", "Could not create invite link")
+      CustomMessage(
+        "error",
+        `Could not create invite link: ${e?.code || ""} ${e?.message || e}`.trim()
+      )
     } finally {
       setGenerating(null)
     }
@@ -112,7 +115,10 @@ const Profile = () => {
       setAddOpen(false)
     } catch (e: any) {
       console.log(e)
-      CustomMessage("error", "Could not add family member")
+      CustomMessage(
+        "error",
+        `Could not add family member: ${e?.code || ""} ${e?.message || e}`.trim()
+      )
     } finally {
       setAdding(false)
     }
@@ -146,7 +152,10 @@ const Profile = () => {
       editForm.resetFields()
     } catch (e: any) {
       console.log(e)
-      CustomMessage("error", "Could not update family member")
+      CustomMessage(
+        "error",
+        `Could not update family member: ${e?.code || ""} ${e?.message || e}`.trim()
+      )
     } finally {
       setEditing(false)
     }
@@ -193,7 +202,10 @@ const Profile = () => {
       CustomMessage("success", "Family member removed")
     } catch (e: any) {
       console.log(e)
-      CustomMessage("error", "Could not remove family member")
+      CustomMessage(
+        "error",
+        `Could not remove family member: ${e?.code || ""} ${e?.message || e}`.trim()
+      )
     } finally {
       setDeletingIndex(null)
     }
