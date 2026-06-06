@@ -132,11 +132,6 @@ const Profile = () => {
   }
 
   const openEdit = (index: number) => {
-    const m = currUser.family.members[index]
-    editForm.setFieldsValue({
-      firstname: m.firstname?.startsWith("Member ") ? "" : m.firstname,
-      lastname: m.lastname || "",
-    })
     setEditIndex(index)
   }
 
@@ -454,6 +449,15 @@ const Profile = () => {
                   onOk={() => editForm.submit()}
                   confirmLoading={editing}
                   okText="Save"
+                  afterOpenChange={(open) => {
+                    if (open && editIndex !== null) {
+                      const m = currUser.family.members[editIndex]
+                      editForm.setFieldsValue({
+                        firstname: m.firstname?.startsWith("Member ") ? "" : m.firstname || "",
+                        lastname: m.lastname || "",
+                      })
+                    }
+                  }}
                 >
                   <Form form={editForm} layout="vertical" onFinish={handleEditMember}>
                     <Form.Item label="First name" name="firstname">
