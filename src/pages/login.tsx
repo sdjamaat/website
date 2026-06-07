@@ -72,38 +72,35 @@ const LoginForm = () => {
   const [tab] = useQueryParam("tab", "")
 
   const onSubmit = async (values: any) => {
-    if (isSubmitting) {
-      try {
-        const response = await signInWithEmailAndPassword(auth, values.email, values.password)
-        if (response.user.uid) {
-          const isUser = await getAndSetUserInformation(
-            response.user.uid,
-            localEncryptedStore
-          )
-          if (isUser) {
-            setIsLoggedIn(true)
-            setCurrUser(localEncryptedStore.get("authUser"))
-            if (path) {
-              if (tab) {
-                navigate(`${path}?tab=${tab}`)
-              } else {
-                navigate(`${path}`)
-              }
+    setIsSubmitting(true)
+    try {
+      const response = await signInWithEmailAndPassword(auth, values.email, values.password)
+      if (response.user.uid) {
+        const isUser = await getAndSetUserInformation(
+          response.user.uid,
+          localEncryptedStore
+        )
+        if (isUser) {
+          setIsLoggedIn(true)
+          setCurrUser(localEncryptedStore.get("authUser"))
+          if (path) {
+            if (tab) {
+              navigate(`${path}?tab=${tab}`)
             } else {
-              navigate("/auth/dashboard?tab=profile")
+              navigate(`${path}`)
             }
           } else {
-            throw { message: "Unauthorized" }
+            navigate("/auth/dashboard?tab=profile")
           }
         } else {
-          CustomMessage("error", "Something went wrong while logging in")
+          throw { message: "Unauthorized" }
         }
-      } catch (error: any) {
-        CustomMessage("error", error.message)
-      } finally {
-        setIsSubmitting(false)
+      } else {
+        CustomMessage("error", "Something went wrong while logging in")
       }
-    } else {
+    } catch (error: any) {
+      CustomMessage("error", error.message)
+    } finally {
       setIsSubmitting(false)
     }
   }
@@ -146,7 +143,7 @@ const LoginForm = () => {
               type="primary"
               className="submit mod-btn"
               htmlType="submit"
-              onClick={() => setIsSubmitting(true)}
+              loading={isSubmitting}
             >
               Submit
             </Button>

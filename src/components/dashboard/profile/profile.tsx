@@ -14,6 +14,7 @@ import {
   Select,
   Popconfirm,
   Tooltip,
+  Grid,
 } from "antd"
 import { Row, Col } from "react-bootstrap"
 import styled from "styled-components"
@@ -58,6 +59,8 @@ const placeholderName = (index: number) => `Member ${index + 2}`
 const Profile = () => {
   const { currUser } = useContext(AuthContext)
   const isHead = currUser.family?.head?.uid === currUser.uid
+  const screens = Grid.useBreakpoint()
+  const isMobile = !screens.sm
 
   const [inviteLinks, setInviteLinks] = useState<Record<number, string>>({})
   const [generating, setGenerating] = useState<number | null>(null)
@@ -349,7 +352,7 @@ const Profile = () => {
     }
 
     return (
-      <List.Item key={index} actions={actions}>
+      <List.Item key={index} actions={actions.length ? actions : undefined}>
         <List.Item.Meta
           avatar={
             <div className="member-avatar">
@@ -497,10 +500,13 @@ const Profile = () => {
                   extra={
                     <Button
                       type="primary"
+                      shape={isMobile ? "circle" : "default"}
                       icon={<UserAddOutlined />}
                       onClick={() => setAddOpen(true)}
+                      aria-label="Add member"
+                      title="Add member"
                     >
-                      Add member
+                      {isMobile ? null : "Add member"}
                     </Button>
                   }
                   style={{ marginTop: "1.5rem" }}
@@ -757,14 +763,23 @@ const ProfileWrapper = styled.div`
     .manage-section .ant-card-body {
       padding: 0.75rem;
     }
+    /* antd's .ant-list-item is flex + justify-content: space-between, which in a
+       column layout pushes the buttons to the bottom of a stretched row. Drop the
+       flex entirely on mobile so the meta and actions just stack naturally. */
     .manage-section .ant-list-item {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0.5rem;
-      padding: 0.75rem 0;
+      display: block;
+      padding: 0.6rem 0;
     }
     .manage-section .ant-list-item-meta {
-      margin-bottom: 0 !important;
+      margin-bottom: 0.5rem !important;
+    }
+    .manage-section .ant-list-item-meta-title {
+      margin-bottom: 0.1rem;
+      line-height: 1.3;
+    }
+    /* registered members have no actions — don't reserve space for an empty list */
+    .manage-section .ant-list-item-action:empty {
+      display: none;
     }
     .manage-section .ant-list-item-action {
       margin-left: 0 !important;
