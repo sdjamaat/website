@@ -771,7 +771,7 @@ const ProfileWrapper = styled.div`
       padding: 0.6rem 0;
     }
     .manage-section .ant-list-item-meta {
-      margin-bottom: 0.5rem !important;
+      margin-bottom: 0.25rem !important;
     }
     .manage-section .ant-list-item-meta-title {
       margin-bottom: 0.1rem;
@@ -781,16 +781,27 @@ const ProfileWrapper = styled.div`
     .manage-section .ant-list-item-action:empty {
       display: none;
     }
+    /* full-width button row: Invite 50%, edit/delete 25% each */
     .manage-section .ant-list-item-action {
       margin-left: 0 !important;
-      margin-top: 0;
+      margin-top: 0.85rem;
       display: flex;
-      flex-wrap: wrap;
+      width: 100%;
       gap: 0.4rem;
     }
     .manage-section .ant-list-item-action > li {
       padding: 0;
       margin: 0;
+    }
+    .manage-section .ant-list-item-action > li:nth-child(1) {
+      flex: 2 1 0;
+    }
+    .manage-section .ant-list-item-action > li:nth-child(2),
+    .manage-section .ant-list-item-action > li:nth-child(3) {
+      flex: 1 1 0;
+    }
+    .manage-section .ant-list-item-action > li .ant-btn {
+      width: 100%;
     }
     .manage-section .ant-list-item-action > li .ant-list-item-action-split {
       display: none;
