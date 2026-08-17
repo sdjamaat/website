@@ -90,8 +90,6 @@ The deployed Firebase Functions used by this site are maintained in the [`sdjama
 
 Netlify builds and deploys pushes to `main` using `netlify.toml`. The production build output is `dist/`, and the catch-all redirect in that file supports client-side routing. The `Track Netlify Deploy` GitHub Actions workflow waits for the matching Netlify deploy and reports whether it succeeded.
 
-## Operational access
+## Project access
 
-- [Cohere dashboard](https://app.cohere.io/dashboard) for approved support and monitoring access
-
-Ask a project maintainer for access to the development Firebase project, Cohere workspace, or other team-owned services.
+Ask a project maintainer for access to the development Firebase project or other team-owned services.
