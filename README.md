@@ -1,82 +1,97 @@
-## SD Jamaat Website
+# SD Jamaat Website
 
-### Current tooling:
+Public website and authenticated member portal for the San Diego Dawoodi Bohra Jamaat.
 
-- GatsbyJS & React
-- Ant Design UI and Bootstrap
-- Firebase Cloudstore as DB
-- Firebase Cloud Functions
+## Features
 
-### Local Development
+- Public Jamaat information and contact form
+- Member login, password reset, registration, and family invitations
+- Account, family, and family-member profile management
+- Faiz-ul-Mawaid il-Burhaniyah menu calendar, thaali selections, and confirmation emails
+- Committee information and Burhani Qardan Hasana forms
 
-Step 1: Clone the repository with Git
+## Tech stack
+
+- React 18 and TypeScript
+- Vite 6
+- Ant Design, React Bootstrap, and styled-components
+- Firebase Authentication, Firestore, and callable Functions
+- Netlify
+
+## Local development
+
+### Requirements
+
+- Node.js 20 (see `.nvmrc`)
+- npm
+- Development Firebase configuration from a project maintainer
+
+### Setup
 
 ```shell
-git clone https://github.com/sdjamaat/website.git sdjwebsite
-cd sdjwebsite
+git clone https://github.com/sdjamaat/website.git
+cd website
+npm ci
 ```
 
-Step 2: Download npm modules ([NodeJS](https://nodejs.org/en/) and [Yarn](https://classic.yarnpkg.com/en/docs/install/)installation required).
+Create `.env.development` in the repository root:
 
-```shell
-yarn install
+```dotenv
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_DATABASE_URL=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_MEASUREMENT_ID=
+VITE_ENCRYPTION_TYPE=
+VITE_ENCRYPTION_SECRET=
+VITE_ARE_NEW_USERS_DISABLED=false
 ```
 
-> Warning: DO NOT use npm to do this - it will screw up the entire project. If you do accidently install using npm instead of yarn, delete your `node_modules` folder and also delete your `package-lock.json` file. Then follow the step listed above again.
+`VITE_MAPBOX_TOKEN` is only needed when working on the currently unmounted Markaz map component.
 
-Step 3: Run locally on live server
+Do not commit environment files. Variables prefixed with `VITE_` are bundled into the browser application, so they must not contain server-side secrets.
+
+Start the development server:
 
 ```shell
 npm run dev
-# then navigate to localhost:8000
 ```
 
-#### Install new npm modules
+Open <http://localhost:8000>.
 
-Always use yarn to install new npm modules - otherwise, follow the warning message below if you accidently install with npm.
+## Available scripts
 
-```shell
-yarn add [some npm module]
+| Command           | Purpose                                                               |
+| ----------------- | --------------------------------------------------------------------- |
+| `npm run dev`     | Start the Vite development server on port 8000                        |
+| `npm run build`   | Type-check and create a production build in `dist/`                   |
+| `npm run preview` | Preview the production build locally                                  |
+| `npm run format`  | Format JavaScript, TypeScript, JSON, and Markdown files with Prettier |
+
+Run `npm run build` before opening a pull request to catch TypeScript and production-build errors.
+
+## Project structure
+
+```text
+src/
+  components/       Shared UI plus home, dashboard, FMB, profile, and committee features
+  pages/            Route-level pages
+  provider/         Authentication, database, and date contexts
+  lib/firebase.ts   Firebase client initialization
+  functions/        Client-side helpers (not deployed Firebase Functions)
 ```
 
-### Working with Firebase Functions
+The deployed Firebase Functions used by this site are maintained in the [`sdjamaat/admin`](https://github.com/sdjamaat/admin) repository under `functions/`.
 
-In this repository, there is a folder called `functions` which contains code related to Firebase cloud functions.
+## Deployment
 
-Step 1: Install the `firebase-tools` npm package globally
+Netlify builds and deploys pushes to `main` using `netlify.toml`. The production build output is `dist/`, and the catch-all redirect in that file supports client-side routing. The `Track Netlify Deploy` GitHub Actions workflow waits for the matching Netlify deploy and reports whether it succeeded.
 
-```shell
-npm install -g firebase-tools
-```
+## Operational access
 
-Step 2: Go into the `functions` directory. You will need to install dependencies here as well, however with `npm` this time instead of `yarn`
+- [Cohere dashboard](https://app.cohere.io/dashboard) for approved support and monitoring access
 
-```shell
-cd functions
-npm install
-```
-
-#### To deploy new functions:
-
-Helpful link: https://firebase.googleblog.com/2016/07/deploy-to-multiple-environments-with.html
-
-Step 1: You need to first be log into the webmaster@sandiegojamaat.net Google account. You only need to do this once (unless you're switching between other Firebase accounts)
-
-```shell
-# this will open up a browser window where you'll need to login
-firebase login
-```
-
-Step 2: Use this shell command to deploy the functions:
-
-```shell
-firebase deploy --only functions
-```
-
-### Cohere Monitoring
-
-[Cohere](https://cohere.so/) is a monitoring platform that allows us to see in real-time how people are using the jamaat website and also allows us to control their screen if we need to. It is especially useful for helping out folks out who need assistance in navigating the jamaat website. 
-
-Cohere Dashboard: https://app.cohere.so/dashboard
-
-> In order to access the dashboard you must login with the webmaster@sandiegojamaat.net Google account. If you need access to this account, ask Ibrahim.
+Ask a project maintainer for access to the development Firebase project, Cohere workspace, or other team-owned services.
