@@ -106,7 +106,7 @@ only; never put passwords, secret values, recovery codes, or session URLs here.
 | Firebase / Google Cloud | `webmaster@sandiegojamaat.net` — **sandiegojamaat.net** (Webmaster) Chrome profile | Production display name `sdj-prod`, project ID **`sdj-production`**; Authentication, Firestore, Firebase Functions, and Secret Manager. [Firebase console](https://console.firebase.google.com/project/sdj-production/overview). Development project ID: `sdj-website`. |
 | Cloudflare Turnstile | `webmaster@sandiegojamaat.net` — Webmaster Chrome profile | **Webmaster@sandiegojamaat.net's Account**, widget **SDJ website contact form**. Managed mode; hostnames `sandiegojamaat.net` and `www.sandiegojamaat.net`; no pre-clearance. [Widgets](https://dash.cloudflare.com/d43cd023afd63ef22d825feb654425ea/turnstile). |
 | GitHub | Organization **sdjamaat**; individual maintainer login depends on membership | [`website`](https://github.com/sdjamaat/website) contains this frontend; [`admin`](https://github.com/sdjamaat/admin) contains the admin frontend and Firebase backend Functions. |
-| SendGrid | Console login/owner still to be verified; sender is `webmaster@sandiegojamaat.net` | Sends contact, registration, and thaali emails through Firebase Functions. The sender address is not proof of the SendGrid login account. |
+| SendGrid | Username **`sdj-webmaster`**; account email and sender `webmaster@sandiegojamaat.net` — Webmaster Chrome profile | Sends contact, registration, and thaali emails through Firebase Functions. Account details verified through the authenticated SendGrid API; use the username for console login. |
 
 ### Where contact-form configuration lives
 
@@ -122,8 +122,8 @@ the secret only in Netlify would not make it available to Firebase. Saving eithe
 key does not deploy code or activate the protected form.
 
 As of the verification date, both Turnstile keys are stored in their respective
-services, but the companion backend/admin patch and production release remain on
-hold. Backend deployment must bind the secret and verify runtime access before
+services, and the contact-only backend/website release is authorized. Broader admin-permission
+changes remain deferred. Backend deployment must bind the secret and verify runtime access before
 release. No new IAM grants were made during key setup. Keep previews isolated with
 their own development project/widget rather than enabling the production key there.
 
