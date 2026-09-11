@@ -93,3 +93,21 @@ Netlify builds and deploys pushes to `main` using `netlify.toml`. The production
 ## Project access
 
 Ask a project maintainer for access to the development Firebase project or other team-owned services.
+
+## Contact form protection
+
+The contact form uses Cloudflare Turnstile and the `submitContactForm` Firebase
+callable in `sdjamaat/admin`. It no longer writes directly to Firestore.
+
+Set `VITE_TURNSTILE_SITE_KEY` to the widget's public site key in the appropriate
+Netlify context (or ignored `.env.development` locally). The secret key belongs
+only in Firebase Secret Manager. With no public site key, the form is disabled
+and displays the Jamaat contact email; there is no unprotected fallback.
+
+Coordinate release with the admin repository's
+[rollout guide](https://github.com/sdjamaat/admin/blob/main/docs/contact-form-rollout.md).
+The backend must be deployed and quota storage protected before this frontend is
+released. For deploy previews use a separate development Firebase project and
+widget with the exact preview hostname allowed. Cloudflare test keys must never be
+paired with a production backend. Unconfigured previews deliberately disable
+submission; a green Netlify build alone does not verify the backend integration.
