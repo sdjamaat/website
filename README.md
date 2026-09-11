@@ -22,7 +22,7 @@ Public website and authenticated member portal for the San Diego Dawoodi Bohra J
 
 ### Requirements
 
-- Node.js 20 (see `.nvmrc`)
+- Node.js 22 (see `.nvmrc`; matches Netlify and CI)
 - npm
 - Development Firebase configuration from a project maintainer
 
@@ -93,3 +93,54 @@ Netlify builds and deploys pushes to `main` using `netlify.toml`. The production
 ## Project access
 
 Ask a project maintainer for access to the development Firebase project or other team-owned services.
+
+### Service accounts and configuration
+
+Last verified: September 11, 2026. Keep this table updated when accounts, projects,
+or configuration locations change. Record account identifiers and variable names
+only; never put passwords, secret values, recovery codes, or session URLs here.
+
+| Service | Account / Chrome profile | Project and purpose |
+| --- | --- | --- |
+| Netlify | `ibrahim.0814@gmail.com` — regular **Ibrahim** Chrome profile | **Ibrahim Ali’s team**, project `sdj`; hosts `sandiegojamaat.net` and website PR previews. [Environment variables](https://app.netlify.com/projects/sdj/configuration/env). |
+| Firebase / Google Cloud | `webmaster@sandiegojamaat.net` — **sandiegojamaat.net** (Webmaster) Chrome profile | Production display name `sdj-prod`, project ID **`sdj-production`**; Authentication, Firestore, Firebase Functions, and Secret Manager. [Firebase console](https://console.firebase.google.com/project/sdj-production/overview). Development project ID: `sdj-website`. |
+| Cloudflare Turnstile | `webmaster@sandiegojamaat.net` — Webmaster Chrome profile | **Webmaster@sandiegojamaat.net's Account**, widget **SDJ website contact form**. Managed mode; hostnames `sandiegojamaat.net` and `www.sandiegojamaat.net`; no pre-clearance. [Widgets](https://dash.cloudflare.com/d43cd023afd63ef22d825feb654425ea/turnstile). |
+| GitHub | Organization **sdjamaat**; individual maintainer login depends on membership | [`website`](https://github.com/sdjamaat/website) contains this frontend; [`admin`](https://github.com/sdjamaat/admin) contains the admin frontend and Firebase backend Functions. |
+| SendGrid | Username **`sdj-webmaster`**; account email and sender `webmaster@sandiegojamaat.net` — Webmaster Chrome profile | Sends contact, registration, and thaali emails through Firebase Functions. Account details verified through the authenticated SendGrid API; use the username for console login. |
+
+### Where contact-form configuration lives
+
+| Setting | Location | Visibility / scope |
+| --- | --- | --- |
+| `VITE_TURNSTILE_SITE_KEY` | Netlify `sdj` → Environment variables | Public browser site key; **Production** deploy context only. Other contexts are empty. |
+| `TURNSTILE_SECRET_KEY` | Google Secret Manager → `sdj-production` | Server secret, enabled version 1 created September 11, 2026. Used by Firebase Functions; never put it in a `VITE_` variable. [Secret metadata](https://console.cloud.google.com/security/secret-manager/secret/TURNSTILE_SECRET_KEY/versions?project=sdj-production). |
+| `CONTACT_ALLOWED_HOSTNAMES` | `sdjamaat/admin` → GitHub Actions variables | Exact production hostnames: `sandiegojamaat.net,www.sandiegojamaat.net`; deployment workflow supplies them to Functions. |
+| `CONTACT_RULES_READY` | `sdjamaat/admin` → GitHub Actions variables | Deployment acknowledgement set after checking that client access to contact quota storage is denied. Recheck live rules before release. |
+
+Netlify serves the frontend; Firebase runs the contact validation backend. Saving
+the secret only in Netlify would not make it available to Firebase. Saving either
+key does not deploy code or activate the protected form.
+
+As of the verification date, both Turnstile keys are stored in their respective
+services, and the contact-only backend/website release is authorized. Broader admin-permission
+changes remain deferred. Backend deployment must bind the secret and verify runtime access before
+release. No new IAM grants were made during key setup. Keep previews isolated with
+their own development project/widget rather than enabling the production key there.
+
+## Contact form protection
+
+The contact form uses Cloudflare Turnstile and the `submitContactForm` Firebase
+callable in `sdjamaat/admin`. It no longer writes directly to Firestore.
+
+Set `VITE_TURNSTILE_SITE_KEY` to the widget's public site key in the appropriate
+Netlify context (or ignored `.env.development` locally). The secret key belongs
+only in Firebase Secret Manager. With no public site key, the form is disabled
+and displays the Jamaat contact email; there is no unprotected fallback.
+
+Coordinate release with the admin repository's
+[rollout guide](https://github.com/sdjamaat/admin/blob/main/docs/contact-form-rollout.md).
+The backend must be deployed and quota storage protected before this frontend is
+released. For deploy previews use a separate development Firebase project and
+widget with the exact preview hostname allowed. Cloudflare test keys must never be
+paired with a production backend. Unconfigured previews deliberately disable
+submission; a green Netlify build alone does not verify the backend integration.
